@@ -6,10 +6,10 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    qDebug() << QSqlDatabase::drivers();
 }
 
 Widget::~Widget()
 {
     delete ui;
 }
-
