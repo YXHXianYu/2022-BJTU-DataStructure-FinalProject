@@ -19,13 +19,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     board.cpp \
     main.cpp \
-    rank.cpp \
+    ranking.cpp \
+    sqliteDb.cpp \
     stone.cpp \
     widget.cpp
 
 HEADERS += \
     board.h \
-    rank.h \
+    ranking.h \
+    sqliteDb.h \
     stone.h \
     widget.h
 
