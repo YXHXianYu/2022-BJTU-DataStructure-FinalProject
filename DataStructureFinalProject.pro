@@ -16,18 +16,30 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    aboutwindow.cpp \
     board.cpp \
+    configwindow.cpp \
+    gamewindow.cpp \
     main.cpp \
-    stone.cpp \
-    widget.cpp
+    mainwindow.cpp \
+    rankwindow.cpp \
+    stone.cpp
 
 HEADERS += \
+    aboutwindow.h \
     board.h \
-    stone.h \
-    widget.h
+    configwindow.h \
+    gamewindow.h \
+    mainwindow.h \
+    rankwindow.h \
+    stone.h
 
 FORMS += \
-    widget.ui
+    aboutwindow.ui \
+    configwindow.ui \
+    gamewindow.ui \
+    mainwindow.ui \
+    rankwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
