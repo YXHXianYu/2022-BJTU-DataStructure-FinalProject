@@ -3,7 +3,7 @@
 
 class Stone {
    private:
-    static const int MAX_TYPE;
+    static int MAX_TYPE;
     int x_, y_;
     int type_;
     bool empty_;
@@ -21,6 +21,9 @@ class Stone {
     void SetY(int y);
     void SetType(int type);
     void SetEmpty(bool empty);
+
+    static int GetMaxType();
+    static void SetMaxType(int new_max_type);
 };
 
 #endif  // STONE_H
