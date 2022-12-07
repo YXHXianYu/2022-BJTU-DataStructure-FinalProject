@@ -1,4 +1,5 @@
 QT       += core gui
+QT       += sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,18 +22,18 @@ SOURCES += \
     configwindow.cpp \
     gamewindow.cpp \
     main.cpp \
-    mainwindow.cpp \
-    rankwindow.cpp \
-    stone.cpp
+    ranking.cpp \
+    sqliteDb.cpp \
+    stone.cpp \
+    widget.cpp
 
 HEADERS += \
     aboutwindow.h \
     board.h \
-    configwindow.h \
-    gamewindow.h \
-    mainwindow.h \
-    rankwindow.h \
-    stone.h
+    ranking.h \
+    sqliteDb.h \
+    stone.h \
+    widget.h
 
 FORMS += \
     aboutwindow.ui \
