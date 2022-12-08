@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="btnGame">
     <property name="geometry">
@@ -74,6 +77,9 @@
       <width>755</width>
       <height>280</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#MainWindow{border-image:url(:/images/mainwindow/vain.png)}</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnQuit">
