@@ -5,10 +5,16 @@
 
 namespace Hypercube {
 
-StoneManager::StoneManager(QOpenGLFunctions_4_5_Core *func) : gem_model_manager_(func) {}
+StoneManager::StoneManager(QOpenGLFunctions_4_5_Core *func) : have_initialized_(false), gem_model_manager_(func) {}
+
+StoneManager::~StoneManager() {
+    // timer_ (no need)
+}
 
 int StoneManager::Init(int nx, int ny) {
-    int debug = 0;
+    if (have_initialized_) return kFailureHaveInitialized;
+
+    int debug = 1;
     if (debug) std::cerr << "1.0" << std::endl;
 
     nx_ = nx;
@@ -32,24 +38,17 @@ int StoneManager::Init(int nx, int ny) {
 
     if (debug) std::cerr << "1.4" << std::endl;
 
-    if (timer != nullptr) {
-        if (timer->isActive()) {
-            timer->stop();
-        }
-        delete timer;
-    }
-
     if (debug) std::cerr << "1.5" << std::endl;
 
-    timer = new QTimer();
-    connect(timer, &QTimer::timeout, [=]() { Update(); });
+    timer_ = new QTimer(this);
+    connect(timer_, &QTimer::timeout, [=]() { Update(); });
 
     if (debug) std::cerr << "1.6" << std::endl;
 
     return kSuccess;
 }
 
-void StoneManager::Start() { timer->start(10); }
+void StoneManager::Start() { timer_->start(10); }
 
 int StoneManager::Generate(int x, int y, int type, int fallen_pixel) {
     if (x < 0 || x >= nx_ || y < 0 || y >= ny_) {  // 失败，参数越界
@@ -137,10 +136,12 @@ int StoneManager::FallTo(int x, int y, int tar_y) {
         return kFailureOccupied;
     }
 
+    std::cerr << "(" << x << ", " << y << ") will fall" << std::endl;
+
     int id = position_[x][y];
     position_[x][y] = 0;       // 清除原位置
     position_[x][tar_y] = id;  // 填入新位置
-    stones_[id].set_falling(Stone::kFallingSpeed, PositionToCoordinateY(y));
+    stones_[id].set_falling(Stone::kFallingSpeed, PositionToCoordinateY(tar_y));
 
     return kSuccess;
 }
@@ -172,28 +173,31 @@ bool StoneManager::isPlayingAnimation() { return is_playing_animation_; }
 void StoneManager::Update() {
     is_playing_animation_ = false;
     bool is_falling = false;
-    for (int i = 0; i < nx_; i++) {
-        for (int j = 0; j < ny_; j++) {
-            if (position_[i][j] == 0) continue;
+    if (is_swaping_ == false) {
+        for (int i = 0; i < nx_; i++) {
+            for (int j = 0; j < ny_; j++) {
+                if (position_[i][j] == 0) continue;
 
-            int id = position_[i][j];
+                int id = position_[i][j];
 
-            if (stones_[id].is_falling()) {
-                is_falling = true;
-                is_playing_animation_ = true;
+                if (stones_[id].is_falling()) {
+                    is_falling = true;
+                    is_playing_animation_ = true;
+                }
+
+                stones_[id].Update();
             }
-
-            stones_[id].Update();
         }
     }
-    return;
-    if (is_falling == false && false) {
+    if (is_falling == false) {
         if (!swap_queue_.empty()) {
             int id1 = swap_queue_.front().first;
             int id2 = swap_queue_.front().second;
 
-            if (is_swaping == false) {
-                is_swaping = true;
+            std::cerr << "update swap" << std::endl;
+
+            if (is_swaping_ == false) {
+                is_swaping_ = true;
                 stones_[id1].set_swaping(stones_[id2].x(), stones_[id2].y(), Stone::kSwapingSpeed);
                 stones_[id2].set_swaping(stones_[id1].x(), stones_[id1].y(), Stone::kSwapingSpeed);
             } else {
@@ -202,7 +206,7 @@ void StoneManager::Update() {
                     stones_[id2].Update();
                 } else {
                     swap_queue_.pop();
-                    is_swaping = false;
+                    is_swaping_ = false;
                 }
             }
             is_playing_animation_ = true;

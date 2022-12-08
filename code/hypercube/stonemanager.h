@@ -25,10 +25,11 @@ class StoneManager : public QObject {
 
    public:
     StoneManager(QOpenGLFunctions_4_5_Core* func);
-    virtual ~StoneManager() {}
+    virtual ~StoneManager();
 
     // 初始化
     // - 成功，返回 kSuccess
+    // - 若已经初始化过，失败，返回 kFailureHaveInitialized
     int Init(int nx, int ny);
 
     // 启动
@@ -74,6 +75,7 @@ class StoneManager : public QObject {
     static constexpr int kFailureArgumentError = 1;
     static constexpr int kFailureOccupied = 2;
     static constexpr int kFailureEmpty = 3;
+    static constexpr int kFailureHaveInitialized = 4;
 
     // SetRotate's arguments
     static constexpr int kStatic = 0;
@@ -89,14 +91,15 @@ class StoneManager : public QObject {
     int PositionToCoordinateY(int y) { return (ny_ - y) * kDelta - kDeltaHalf; }
 
    private:
+    bool have_initialized_;
     int nx_, ny_;  // x轴方向和y轴方向
     std::vector<std::vector<int>> position_;
     std::vector<Stone> stones_;
 
     bool is_playing_animation_;
     std::queue<std::pair<int, int>> swap_queue_;
-    bool is_swaping;
-    QTimer* timer;
+    bool is_swaping_;
+    QTimer* timer_;
 
     GemModelManager gem_model_manager_;
 };

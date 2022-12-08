@@ -22,6 +22,8 @@ class Hypercube : public QOpenGLWidget, public QOpenGLFunctions_4_5_Core {
     explicit Hypercube(QWidget* parent = nullptr);
     virtual ~Hypercube() override;
 
+    StoneManager* GetStoneManager();
+
    protected:
     virtual void initializeGL() override;
     virtual void paintGL() override;
