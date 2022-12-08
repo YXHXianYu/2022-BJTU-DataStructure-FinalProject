@@ -1,11 +1,11 @@
 #ifndef GAMEWINDOW_H
 #define GAMEWINDOW_H
 
+#include <QMainWindow>
 #include <QTime>
 
 #include "../core/board.h"
 #include "../hypercube/hypercube.h"
-#include "framelesswindow.h"
 
 // 游戏窗口类
 
@@ -13,25 +13,32 @@ namespace Ui {
 class GameWindow;
 }
 
-class GameWindow : public FrameLessWindow {
-    Q_OBJECT
+class GameWindow : public QMainWindow {
+  Q_OBJECT
 
-   public:
-    explicit GameWindow(QWidget *parent = nullptr);
-    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    ~GameWindow();
+ public:
+  explicit GameWindow(QWidget *parent = nullptr);
+  ~GameWindow();
 
-   private slots:
-    void on_btnReturn_clicked();
+ protected:
+  void mousePressEvent(QMouseEvent *event);
+  void mouseMoveEvent(QMouseEvent *e);
+  void mouseReleaseEvent(QMouseEvent *e);
 
-   private:
-    Ui::GameWindow *ui;
+ private:
+  QPoint last;
 
-    QTimer *timer_init_hypercube_;
-    int timer_init_hypercube_cnt_;
+ private slots:
+  void on_btnReturn_clicked();
 
-    Board *board;
-    Hypercube::Hypercube *hypercube_;
+ private:
+  Ui::GameWindow *ui;
+
+  QTimer *timer_init_hypercube_;
+  int timer_init_hypercube_cnt_;
+
+  Board *board;
+  Hypercube::Hypercube *hypercube_;
 };
 
 #endif  // GAMEWINDOW_H
