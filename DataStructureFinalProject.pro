@@ -28,7 +28,7 @@ SOURCES += \
     ./code/core/stone.cpp
 HEADERS += \
     ./code/core/board.h \
-    ./code/core/stone.h
+    ./code/core/stone.h \
 
 # 3. window
 SOURCES += \
@@ -36,19 +36,22 @@ SOURCES += \
     ./code/window/configwindow.cpp \
     ./code/window/gamewindow.cpp \
     ./code/window/mainwindow.cpp \
-    ./code/window/rankwindow.cpp
+    ./code/window/rankwindow.cpp \
+    ./code/window/framelesswindow.cpp
 HEADERS += \
     ./code/window/aboutwindow.h \
     ./code/window/configwindow.h \
     ./code/window/gamewindow.h \
     ./code/window/mainwindow.h \
-    ./code/window/rankwindow.h
+    ./code/window/rankwindow.h \
+    ./code/window/framelesswindow.h
 FORMS += \
     ./code/window/aboutwindow.ui \
     ./code/window/configwindow.ui \
     ./code/window/gamewindow.ui \
     ./code/window/mainwindow.ui \
-    ./code/window/rankwindow.ui
+    ./code/window/rankwindow.ui \
+    ./code/window/framelesswindow.ui
 
 # 4. database
 SOURCES += \
@@ -58,13 +61,41 @@ HEADERS += \
     ./code/database/sqliteDb.h \
     ./code/database/ranking.h
     
-# 5. BGM and sounds
+# 5. Audio
 SOURCES += \
     ./code/audio/BGM.cpp
 HEADERS += \
     ./code/audio/BGM.h
 
+# 6. Hypercube
+SOURCES += \
+    code/hypercube/gemmodelmanager.cpp \
+    code/hypercube/hstone.cpp \
+    code/hypercube/hypercube.cpp \
+    code/hypercube/mesh.cpp \
+    code/hypercube/model.cpp \
+    code/hypercube/stonemanager.cpp
+HEADERS += \
+    code/hypercube/camera.h \
+    code/hypercube/gemmodelmanager.h \
+    code/hypercube/hstone.h \
+    code/hypercube/hypercube.h \
+    code/hypercube/mesh.h \
+    code/hypercube/model.h \
+    code/hypercube/stonemanager.h
+
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resource/res.qrc \
+    resource/shaders.qrc
+
+# assimp
+win32: LIBS += -L$$PWD/library/assimp/lib/ -llibassimp.dll
+
+INCLUDEPATH += $$PWD/library/assimp/include
+DEPENDPATH += $$PWD/library/assimp/include

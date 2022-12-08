@@ -1,13 +1,15 @@
 #ifndef RANKWINDOW_H
 #define RANKWINDOW_H
 
-#include <QMainWindow>
+#include "framelesswindow.h"
+
+// 排行榜窗口类
 
 namespace Ui {
 class RankWindow;
 }
 
-class RankWindow : public QMainWindow {
+class RankWindow : public FrameLessWindow {
   Q_OBJECT
 
  public:
