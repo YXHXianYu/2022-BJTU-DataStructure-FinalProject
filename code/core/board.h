@@ -8,6 +8,7 @@
 #include <utility>
 #include <vector>
 
+#include "../hypercube/hypercube.h"
 #include "stone.h"
 class Board {
    private:
@@ -24,9 +25,11 @@ class Board {
     std::pair<int, int> hint_[2];                    // 提示：可交换的两个宝石的位置
     Stone stones_[8][8];                             // 宝石矩阵
     std::vector<std::pair<int, int>> matches_;       // 可消除的宝石
+    Hypercube::Hypercube* hypercube_;
 
    public:
     Board();
+    void SetHypercube(Hypercube::Hypercube* hypercube);
     void Generate(bool start);      // 生成. start :true:开始游戏时生成 false:游戏中途生成
     void Swap(Stone& a, Stone& b);  // 交换两个宝石
     void Clicked(int x, int y);     // 鼠标点击坐标(x,y)

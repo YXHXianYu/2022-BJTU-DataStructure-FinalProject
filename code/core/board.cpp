@@ -1,5 +1,8 @@
 #include "board.h"
 
+#include <windows.h>
+
+#include <iostream>
 int Board::length_ = 10;
 int Board::start_x = 10;
 int Board::start_y = 10;
@@ -13,7 +16,28 @@ Board::Board() {
     rest_lightning = 2;
     rest_diamond = 2;
     rest_shuffle = 2;
+    std::cout << "generate start" << std::endl;
     Generate(1);
+    std::cout << "generate end" << std::endl;
+}
+
+void Board::SetHypercube(Hypercube::Hypercube *hypercube) {
+    std::cout << "check1" << std::endl;
+    hypercube_ = hypercube;
+    std::cout << "check2" << std::endl;
+    Sleep(1000);
+    std::cout << "check3" << std::endl;
+    hypercube_->stone_manager_->Init(8, 8);
+
+    hypercube_->stone_manager_->Start();
+
+    std::cout << "check4" << std::endl;
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            std::cout << i << " " << j << " " << hypercube_->stone_manager_->Generate(i, j, stones_[i][j].GetType())
+                      << std::endl;
+        }
+    }
 }
 
 std::pair<int, int> Board::GetChosen() { return chosen_; }
@@ -29,10 +53,12 @@ void Board::Generate(bool start) {
     }
     if (start) {
         while (Check()) {
+            // std::cout << "yes" << std::endl;
             for (auto match : matches_) {
-                stones_[match.first][match.second].SetEmpty(true);
+                // stones_[match.first][match.second].SetEmpty(true);
+                stones_[match.first][match.second].SetType(rand() % Stone::GetMaxType() + 1);
             }
-            Fall2();
+            // Fall2();
             add_tools = 0;
         }
     }
