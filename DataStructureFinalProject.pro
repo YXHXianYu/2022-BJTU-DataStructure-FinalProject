@@ -60,9 +60,9 @@ HEADERS += \
     
 # 5. BGM and sounds
 SOURCES += \
-    ./code/bgm and sound/BGM.cpp 
+    ./code/audio/BGM.cpp
 HEADERS += \
-    ./code/bgm and sound/BGM.h 
+    ./code/audio/BGM.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
