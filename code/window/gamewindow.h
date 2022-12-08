@@ -3,6 +3,7 @@
 
 #include <QTime>
 
+#include "../core/board.h"
 #include "../hypercube/hypercube.h"
 #include "framelesswindow.h"
 
@@ -17,6 +18,7 @@ class GameWindow : public FrameLessWindow {
 
    public:
     explicit GameWindow(QWidget *parent = nullptr);
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     ~GameWindow();
 
    private slots:
@@ -24,7 +26,7 @@ class GameWindow : public FrameLessWindow {
 
    private:
     Ui::GameWindow *ui;
-
+    Board *board;
     Hypercube::Hypercube *hypercube_;
 };
 

@@ -1,5 +1,8 @@
 #include "board.h"
 
+#include <windows.h>
+
+#include <iostream>
 int Board::length_ = 10;
 int Board::start_x = 10;
 int Board::start_y = 10;
@@ -9,21 +12,54 @@ Board::Board() {
     mouse_on_lightning = 0;
     mouse_on_diamond = 0;
     mouse_on_shuffle = 0;
+    add_tools = 0;
     rest_lightning = 2;
     rest_diamond = 2;
     rest_shuffle = 2;
-    Generate();
+    std::cout << "generate start" << std::endl;
+    Generate(1);
+    std::cout << "generate end" << std::endl;
+}
+
+void Board::SetHypercube(Hypercube::Hypercube *hypercube) {
+    std::cout << "check1" << std::endl;
+    hypercube_ = hypercube;
+    std::cout << "check2" << std::endl;
+    Sleep(1000);
+    std::cout << "check3" << std::endl;
+    hypercube_->stone_manager_->Init(8, 8);
+
+    hypercube_->stone_manager_->Start();
+
+    std::cout << "check4" << std::endl;
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            std::cout << i << " " << j << " " << hypercube_->stone_manager_->Generate(i, j, stones_[i][j].GetType())
+                      << std::endl;
+        }
+    }
 }
 
 std::pair<int, int> Board::GetChosen() { return chosen_; }
 
 /* 生成 */
-void Board::Generate() {
+void Board::Generate(bool start) {
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
             positions_[i][j] = {start_x + j * length_, start_y + i * length_};
             stones_[i][j] = Stone(start_x + j * length_, start_y + i * length_);
-            // animation : fall
+            // if(!start) animation : falll
+        }
+    }
+    if (start) {
+        while (Check()) {
+            // std::cout << "yes" << std::endl;
+            for (auto match : matches_) {
+                // stones_[match.first][match.second].SetEmpty(true);
+                stones_[match.first][match.second].SetType(rand() % Stone::GetMaxType() + 1);
+            }
+            // Fall2();
+            add_tools = 0;
         }
     }
     chosen_ = {-1, -1};
@@ -34,10 +70,16 @@ void Board::Swap(Stone &a, Stone &b) {
     Stone tmp = a;
     b = a;
     a = tmp;
+    int tmp_x = a.GetX(), tmp_y = a.GetY();
+    a.SetX(b.GetX());
+    a.SetY(b.GetY());
+    b.SetX(tmp_x);
+    b.SetY(tmp_y);
 }
 
 /* 检查是否有可以消除的宝石，若有则将位置记录在matches_中 */
 bool Board::Check() {
+    add_tools = 0;
     matches_.clear();
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
@@ -54,6 +96,9 @@ bool Board::Check() {
             }
             if (sum >= 3) {
                 matches_.push_back({i, j});
+                if (sum >= 5) {
+                    add_tools = 1;
+                }
                 continue;
             }
             sum = 0;
@@ -69,6 +114,9 @@ bool Board::Check() {
             }
             if (sum >= 3) {
                 matches_.push_back({i, j});
+                if (sum >= 5) {
+                    add_tools = 1;
+                }
                 continue;
             }
         }
@@ -153,6 +201,12 @@ void Board::Refresh() {
     combo_base = 1.0;
     double accelerate_base = 0.2;
     while (Check() || !matches_.empty()) {
+        if (add_tools) {
+            rest_diamond++;
+            rest_shuffle++;
+            rest_lightning++;
+            add_tools = 0;
+        }
         Remove();
         Fall();
         combo_base += accelerate_base;
@@ -250,6 +304,30 @@ void Board::Fall() {
         for (int j = 0; j < 8; ++j) {
             if (!stones_[i][j].Empty()) break;
             // animation generate
+            stones_[i][j] = Stone(positions_[i][j].first, positions_[i][j].second);
+            stones_[i][j].SetEmpty(0);
+        }
+    }
+}
+/* 宝石掉落并补齐无动画效果 */
+void Board::Fall2() {
+    for (int i = 0; i < 8; ++i) {
+        for (int j = 7; j >= 0; --j) {
+            if (stones_[i][j].Empty()) continue;
+            int now = j + 1;
+            while (now < 8 && stones_[i][now].Empty()) {
+                now++;
+            }
+            now--;
+            if (now == j) continue;
+            Swap(stones_[i][j], stones_[i][now]);
+        }
+    }
+    for (int i = 0; i < 8; ++i) {
+        for (int j = 0; j < 8; ++j) {
+            if (!stones_[i][j].Empty()) break;
+            stones_[i][j] = Stone(positions_[i][j].first, positions_[i][j].second);
+            stones_[i][j].SetEmpty(0);
         }
     }
 }
