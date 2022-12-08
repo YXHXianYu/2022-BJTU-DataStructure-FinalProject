@@ -1,5 +1,6 @@
 QT       += core gui
 QT       += sql
+QT       += multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -50,6 +51,14 @@ FORMS += \
     ./code/window/rankwindow.ui
 
 # 4. database
+SOURCES += \
+    ./code/database/sqliteDb.cpp \
+    ./code/database/ranking.cpp
+HEADERS += \
+    ./code/database/sqliteDb.h \
+    ./code/database/ranking.h
+    
+# 5. BGM and sounds
 SOURCES += \
     ./code/database/sqliteDb.cpp \
     ./code/database/ranking.cpp
