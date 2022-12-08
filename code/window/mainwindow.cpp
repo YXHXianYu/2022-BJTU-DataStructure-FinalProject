@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
   // 固定窗口大小
   this->setFixedSize(800, 600);
   // 去除自带的边框
-  // this->setWindowFlag(Qt::FramelessWindowHint);
+  this->setWindowFlag(Qt::FramelessWindowHint);
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -50,3 +50,5 @@ void MainWindow::on_btnAbout_clicked() {
   delay(200);
   this->hide();
 }
+
+void MainWindow::on_btnQuit_clicked() { this->close(); }

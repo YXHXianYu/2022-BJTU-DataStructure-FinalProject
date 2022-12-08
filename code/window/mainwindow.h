@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QCoreApplication>
 #include <QMainWindow>
 #include <QTime>
 
@@ -24,8 +25,12 @@ class MainWindow : public QMainWindow {
 
   void on_btnAbout_clicked();
 
+  void on_btnQuit_clicked();
+
  private:
   Ui::MainWindow *ui;
 };
+
+void delay(int x);
 
 #endif  // MAINWINDOW_H

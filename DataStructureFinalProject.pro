@@ -17,9 +17,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-<<<<<<< HEAD
-
-=======
 # ----- SOURCES & HEADERS -----
 # 1. main
 SOURCES += \
@@ -32,7 +29,6 @@ SOURCES += \
 HEADERS += \
     ./code/core/board.h \
     ./code/core/stone.h
->>>>>>> dfc909d32a21b9c7b29a8933b574c62952814557
 
 # 3. window
 SOURCES += \
@@ -73,25 +69,3 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-HEADERS += \
-    aboutwindow.h \
-    board.h \
-    configwindow.h \
-    gamewindow.h \
-    mainwindow.h \
-    ranking.h \
-    rankwindow.h \
-    sqliteDb.h \
-    stone.h
-
-SOURCES += \
-    aboutwindow.cpp \
-    board.cpp \
-    configwindow.cpp \
-    gamewindow.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    ranking.cpp \
-    rankwindow.cpp \
-    sqliteDb.cpp \
-    stone.cpp
