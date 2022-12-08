@@ -30,6 +30,7 @@ class Board {
    public:
     Board();
     void SetHypercube(Hypercube::Hypercube* hypercube);
+    void InitHypercube();
     void Generate(bool start);      // 生成. start :true:开始游戏时生成 false:游戏中途生成
     void Swap(Stone& a, Stone& b);  // 交换两个宝石
     void Clicked(int x, int y);     // 鼠标点击坐标(x,y)
