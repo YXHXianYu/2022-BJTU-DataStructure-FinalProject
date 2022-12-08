@@ -19,20 +19,15 @@ GameWindow::GameWindow(QWidget *parent) : FrameLessWindow(parent), ui(new Ui::Ga
     hypercube_->setGeometry(19, 19, hypercube_->width(), hypercube_->height());
 
     board = new Board();
-    std::cout << "qwq" << std::endl;
     board->SetHypercube(hypercube_);
 
-    // ----- demo begin -----
-    QTimer *timer_init_hypercube = new QTimer(this);
-    connect(timer_init_hypercube, &QTimer::timeout, [&]() {
-        static int i = 0;
-        i++;
-        if (i == 5) {
-            board->InitHypercube();
-        }
+    timer_init_hypercube_ = new QTimer(this);
+    connect(timer_init_hypercube_, &QTimer::timeout, [&]() {
+        board->InitHypercube();
+        std::cerr << "GameWindow::GameWindow InitHypercube." << std::endl;
     });
-    timer_init_hypercube->start(100);
-    // ----- demo end -----
+    timer_init_hypercube_->setSingleShot(true);
+    timer_init_hypercube_->start(500);
 }
 
 void GameWindow::mousePressEvent(QMouseEvent *event) {
@@ -41,7 +36,12 @@ void GameWindow::mousePressEvent(QMouseEvent *event) {
     std::cout << "mouse cliked on:" << x << " " << y << std::endl;
 }
 
-GameWindow::~GameWindow() { delete ui; }
+GameWindow::~GameWindow() {
+    delete ui;
+    // timer_init_hypercube_;
+    delete timer_init_hypercube_;
+    timer_init_hypercube_ = nullptr;
+}
 
 void GameWindow::on_btnReturn_clicked() {
     MainWindow *mw = dynamic_cast<MainWindow *>(this->parent());

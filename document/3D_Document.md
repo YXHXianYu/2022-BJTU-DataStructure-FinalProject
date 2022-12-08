@@ -12,7 +12,7 @@
     * 宝石可能会自己旋转（视觉效果）
 * int Remove(int x, int y)
   * **清除某个格子上的宝石**（宝石会爆炸）
-* int setRotate(int x, int y, bool isRotate)
+* int SetRotate(int x, int y, bool isRotate)
   * 让宝石加速旋转（可以用作选择的效果）
 * int SwapPos(int x1, int y1, int x2, int y2)
   * 交换两个宝石的效果
