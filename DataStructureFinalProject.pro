@@ -19,7 +19,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # ----- SOURCES & HEADERS -----
 # 1. main
 SOURCES += \
-    ./code/main.cpp
+    ./code/main.cpp \
+    code/hypercube/gemmodelmanager.cpp \
+    code/hypercube/hstone.cpp \
+    code/hypercube/hypercube.cpp \
+    code/hypercube/mesh.cpp \
+    code/hypercube/model.cpp \
+    code/hypercube/stonemanager.cpp
 
 # 2. core
 SOURCES += \
@@ -27,7 +33,14 @@ SOURCES += \
     ./code/core/stone.cpp
 HEADERS += \
     ./code/core/board.h \
-    ./code/core/stone.h
+    ./code/core/stone.h \
+    code/hypercube/camera.h \
+    code/hypercube/gemmodelmanager.h \
+    code/hypercube/hstone.h \
+    code/hypercube/hypercube.h \
+    code/hypercube/mesh.h \
+    code/hypercube/model.h \
+    code/hypercube/stonemanager.h
 
 # 3. window
 SOURCES += \
@@ -61,3 +74,12 @@ HEADERS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resource/shaders.qrc
+
+# assimp
+win32: LIBS += -L$$PWD/library/assimp/lib/ -llibassimp.dll
+
+INCLUDEPATH += $$PWD/library/assimp/include
+DEPENDPATH += $$PWD/library/assimp/include
