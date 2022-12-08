@@ -1,5 +1,7 @@
 #include "hypercube.h"
 
+#include <iostream>
+
 namespace Hypercube {
 
 Hypercube::Hypercube(QWidget *parent) : QOpenGLWidget(parent) {
@@ -39,7 +41,7 @@ void Hypercube::paintGL() {
     QMatrix4x4 projection;
 
     view = camera_.GetViewMatrix();
-    projection.perspective(camera_.Zoom, float(width() / height()), 0.1f, 1000.f);
+    projection.perspective(camera_.Zoom, float(width() / height()), 0.1f, 2000.f);
 
     glClearColor(kBackgroundColor.x(), kBackgroundColor.y(), kBackgroundColor.z(), kBackgroundColor.w());
     glEnable(GL_DEPTH_TEST);
@@ -57,7 +59,7 @@ void Hypercube::paintGL() {
     shader_program_.setUniformValue("view", view);
     shader_program_.setUniformValue("projection", projection);
 
-    stone_manager_->Draw(shader_program_);
+    if (stone_manager_ != nullptr) stone_manager_->Draw(shader_program_);
 }
 
 void Hypercube::resizeGL(int w, int h) {

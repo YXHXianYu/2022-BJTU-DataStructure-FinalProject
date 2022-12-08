@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/mainwindow/vain.png</file>
+        <file>images/mainwindow/background.jpg</file>
+    </qresource>
+</RCC>

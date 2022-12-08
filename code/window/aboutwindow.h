@@ -1,13 +1,15 @@
 #ifndef ABOUTWINDOW_H
 #define ABOUTWINDOW_H
 
-#include <QMainWindow>
+#include "framelesswindow.h"
+
+// 关于窗口类
 
 namespace Ui {
 class AboutWindow;
 }
 
-class AboutWindow : public QMainWindow {
+class AboutWindow : public FrameLessWindow {
   Q_OBJECT
 
  public:

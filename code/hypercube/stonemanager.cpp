@@ -1,22 +1,36 @@
 #include "stonemanager.h"
 
+#include <iostream>
+#include <random>
+
 namespace Hypercube {
 
 StoneManager::StoneManager(QOpenGLFunctions_4_5_Core *func) : gem_model_manager_(func) {}
 
 int StoneManager::Init(int nx, int ny) {
+    int debug = 0;
+    if (debug) std::cerr << "1.0" << std::endl;
+
     nx_ = nx;
     ny_ = ny;
+
+    if (debug) std::cerr << "1.1" << std::endl;
 
     position_.resize(nx);
     for (int i = 0; i < nx; i++) position_[i].resize(ny);
 
+    if (debug) std::cerr << "1.2" << std::endl;
+
     stones_.clear();
     stones_.push_back(Stone());  // 占位，确保编号从1开始
+
+    if (debug) std::cerr << "1.3" << std::endl;
 
     is_playing_animation_ = false;
 
     while (!swap_queue_.empty()) swap_queue_.pop();
+
+    if (debug) std::cerr << "1.4" << std::endl;
 
     if (timer != nullptr) {
         if (timer->isActive()) {
@@ -24,8 +38,13 @@ int StoneManager::Init(int nx, int ny) {
         }
         delete timer;
     }
+
+    if (debug) std::cerr << "1.5" << std::endl;
+
     timer = new QTimer();
     connect(timer, &QTimer::timeout, [=]() { Update(); });
+
+    if (debug) std::cerr << "1.6" << std::endl;
 
     return kSuccess;
 }
@@ -46,7 +65,8 @@ int StoneManager::Generate(int x, int y, int type, int fallen_pixel) {
 
     stones_.push_back(Stone(coordinate_x, coordinate_start_y, 0, 0, type));
     stones_.back().set_rotating_speed(Stone::kRotatingSpeed);
-    stones_.back().set_falling(Stone::kFallingAcceleration, coordinate_y);
+    // stones_.back().set_falling(Stone::kFallingSpeed, coordinate_y);
+    stones_.back().set_falling((rand() % 10 + 1) / 5.f, coordinate_y);
 
     position_[x][y] = stones_.size() - 1;
 
@@ -120,7 +140,7 @@ int StoneManager::FallTo(int x, int y, int tar_y) {
     int id = position_[x][y];
     position_[x][y] = 0;       // 清除原位置
     position_[x][tar_y] = id;  // 填入新位置
-    stones_[id].set_falling(Stone::kFallingAcceleration, PositionToCoordinateY(y));
+    stones_[id].set_falling(Stone::kFallingSpeed, PositionToCoordinateY(y));
 
     return kSuccess;
 }
@@ -157,15 +177,17 @@ void StoneManager::Update() {
             if (position_[i][j] == 0) continue;
 
             int id = position_[i][j];
-            if (stones_[id].is_falling() == false) continue;
 
-            stones_[id].update();
-            is_falling = true;
-            is_playing_animation_ = true;
+            if (stones_[id].is_falling()) {
+                is_falling = true;
+                is_playing_animation_ = true;
+            }
+
+            stones_[id].Update();
         }
     }
-
-    if (is_falling == false) {
+    return;
+    if (is_falling == false && false) {
         if (!swap_queue_.empty()) {
             int id1 = swap_queue_.front().first;
             int id2 = swap_queue_.front().second;
@@ -176,8 +198,8 @@ void StoneManager::Update() {
                 stones_[id2].set_swaping(stones_[id1].x(), stones_[id1].y(), Stone::kSwapingSpeed);
             } else {
                 if (stones_[id1].is_swaping() || stones_[id2].is_swaping()) {
-                    stones_[id1].update();
-                    stones_[id2].update();
+                    stones_[id1].Update();
+                    stones_[id2].Update();
                 } else {
                     swap_queue_.pop();
                     is_swaping = false;
@@ -198,10 +220,13 @@ void StoneManager::Draw(QOpenGLShaderProgram &program) {
             model.setToIdentity();
             model.translate(stone.x(), stone.y(), stone.z());
             model.rotate(stone.angle(), 0.f, 1.f, 0.f);
-            model.scale(0.15f);
+            model.scale(0.3f);
             program.setUniformValue("model", model);
 
-            gem_model_manager_.GetModel(stone.type())->Draw(program);
+            Model *model = gem_model_manager_.GetModel(stone.type());
+            if (model != nullptr) {
+                model->Draw(program);
+            }
         }
     }
 }

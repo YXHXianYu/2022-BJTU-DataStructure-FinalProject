@@ -8,25 +8,28 @@ namespace Hypercube {
 
 Stone::Stone() {}
 
-Stone::Stone(int x, int y, int z, int angle, int type) : x_(x), y_(y), z_(z), angle_(angle), type_(type) {}
+Stone::Stone(int x, int y, int z, int angle, int type) : x_(x), y_(y), z_(z), angle_(angle), type_(type) {
+    falling_target_y_ = 0;
+    swaping_timer_ = 0;
+    rotating_speed_ = 0;
+}
 
 int Stone::x() const { return x_; }
 int Stone::y() const { return y_; }
 int Stone::z() const { return z_; }
-int Stone::angle() const { return angle_; }
+float Stone::angle() const { return angle_; }
 int Stone::type() const { return type_; }
 
 bool Stone::is_falling() const { return falling_target_y_ != 0; }
 float Stone::falling_speed() const { return falling_speed_; }
 float Stone::falling_acceleration() const { return falling_acceleration_; }
 
-void Stone::set_falling(float acceleration, int falling_target_y) {
-    falling_speed_ = 0;
-    falling_acceleration_ = acceleration;
+void Stone::set_falling(float speed, int falling_target_y) {
+    falling_speed_ = speed;
     falling_target_y_ = falling_target_y;
 }
 
-bool Stone::is_rotating() const { return rotating_speed_ == 0; }
+bool Stone::is_rotating() const { return rotating_speed_ != 0; }
 float Stone::rotating_speed() const { return rotating_speed_; }
 void Stone::set_rotating_speed(float speed) { rotating_speed_ = speed; }
 
@@ -40,10 +43,10 @@ void Stone::set_swaping(int target_x, int target_y, int swaping_speed) {
     swaping_target_y_ = target_y;
 }
 
-void Stone::update() {
+void Stone::Update() {
     // falling
     if (is_falling()) {
-        falling_speed_ += falling_acceleration_;
+        // falling_speed_ += falling_acceleration_;
         y_ -= falling_speed_;
         if (y_ < falling_target_y_) {
             y_ = falling_target_y_;

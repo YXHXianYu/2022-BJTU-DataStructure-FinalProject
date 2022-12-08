@@ -13,7 +13,7 @@ class Stone {
     int x() const;
     int y() const;
     int z() const;
-    int angle() const;
+    float angle() const;
     int type() const;
 
     bool is_falling() const;
@@ -28,16 +28,16 @@ class Stone {
     bool is_swaping() const;
     void set_swaping(int target_x, int target_y, int swaping_speed);
 
-    void update();
+    void Update();
 
     // 常量
    public:
     static constexpr float kRotatingStatic = 0.0f;
-    static constexpr float kRotatingSpeed = 1.0f;
-    static constexpr float kRotatingSpeedFast = 5.0f;
+    static constexpr float kRotatingSpeed = 0.2f;
+    static constexpr float kRotatingSpeedFast = 1.0f;
 
     static constexpr float kFallingStatic = 0.0f;
-    static constexpr float kFallingAcceleration = 0.1f;
+    static constexpr float kFallingSpeed = 0.1f;
 
     static constexpr int kSwapingStatic = 0.0f;
     static constexpr int kSwapingSpeed = 10.f;
@@ -47,7 +47,7 @@ class Stone {
     int x_;
     int y_;
     int z_;
-    int angle_;
+    float angle_;
     int type_;
 
     float falling_speed_;
