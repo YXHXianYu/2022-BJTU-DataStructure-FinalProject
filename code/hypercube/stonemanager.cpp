@@ -5,10 +5,16 @@
 
 namespace Hypercube {
 
-StoneManager::StoneManager(QOpenGLFunctions_4_5_Core *func) : gem_model_manager_(func) {}
+StoneManager::StoneManager(QOpenGLFunctions_4_5_Core *func) : have_initialized_(false), gem_model_manager_(func) {}
+
+StoneManager::~StoneManager() {
+    // timer_ (no need)
+}
 
 int StoneManager::Init(int nx, int ny) {
-    int debug = 0;
+    if (have_initialized_) return kFailureHaveInitialized;
+
+    int debug = 1;
     if (debug) std::cerr << "1.0" << std::endl;
 
     nx_ = nx;
@@ -32,24 +38,17 @@ int StoneManager::Init(int nx, int ny) {
 
     if (debug) std::cerr << "1.4" << std::endl;
 
-    if (timer != nullptr) {
-        if (timer->isActive()) {
-            timer->stop();
-        }
-        delete timer;
-    }
-
     if (debug) std::cerr << "1.5" << std::endl;
 
-    timer = new QTimer();
-    connect(timer, &QTimer::timeout, [=]() { Update(); });
+    timer_ = new QTimer(this);
+    connect(timer_, &QTimer::timeout, [=]() { Update(); });
 
     if (debug) std::cerr << "1.6" << std::endl;
 
     return kSuccess;
 }
 
-void StoneManager::Start() { timer->start(10); }
+void StoneManager::Start() { timer_->start(10); }
 
 int StoneManager::Generate(int x, int y, int type, int fallen_pixel) {
     if (x < 0 || x >= nx_ || y < 0 || y >= ny_) {  // 失败，参数越界
@@ -192,8 +191,8 @@ void StoneManager::Update() {
             int id1 = swap_queue_.front().first;
             int id2 = swap_queue_.front().second;
 
-            if (is_swaping == false) {
-                is_swaping = true;
+            if (is_swaping_ == false) {
+                is_swaping_ = true;
                 stones_[id1].set_swaping(stones_[id2].x(), stones_[id2].y(), Stone::kSwapingSpeed);
                 stones_[id2].set_swaping(stones_[id1].x(), stones_[id1].y(), Stone::kSwapingSpeed);
             } else {
@@ -202,7 +201,7 @@ void StoneManager::Update() {
                     stones_[id2].Update();
                 } else {
                     swap_queue_.pop();
-                    is_swaping = false;
+                    is_swaping_ = false;
                 }
             }
             is_playing_animation_ = true;
