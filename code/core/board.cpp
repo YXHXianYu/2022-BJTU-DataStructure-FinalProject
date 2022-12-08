@@ -21,21 +21,18 @@ Board::Board() {
     std::cout << "generate end" << std::endl;
 }
 
-void Board::SetHypercube(Hypercube::Hypercube *hypercube) {
-    std::cout << "check1" << std::endl;
-    hypercube_ = hypercube;
-    std::cout << "check2" << std::endl;
-    Sleep(1000);
-    std::cout << "check3" << std::endl;
-    hypercube_->stone_manager_->Init(8, 8);
+void Board::SetHypercube(Hypercube::Hypercube *hypercube) { hypercube_ = hypercube; }
 
+void Board::InitHypercube() {
+    Sleep(100);
+    hypercube_->stone_manager_->Init(8, 8);
     hypercube_->stone_manager_->Start();
 
-    std::cout << "check4" << std::endl;
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            std::cout << i << " " << j << " " << hypercube_->stone_manager_->Generate(i, j, stones_[i][j].GetType())
-                      << std::endl;
+            // std::cout << i << " " << j << " " << stones_[i][j].GetType() << std::endl;
+            std::cout << i << " " << j << " "
+                      << hypercube_->stone_manager_->Generate(i, j, stones_[i][j].GetType(), rand() % 500) << std::endl;
         }
     }
 }
