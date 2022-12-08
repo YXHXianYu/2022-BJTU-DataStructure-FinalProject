@@ -34,8 +34,7 @@ float Stone::rotating_speed() const { return rotating_speed_; }
 void Stone::set_rotating_speed(float speed) { rotating_speed_ = speed; }
 
 bool Stone::is_swaping() const { return swaping_timer_ > 0; }
-void Stone::set_swaping(int target_x, int target_y, int swaping_speed) {
-    std::cerr << "swap start" << std::endl;
+void Stone::set_swaping(int target_x, int target_y, float swaping_speed) {
     swaping_timer_ = 180;
     swaping_speed_ = swaping_speed;
     swaping_start_x_ = x_;
@@ -44,7 +43,14 @@ void Stone::set_swaping(int target_x, int target_y, int swaping_speed) {
     swaping_target_y_ = target_y;
 }
 
-void Stone::Update() {
+void Stone::UpdateRotating() {
+    // rotating
+    if (is_rotating()) {
+        angle_ += rotating_speed_;
+    }
+}
+
+void Stone::UpdateFalling() {
     // falling
     if (is_falling()) {
         // falling_speed_ += falling_acceleration_;
@@ -57,10 +63,9 @@ void Stone::Update() {
             falling_target_y_ = 0;
         }
     }
-    // rotating
-    if (is_rotating()) {
-        angle_ += rotating_speed_;
-    }
+}
+
+void Stone::UpdateSwaping() {
     // swaping
     if (is_swaping()) {
         swaping_timer_ -= swaping_speed_;
