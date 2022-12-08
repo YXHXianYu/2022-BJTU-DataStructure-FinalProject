@@ -4,7 +4,7 @@
 #include "ui_gamewindow.h"
 
 GameWindow::GameWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::GameWindow) {
+    : FrameLessWindow(parent), ui(new Ui::GameWindow) {
   ui->setupUi(this);
   // 固定窗口大小
   this->setFixedSize(800, 600);

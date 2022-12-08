@@ -1,14 +1,17 @@
 #ifndef GAMEWINDOW_H
 #define GAMEWINDOW_H
 
-#include <QMainWindow>
 #include <QTime>
+
+#include "framelesswindow.h"
+
+// 游戏窗口类
 
 namespace Ui {
 class GameWindow;
 }
 
-class GameWindow : public QMainWindow {
+class GameWindow : public FrameLessWindow {
   Q_OBJECT
 
  public:

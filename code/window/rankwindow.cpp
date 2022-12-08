@@ -4,7 +4,7 @@
 #include "ui_rankwindow.h"
 
 RankWindow::RankWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::RankWindow) {
+    : FrameLessWindow(parent), ui(new Ui::RankWindow) {
   ui->setupUi(this);
   // 固定窗口大小
   this->setFixedSize(800, 600);
