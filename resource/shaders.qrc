@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>shaders/common.frag</file>
+        <file>shaders/common.vert</file>
+        <file>shaders/light.frag</file>
+        <file>shaders/light.vert</file>
+    </qresource>
+</RCC>

@@ -27,16 +27,6 @@
      <string>返回主菜单</string>
     </property>
    </widget>
-   <widget class="QOpenGLWidget" name="openGLWidget">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>20</y>
-      <width>562</width>
-      <height>562</height>
-     </rect>
-    </property>
-   </widget>
   </widget>
  </widget>
  <resources/>
