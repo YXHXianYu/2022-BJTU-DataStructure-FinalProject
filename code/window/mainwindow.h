@@ -15,25 +15,25 @@ class MainWindow;
 }
 
 class MainWindow : public FrameLessWindow {
-  Q_OBJECT
+    Q_OBJECT
 
- public:
-  explicit MainWindow(QWidget *parent = nullptr);
-  ~MainWindow();
+   public:
+    explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
 
- private slots:
-  void on_btnGame_clicked();
+   private slots:
+    void on_btnGame_clicked();
 
-  void on_btnRank_clicked();
+    void on_btnRank_clicked();
 
-  void on_btnConfig_clicked();
+    void on_btnConfig_clicked();
 
-  void on_btnAbout_clicked();
+    void on_btnAbout_clicked();
 
-  void on_btnQuit_clicked();
+    void on_btnQuit_clicked();
 
- private:
-  Ui::MainWindow *ui;
+   private:
+    Ui::MainWindow *ui;
 };
 
 // 延迟时间，为优化切换窗口体验

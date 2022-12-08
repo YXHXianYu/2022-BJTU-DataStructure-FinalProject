@@ -20,7 +20,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # ----- SOURCES & HEADERS -----
 # 1. main
 SOURCES += \
-    ./code/main.cpp \
+    ./code/main.cpp
 
 # 2. core
 SOURCES += \
@@ -61,11 +61,29 @@ HEADERS += \
     ./code/database/sqliteDb.h \
     ./code/database/ranking.h
     
-# 5. BGM and sounds
+# 5. Audio
 SOURCES += \
     ./code/audio/BGM.cpp
 HEADERS += \
     ./code/audio/BGM.h
+
+# 6. Hypercube
+SOURCES += \
+    code/hypercube/gemmodelmanager.cpp \
+    code/hypercube/hstone.cpp \
+    code/hypercube/hypercube.cpp \
+    code/hypercube/mesh.cpp \
+    code/hypercube/model.cpp \
+    code/hypercube/stonemanager.cpp
+HEADERS += \
+    code/hypercube/camera.h \
+    code/hypercube/gemmodelmanager.h \
+    code/hypercube/hstone.h \
+    code/hypercube/hypercube.h \
+    code/hypercube/mesh.h \
+    code/hypercube/model.h \
+    code/hypercube/stonemanager.h
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -73,6 +91,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    resource/res.qrc
+    resource/res.qrc \
+    resource/shaders.qrc
 
+# assimp
+win32: LIBS += -L$$PWD/library/assimp/lib/ -llibassimp.dll
 
+INCLUDEPATH += $$PWD/library/assimp/include
+DEPENDPATH += $$PWD/library/assimp/include
