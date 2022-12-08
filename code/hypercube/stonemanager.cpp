@@ -34,7 +34,7 @@ int StoneManager::Init(int nx, int ny) {
 
     is_playing_animation_ = false;
 
-    while (!swap_queue_.empty()) swap_queue_.pop();
+    while (!animation_queue_.empty()) animation_queue_.pop();
 
     if (debug) std::cerr << "1.4" << std::endl;
 
@@ -66,6 +66,8 @@ int StoneManager::Generate(int x, int y, int type, int fallen_pixel) {
     stones_.back().set_rotating_speed(Stone::kRotatingSpeed);
     // stones_.back().set_falling(Stone::kFallingSpeed, coordinate_y);
     stones_.back().set_falling((rand() % 10 + 1) / 5.f, coordinate_y);
+
+    animation_queue_.push(std::make_pair(-1, -1));
 
     position_[x][y] = stones_.size() - 1;
 
@@ -143,6 +145,8 @@ int StoneManager::FallTo(int x, int y, int tar_y) {
     position_[x][tar_y] = id;  // 填入新位置
     stones_[id].set_falling(Stone::kFallingSpeed, PositionToCoordinateY(tar_y));
 
+    animation_queue_.push(std::make_pair(-1, -1));
+
     return kSuccess;
 }
 
@@ -163,53 +167,59 @@ int StoneManager::SwapStone(int x1, int y1, int x2, int y2) {
     int id1 = position_[x1][y1];
     int id2 = position_[x2][y2];
     std::swap(position_[x1][y1], position_[x2][y2]);
-    swap_queue_.push(std::make_pair(id1, id2));
+    animation_queue_.push(std::make_pair(id1, id2));
 
     return kSuccess;
 }
 
-bool StoneManager::isPlayingAnimation() { return is_playing_animation_; }
+bool StoneManager::isPlayingAnimation() { return animation_queue_.size() > 0; }
 
 void StoneManager::Update() {
-    is_playing_animation_ = false;
-    bool is_falling = false;
-    if (is_swaping_ == false) {
+    // std::cout << "Hypercube::StoneManager::Update" << std::endl;
+
+    for (int i = 0; i < nx_; i++) {
+        for (int j = 0; j < ny_; j++) {
+            if (position_[i][j] == 0) continue;
+            int id = position_[i][j];
+            stones_[id].UpdateRotating();
+        }
+    }
+
+    if (!animation_queue_.empty() && animation_queue_.front().first == -1 && animation_queue_.front().second == -1) {
+        // falling
+        bool is_falling = false;
         for (int i = 0; i < nx_; i++) {
             for (int j = 0; j < ny_; j++) {
                 if (position_[i][j] == 0) continue;
-
                 int id = position_[i][j];
-
                 if (stones_[id].is_falling()) {
+                    stones_[id].UpdateFalling();
                     is_falling = true;
-                    is_playing_animation_ = true;
                 }
-
-                stones_[id].Update();
             }
         }
-    }
-    if (is_falling == false) {
-        if (!swap_queue_.empty()) {
-            int id1 = swap_queue_.front().first;
-            int id2 = swap_queue_.front().second;
-
-            std::cerr << "update swap" << std::endl;
-
-            if (is_swaping_ == false) {
-                is_swaping_ = true;
-                stones_[id1].set_swaping(stones_[id2].x(), stones_[id2].y(), Stone::kSwapingSpeed);
-                stones_[id2].set_swaping(stones_[id1].x(), stones_[id1].y(), Stone::kSwapingSpeed);
-            } else {
-                if (stones_[id1].is_swaping() || stones_[id2].is_swaping()) {
-                    stones_[id1].Update();
-                    stones_[id2].Update();
-                } else {
-                    swap_queue_.pop();
-                    is_swaping_ = false;
-                }
+        if (!is_falling) {
+            while (!animation_queue_.empty() && animation_queue_.front().first == -1 && animation_queue_.front().second == -1) {
+                animation_queue_.pop();
             }
-            is_playing_animation_ = true;
+        }
+    } else if (!animation_queue_.empty()) {
+        // swaping
+        int id1 = animation_queue_.front().first;
+        int id2 = animation_queue_.front().second;
+
+        if (is_swaping_ == false) {
+            is_swaping_ = true;
+            stones_[id1].set_swaping(stones_[id2].x(), stones_[id2].y(), Stone::kSwapingSpeed);
+            stones_[id2].set_swaping(stones_[id1].x(), stones_[id1].y(), Stone::kSwapingSpeed);
+        } else {
+            if (stones_[id1].is_swaping() || stones_[id2].is_swaping()) {
+                stones_[id1].UpdateSwaping();
+                stones_[id2].UpdateSwaping();
+            } else {
+                animation_queue_.pop();
+                is_swaping_ = false;
+            }
         }
     }
 }
