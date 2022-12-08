@@ -4,7 +4,16 @@ int Board::length_ = 10;
 int Board::start_x = 10;
 int Board::start_y = 10;
 
-Board::Board() { Generate(); }
+Board::Board() {
+    srand((unsigned int)time(0));
+    mouse_on_lightning = 0;
+    mouse_on_diamond = 0;
+    mouse_on_shuffle = 0;
+    rest_lightning = 2;
+    rest_diamond = 2;
+    rest_shuffle = 2;
+    Generate();
+}
 
 std::pair<int, int> Board::GetChosen() { return chosen_; }
 
@@ -14,6 +23,7 @@ void Board::Generate() {
         for (int j = 0; j < 8; ++j) {
             positions_[i][j] = {start_x + j * length_, start_y + i * length_};
             stones_[i][j] = Stone(start_x + j * length_, start_y + i * length_);
+            // animation : fall
         }
     }
     chosen_ = {-1, -1};
@@ -25,6 +35,7 @@ void Board::Swap(Stone &a, Stone &b) {
     b = a;
     a = tmp;
 }
+
 /* 检查是否有可以消除的宝石，若有则将位置记录在matches_中 */
 bool Board::Check() {
     matches_.clear();
@@ -81,7 +92,43 @@ void Board::Clicked(int x, int y) {
             }
         }
     }
+
+    // 点击其它判断
+    /*
+        // 如果点击到了钻石道具(坐标判断)
+        if () {
+            chosen_ = {-1, -1};
+            mouse_on_diamond = 1;
+            return;
+        }
+        // 如果点击到了闪电道具(坐标判断)
+        if () {
+            chosen_ = {-1, -1};
+            rest_lightning--;
+            for (int i = 0; i < 8; ++i) {
+                for (int j = 0; j < 8; ++j) {
+                    int dice = rand()%10;
+                    if(dice <= 1) matches_.push_back({i, j});
+                }
+            }
+            Refresh();
+            return;
+        }
+        //如果点到了刷新棋盘(坐标判断)
+        if() {
+            Generate();
+        }
+    */
+    if (chosen_x == -1) {
+        return;
+    }
     if (chosen_.first == -1) {
+        if (mouse_on_diamond) {
+            stones_[chosen_x][chosen_y].SetType(stones_[chosen_x][chosen_y].GetMaxType() + 1);
+            mouse_on_diamond = 0;
+            rest_diamond--;
+            return;
+        }
         chosen_ = {chosen_x, chosen_y};
         return;
     }
@@ -97,24 +144,50 @@ void Board::Clicked(int x, int y) {
             return;
         } else {
             chosen_ = {-1, -1};
-            do {
-                Remove();
-                Fall();
-            } while (Check());
+            Refresh();
         }
     }
+}
+
+void Board::Refresh() {
+    combo_base = 1.0;
+    double accelerate_base = 0.2;
+    while (Check() || !matches_.empty()) {
+        Remove();
+        Fall();
+        combo_base += accelerate_base;
+        accelerate_base += 0.1;
+    };
 }
 
 /*消除matches_中的宝石*/
 void Board::Remove() {
     for (const auto &match : matches_) {
-        stones_[match.first][match.second].SetEmpty(0);
-        // animation Remove
+        Remove(match.first, match.second);
     }
+    matches_.clear();
+}
+
+void Board::Remove(int x, int y) {
+    if (x < 0 || y < 0 || x > 7 || y > 7) return;
+    if (stones_[x][y].Empty()) return;
+    point_ += 2000.0 * combo_base;
+    stones_[x][y].SetEmpty(0);
+    // animation Remove
+    if (stones_[x][y].GetType() == stones_[x][y].GetMaxType() + 1) {
+        point_ += 10000.0 * combo_base;
+        for (int i = x - 2; i <= x + 2; ++i) {
+            for (int j = y - 2; j <= y + 2; ++j) {
+                Remove(i, j);
+                // animation Remove
+            }
+        }
+    }
+    return;
 }
 
 // 提示
-void Board::ShowHint() {
+bool Board::ShowHint(bool show) {
     bool get_hint = 0;
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
@@ -145,7 +218,17 @@ void Board::ShowHint() {
         }
         if (get_hint) break;
     }
-    // animation show_hint
+    if (show) {
+        // animation show_hint
+    }
+    return get_hint;
+}
+
+bool Board::Check_Game_Over() {
+    if (ShowHint(0)) {
+        return 1;
+    }
+    return 0;
 }
 
 /* 宝石掉落并补齐 */
