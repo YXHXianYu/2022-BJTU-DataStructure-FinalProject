@@ -16,7 +16,10 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="QWidget" name="mwidget">
+   <property name="styleSheet">
+    <string notr="true">#mwidget{border-image:url(:/images/mainwindow/background.jpg)}</string>
+   </property>
    <widget class="QPushButton" name="btnGame">
     <property name="geometry">
      <rect>
@@ -59,8 +62,8 @@
    <widget class="QPushButton" name="btnAbout">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>550</y>
+      <x>720</x>
+      <y>570</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -69,7 +72,7 @@
      <string>关于</string>
     </property>
    </widget>
-   <widget class="QWidget" name="widget" native="true">
+   <widget class="QWidget" name="picwidget" native="true">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -79,14 +82,14 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">#MainWindow{border-image:url(:/images/mainwindow/vain.png)}</string>
+     <string notr="true">#picwidget{border-image:url(:/images/mainwindow/test1.png)}</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnQuit">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>550</y>
+      <y>570</y>
       <width>75</width>
       <height>23</height>
      </rect>
