@@ -8,17 +8,35 @@ FrameLessWindow::FrameLessWindow(QWidget *parent)
   this->setWindowFlag(Qt::FramelessWindowHint);
 }
 
-void FrameLessWindow::mousePressEvent(QMouseEvent *e) { last = e->globalPos(); }
-void FrameLessWindow::mouseMoveEvent(QMouseEvent *e) {
-  int dx = e->globalX() - last.x();
-  int dy = e->globalY() - last.y();
-  last = e->globalPos();
-  move(x() + dx, y() + dy);
-}
-void FrameLessWindow::mouseReleaseEvent(QMouseEvent *e) {
-  int dx = e->globalX() - last.x();
-  int dy = e->globalY() - last.y();
-  move(x() + dx, y() + dy);
-}
+const int TITLE_HEIGHT = 19;
+
+// void FrameLessWindow::mousePressEvent(QMouseEvent *e) {
+//   if (e->y() < TITLE_HEIGHT) {
+//     last = e->globalPos();
+//   }
+// }
+
+///*
+// * 鼠标移动函数
+// * 这里实时修改窗口的坐标
+// */
+// void FrameLessWindow::mouseMoveEvent(QMouseEvent *event) {
+//  if (event->y() < TITLE_HEIGHT) {
+//    int dx = event->globalX() - last.x();
+//    int dy = event->globalY() - last.y();
+//    last = event->globalPos();
+//    this->move(this->x() + dx, this->y() + dy);
+//  }
+//}
+///*
+// * 鼠标释放函数
+// */
+// void FrameLessWindow::mouseReleaseEvent(QMouseEvent *event) {
+//  if (event->y() < TITLE_HEIGHT) {
+//    int dx = event->globalX() - last.x();
+//    int dy = event->globalY() - last.y();
+//    this->move(this->x() + dx, this->y() + dy);
+//  }
+//}
 
 FrameLessWindow::~FrameLessWindow() { delete ui; }

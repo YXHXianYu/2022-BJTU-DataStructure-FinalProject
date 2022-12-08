@@ -2,5 +2,7 @@
     <qresource prefix="/">
         <file>images/mainwindow/vain.png</file>
         <file>images/mainwindow/background.jpg</file>
+        <file>images/mainwindow/test.png</file>
+        <file>images/mainwindow/test1.png</file>
     </qresource>
 </RCC>
