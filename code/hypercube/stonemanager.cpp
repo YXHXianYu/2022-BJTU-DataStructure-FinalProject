@@ -136,10 +136,12 @@ int StoneManager::FallTo(int x, int y, int tar_y) {
         return kFailureOccupied;
     }
 
+    std::cerr << "(" << x << ", " << y << ") will fall" << std::endl;
+
     int id = position_[x][y];
     position_[x][y] = 0;       // 清除原位置
     position_[x][tar_y] = id;  // 填入新位置
-    stones_[id].set_falling(Stone::kFallingSpeed, PositionToCoordinateY(y));
+    stones_[id].set_falling(Stone::kFallingSpeed, PositionToCoordinateY(tar_y));
 
     return kSuccess;
 }
@@ -171,25 +173,28 @@ bool StoneManager::isPlayingAnimation() { return is_playing_animation_; }
 void StoneManager::Update() {
     is_playing_animation_ = false;
     bool is_falling = false;
-    for (int i = 0; i < nx_; i++) {
-        for (int j = 0; j < ny_; j++) {
-            if (position_[i][j] == 0) continue;
+    if (is_swaping_ == false) {
+        for (int i = 0; i < nx_; i++) {
+            for (int j = 0; j < ny_; j++) {
+                if (position_[i][j] == 0) continue;
 
-            int id = position_[i][j];
+                int id = position_[i][j];
 
-            if (stones_[id].is_falling()) {
-                is_falling = true;
-                is_playing_animation_ = true;
+                if (stones_[id].is_falling()) {
+                    is_falling = true;
+                    is_playing_animation_ = true;
+                }
+
+                stones_[id].Update();
             }
-
-            stones_[id].Update();
         }
     }
-    return;
-    if (is_falling == false && false) {
+    if (is_falling == false) {
         if (!swap_queue_.empty()) {
             int id1 = swap_queue_.front().first;
             int id2 = swap_queue_.front().second;
+
+            std::cerr << "update swap" << std::endl;
 
             if (is_swaping_ == false) {
                 is_swaping_ = true;

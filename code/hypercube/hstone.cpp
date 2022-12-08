@@ -35,6 +35,7 @@ void Stone::set_rotating_speed(float speed) { rotating_speed_ = speed; }
 
 bool Stone::is_swaping() const { return swaping_timer_ > 0; }
 void Stone::set_swaping(int target_x, int target_y, int swaping_speed) {
+    std::cerr << "swap start" << std::endl;
     swaping_timer_ = 180;
     swaping_speed_ = swaping_speed;
     swaping_start_x_ = x_;
@@ -65,6 +66,7 @@ void Stone::Update() {
         swaping_timer_ -= swaping_speed_;
 
         if (swaping_timer_ <= 0) {
+            std::cerr << "swap success!" << std::endl;
             x_ = swaping_target_x_;
             y_ = swaping_target_y_;
             z_ = 0;
