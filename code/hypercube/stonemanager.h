@@ -97,7 +97,7 @@ class StoneManager : public QObject {
     std::vector<Stone> stones_;
 
     bool is_playing_animation_;
-    std::queue<std::pair<int, int>> swap_queue_;
+    std::queue<std::pair<int, int>> animation_queue_;
     bool is_swaping_;
     QTimer* timer_;
 

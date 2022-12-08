@@ -31,8 +31,8 @@ void Board::InitHypercube() {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             // std::cout << i << " " << j << " " << stones_[i][j].GetType() << std::endl;
-            std::cout << i << " " << j << " "
-                      << hypercube_->stone_manager_->Generate(i, j, stones_[i][j].GetType(), rand() % 500) << std::endl;
+            std::cout << i << " " << j << " " << hypercube_->stone_manager_->Generate(i, j, stones_[i][j].GetType(), rand() % 500)
+                      << std::endl;
         }
     }
 }
@@ -199,15 +199,12 @@ void Board::Clicked(int x, int y) {
             return;
         } else {
             hypercube_->stone_manager_->SetRotate(chosen_.first, chosen_.second, Hypercube::StoneManager::kRotate);
-            std::cout << hypercube_->stone_manager_->SwapStone(chosen_.first, chosen_.second, chosen_x, chosen_y)
-                      << "\n";
-            std::cerr << "swap:" << chosen_.first << " " << chosen_.second << " " << chosen_x << " " << chosen_y
-                      << "\n";
-            while (hypercube_->stone_manager_->isPlayingAnimation()) {
+            std::cout << hypercube_->stone_manager_->SwapStone(chosen_.first, chosen_.second, chosen_x, chosen_y) << "\n";
+            std::cerr << "swap:" << chosen_.first << " " << chosen_.second << " " << chosen_x << " " << chosen_y << "\n";
+            while (false && hypercube_->stone_manager_->isPlayingAnimation()) {
                 Sleep(20);
             };
             chosen_ = {-1, -1};
-
             Refresh();
         }
         return;
@@ -249,7 +246,7 @@ void Board::Remove() {
         std::cerr << "match: " << match.first << " " << match.second << "\n";
     }
     matches_.clear();
-    while (hypercube_->stone_manager_->isPlayingAnimation()) {
+    while (false && hypercube_->stone_manager_->isPlayingAnimation()) {
         Sleep(20);
     };
 }
@@ -343,7 +340,7 @@ void Board::Fall() {
             hypercube_->stone_manager_->Generate(i, j, stones_[i][j].GetType());
         }
     }
-    while (hypercube_->stone_manager_->isPlayingAnimation()) {
+    while (false && hypercube_->stone_manager_->isPlayingAnimation()) {
         Sleep(20);
     };
 }
