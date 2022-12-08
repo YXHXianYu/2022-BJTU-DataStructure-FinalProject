@@ -33,8 +33,8 @@ void MainWindow::on_btnGame_clicked() {
 
 // 排行榜
 void MainWindow::on_btnRank_clicked() {
-  RankWindow *gw = new RankWindow(this);
-  gw->show();
+  RankWindow *rw = new RankWindow(this);
+  rw->show();
   delay(200);
   this->hide();
 }
