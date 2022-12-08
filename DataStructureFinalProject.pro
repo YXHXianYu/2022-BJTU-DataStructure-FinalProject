@@ -60,11 +60,9 @@ HEADERS += \
     
 # 5. BGM and sounds
 SOURCES += \
-    ./code/database/sqliteDb.cpp \
-    ./code/database/ranking.cpp
+    ./code/bgm and sound/BGM.cpp 
 HEADERS += \
-    ./code/database/sqliteDb.h \
-    ./code/database/ranking.h
+    ./code/bgm and sound/BGM.h 
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
