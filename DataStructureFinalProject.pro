@@ -1,5 +1,6 @@
 QT       += core gui
 QT       += sql
+QT       += multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -56,6 +57,12 @@ SOURCES += \
 HEADERS += \
     ./code/database/sqliteDb.h \
     ./code/database/ranking.h
+    
+# 5. BGM and sounds
+SOURCES += \
+    ./code/bgm and sound/BGM.cpp 
+HEADERS += \
+    ./code/bgm and sound/BGM.h 
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
