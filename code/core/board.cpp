@@ -63,13 +63,8 @@ void Board::Generate(bool start) {
 /* 交换两个宝石 */
 void Board::Swap(Stone &a, Stone &b) {
     Stone tmp = a;
-    b = a;
-    a = tmp;
-    int tmp_x = a.GetX(), tmp_y = a.GetY();
-    a.SetX(b.GetX());
-    a.SetY(b.GetY());
-    b.SetX(tmp_x);
-    b.SetY(tmp_y);
+    a = b;
+    b = tmp;
 }
 
 /* 检查是否有可以消除的宝石，若有则将位置记录在matches_中 */
@@ -124,6 +119,12 @@ bool Board::Check() {
 
 /* 鼠标点击坐标(x,y) */
 void Board::Clicked(int x, int y) {
+    for (int j = 0; j < 8; ++j) {
+        for (int i = 0; i < 8; ++i) {
+            std::cerr << stones_[i][j].GetType() << " ";
+        }
+        std::cerr << "\n";
+    }
     int chosen_x = -1, chosen_y = -1;
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
