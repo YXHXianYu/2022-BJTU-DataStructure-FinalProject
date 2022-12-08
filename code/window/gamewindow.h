@@ -14,20 +14,24 @@ class GameWindow;
 }
 
 class GameWindow : public FrameLessWindow {
-  Q_OBJECT
+    Q_OBJECT
 
- public:
-  explicit GameWindow(QWidget *parent = nullptr);
-  void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-  ~GameWindow();
+   public:
+    explicit GameWindow(QWidget *parent = nullptr);
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    ~GameWindow();
 
- private slots:
-  void on_btnReturn_clicked();
+   private slots:
+    void on_btnReturn_clicked();
 
- private:
-  Ui::GameWindow *ui;
-  Board *board;
-  Hypercube::Hypercube *hypercube_;
+   private:
+    Ui::GameWindow *ui;
+
+    QTimer *timer_init_hypercube_;
+    int timer_init_hypercube_cnt_;
+
+    Board *board;
+    Hypercube::Hypercube *hypercube_;
 };
 
 #endif  // GAMEWINDOW_H

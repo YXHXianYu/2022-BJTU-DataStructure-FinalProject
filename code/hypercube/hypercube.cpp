@@ -19,8 +19,20 @@ Hypercube::Hypercube(QWidget *parent) : QOpenGLWidget(parent) {
 }
 
 Hypercube::~Hypercube() {
+    // timer (no need)
+
+    // stone manager
+    delete stone_manager_;
+
     makeCurrent();
     doneCurrent();
+}
+
+StoneManager *Hypercube::GetStoneManager() {
+    if (stone_manager_ == nullptr) {
+        std::cerr << "WARNING!!! StoneManager is nullptr" << std::endl;
+    }
+    return stone_manager_;
 }
 
 void Hypercube::initializeGL() {
