@@ -175,6 +175,8 @@ void Board::Clicked(int x, int y) {
             return;
         }
         chosen_ = {chosen_x, chosen_y};
+
+        hypercube_->stone_manager_->SetRotate(chosen_x, chosen_y, Hypercube::Stone::kRotatingSpeedFast);
         return;
     }
     if (chosen_x == chosen_.first && chosen_y == chosen_.second) {
