@@ -3,9 +3,9 @@
 #include <windows.h>
 
 #include <iostream>
-int Board::length_ = 10;
-int Board::start_x = 10;
-int Board::start_y = 10;
+int Board::length_ = 530 / 8;
+int Board::start_x = 35;
+int Board::start_y = 35;
 
 Board::Board() {
     srand((unsigned int)time(0));
@@ -43,16 +43,14 @@ std::pair<int, int> Board::GetChosen() { return chosen_; }
 void Board::Generate(bool start) {
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
-            positions_[i][j] = {start_x + j * length_, start_y + i * length_};
-            stones_[i][j] = Stone(start_x + j * length_, start_y + i * length_);
+            positions_[i][j] = {start_x + i * length_, start_y + j * length_};
+            stones_[i][j] = Stone(start_x + i * length_, start_y + j * length_);
             // if(!start) animation : falll
         }
     }
     if (start) {
         while (Check()) {
-            // std::cout << "yes" << std::endl;
             for (auto match : matches_) {
-                // stones_[match.first][match.second].SetEmpty(true);
                 stones_[match.first][match.second].SetType(rand() % Stone::GetMaxType() + 1);
             }
             // Fall2();
@@ -98,13 +96,13 @@ bool Board::Check() {
                 }
                 continue;
             }
-            sum = 0;
+            sum = 1;
             now = i - 1;
             while (now >= 0 && stones_[now][j].GetType() == type) {
                 now--;
                 sum++;
             }
-            now = i;
+            now = i + 1;
             while (now < 8 && stones_[now][j].GetType() == type) {
                 now++;
                 sum++;
@@ -164,7 +162,11 @@ void Board::Clicked(int x, int y) {
             Generate();
         }
     */
+    std::cerr << x << " " << y << " " << chosen_x << " " << chosen_y << std::endl;
     if (chosen_x == -1) {
+        if (chosen_.first != -1) {
+            hypercube_->stone_manager_->SetRotate(chosen_.first, chosen_.second, Hypercube::StoneManager::kRotate);
+        }
         return;
     }
     if (chosen_.first == -1) {
@@ -175,62 +177,94 @@ void Board::Clicked(int x, int y) {
             return;
         }
         chosen_ = {chosen_x, chosen_y};
+
+        hypercube_->stone_manager_->SetRotate(chosen_x, chosen_y, Hypercube::StoneManager::kRotateFastInverse);
+
         return;
     }
     if (chosen_x == chosen_.first && chosen_y == chosen_.second) {
+        hypercube_->stone_manager_->SetRotate(chosen_.first, chosen_.second, Hypercube::StoneManager::kRotate);
         return;
     }
     if (abs(chosen_x - chosen_.first) + abs(chosen_y - chosen_.second) <= 1) {
         Swap(stones_[chosen_x][chosen_y], stones_[chosen_.first][chosen_.second]);
         if (!Check()) {
-            // animation setRotate
             Swap(stones_[chosen_x][chosen_y], stones_[chosen_.first][chosen_.second]);
+            hypercube_->stone_manager_->SetRotate(chosen_.first, chosen_.second, Hypercube::StoneManager::kRotate);
             chosen_ = {chosen_x, chosen_y};
+            // animation setRotate
+            hypercube_->stone_manager_->SetRotate(chosen_x, chosen_y, Hypercube::StoneManager::kRotateFastInverse);
+
             return;
         } else {
+            hypercube_->stone_manager_->SetRotate(chosen_.first, chosen_.second, Hypercube::StoneManager::kRotate);
+            std::cout << hypercube_->stone_manager_->SwapStone(chosen_.first, chosen_.second, chosen_x, chosen_y)
+                      << "\n";
+            std::cerr << "swap:" << chosen_.first << " " << chosen_.second << " " << chosen_x << " " << chosen_y
+                      << "\n";
+            while (hypercube_->stone_manager_->isPlayingAnimation()) {
+                Sleep(20);
+            };
             chosen_ = {-1, -1};
+
             Refresh();
         }
+        return;
     }
+    hypercube_->stone_manager_->SetRotate(chosen_.first, chosen_.second, Hypercube::StoneManager::kRotate);
+    chosen_ = {chosen_x, chosen_y};
+    // animation setRotate
+    hypercube_->stone_manager_->SetRotate(chosen_x, chosen_y, Hypercube::StoneManager::kRotateFastInverse);
 }
 
 void Board::Refresh() {
     combo_base = 1.0;
     double accelerate_base = 0.2;
-    while (Check() || !matches_.empty()) {
-        if (add_tools) {
-            rest_diamond++;
-            rest_shuffle++;
-            rest_lightning++;
-            add_tools = 0;
-        }
-        Remove();
-        Fall();
-        combo_base += accelerate_base;
-        accelerate_base += 0.1;
-    };
+    std::cerr << "in Refresh"
+              << "\n";
+    int flag = 0;
+    // while (!matches_.empty() || Check()) {
+    if (add_tools) {
+        rest_diamond++;
+        rest_shuffle++;
+        rest_lightning++;
+        add_tools = 0;
+    }
+    std::cerr << flag << "\n";
+    Remove();
+    Fall();
+    combo_base += accelerate_base;
+    accelerate_base += 0.1;
+    matches_.clear();
+    //};
+    std::cerr << "out Refresh"
+              << "\n";
 }
 
 /*消除matches_中的宝石*/
 void Board::Remove() {
     for (const auto &match : matches_) {
         Remove(match.first, match.second);
+        std::cerr << "match: " << match.first << " " << match.second << "\n";
     }
     matches_.clear();
+    while (hypercube_->stone_manager_->isPlayingAnimation()) {
+        Sleep(20);
+    };
 }
 
 void Board::Remove(int x, int y) {
     if (x < 0 || y < 0 || x > 7 || y > 7) return;
     if (stones_[x][y].Empty()) return;
     point_ += 2000.0 * combo_base;
-    stones_[x][y].SetEmpty(0);
+    stones_[x][y].SetEmpty(1);
     // animation Remove
+    hypercube_->stone_manager_->Remove(x, y);
     if (stones_[x][y].GetType() == stones_[x][y].GetMaxType() + 1) {
         point_ += 10000.0 * combo_base;
         for (int i = x - 2; i <= x + 2; ++i) {
             for (int j = y - 2; j <= y + 2; ++j) {
                 Remove(i, j);
-                // animation Remove
             }
         }
     }
@@ -293,7 +327,8 @@ void Board::Fall() {
             }
             now--;
             if (now == j) continue;
-            // animation swap
+
+            hypercube_->stone_manager_->FallTo(i, j, now);
             Swap(stones_[i][j], stones_[i][now]);
         }
     }
@@ -301,30 +336,13 @@ void Board::Fall() {
         for (int j = 0; j < 8; ++j) {
             if (!stones_[i][j].Empty()) break;
             // animation generate
+
             stones_[i][j] = Stone(positions_[i][j].first, positions_[i][j].second);
             stones_[i][j].SetEmpty(0);
+            hypercube_->stone_manager_->Generate(i, j, stones_[i][j].GetType());
         }
     }
-}
-/* 宝石掉落并补齐无动画效果 */
-void Board::Fall2() {
-    for (int i = 0; i < 8; ++i) {
-        for (int j = 7; j >= 0; --j) {
-            if (stones_[i][j].Empty()) continue;
-            int now = j + 1;
-            while (now < 8 && stones_[i][now].Empty()) {
-                now++;
-            }
-            now--;
-            if (now == j) continue;
-            Swap(stones_[i][j], stones_[i][now]);
-        }
-    }
-    for (int i = 0; i < 8; ++i) {
-        for (int j = 0; j < 8; ++j) {
-            if (!stones_[i][j].Empty()) break;
-            stones_[i][j] = Stone(positions_[i][j].first, positions_[i][j].second);
-            stones_[i][j].SetEmpty(0);
-        }
-    }
+    while (hypercube_->stone_manager_->isPlayingAnimation()) {
+        Sleep(20);
+    };
 }

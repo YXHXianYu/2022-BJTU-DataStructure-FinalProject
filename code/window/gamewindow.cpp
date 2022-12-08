@@ -34,6 +34,7 @@ void GameWindow::mousePressEvent(QMouseEvent *event) {
     int x = event->x();
     int y = event->y();
     std::cout << "mouse cliked on:" << x << " " << y << std::endl;
+    board->Clicked(x, y);
 }
 
 GameWindow::~GameWindow() {
