@@ -2,14 +2,19 @@
 #define MAINWINDOW_H
 
 #include <QCoreApplication>
-#include <QMainWindow>
+#include <QEvent>
+#include <QMouseEvent>
 #include <QTime>
+
+#include "framelesswindow.h"
+
+// 主菜单类
 
 namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow {
+class MainWindow : public FrameLessWindow {
   Q_OBJECT
 
  public:
@@ -31,6 +36,7 @@ class MainWindow : public QMainWindow {
   Ui::MainWindow *ui;
 };
 
+// 延迟时间，为优化切换窗口体验
 void delay(int x);
 
 #endif  // MAINWINDOW_H

@@ -20,7 +20,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # ----- SOURCES & HEADERS -----
 # 1. main
 SOURCES += \
-    ./code/main.cpp
+    ./code/main.cpp \
 
 # 2. core
 SOURCES += \
@@ -28,7 +28,7 @@ SOURCES += \
     ./code/core/stone.cpp
 HEADERS += \
     ./code/core/board.h \
-    ./code/core/stone.h
+    ./code/core/stone.h \
 
 # 3. window
 SOURCES += \
@@ -36,19 +36,22 @@ SOURCES += \
     ./code/window/configwindow.cpp \
     ./code/window/gamewindow.cpp \
     ./code/window/mainwindow.cpp \
-    ./code/window/rankwindow.cpp
+    ./code/window/rankwindow.cpp \
+    ./code/window/framelesswindow.cpp
 HEADERS += \
     ./code/window/aboutwindow.h \
     ./code/window/configwindow.h \
     ./code/window/gamewindow.h \
     ./code/window/mainwindow.h \
-    ./code/window/rankwindow.h
+    ./code/window/rankwindow.h \
+    ./code/window/framelesswindow.h
 FORMS += \
     ./code/window/aboutwindow.ui \
     ./code/window/configwindow.ui \
     ./code/window/gamewindow.ui \
     ./code/window/mainwindow.ui \
-    ./code/window/rankwindow.ui
+    ./code/window/rankwindow.ui \
+    ./code/window/framelesswindow.ui
 
 # 4. database
 SOURCES += \

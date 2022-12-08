@@ -7,7 +7,7 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow) {
+    : FrameLessWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
   // 固定窗口大小
   this->setFixedSize(800, 600);
@@ -23,6 +23,7 @@ void delay(int x) {
     QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
 
+// 游戏开始
 void MainWindow::on_btnGame_clicked() {
   GameWindow *gw = new GameWindow(this);
   gw->show();
@@ -30,6 +31,7 @@ void MainWindow::on_btnGame_clicked() {
   this->hide();
 }
 
+// 排行榜
 void MainWindow::on_btnRank_clicked() {
   RankWindow *gw = new RankWindow(this);
   gw->show();
@@ -37,6 +39,7 @@ void MainWindow::on_btnRank_clicked() {
   this->hide();
 }
 
+// 设置
 void MainWindow::on_btnConfig_clicked() {
   ConfigWindow *cw = new ConfigWindow(this);
   cw->show();
@@ -44,6 +47,7 @@ void MainWindow::on_btnConfig_clicked() {
   this->hide();
 }
 
+// 关于
 void MainWindow::on_btnAbout_clicked() {
   AboutWindow *aw = new AboutWindow(this);
   aw->show();
