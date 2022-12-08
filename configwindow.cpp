@@ -6,6 +6,8 @@
 ConfigWindow::ConfigWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::ConfigWindow) {
   ui->setupUi(this);
+  // 固定窗口大小
+  this->setFixedSize(800, 600);
 }
 
 ConfigWindow::~ConfigWindow() { delete ui; }

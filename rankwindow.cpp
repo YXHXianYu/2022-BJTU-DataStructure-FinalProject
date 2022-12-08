@@ -6,6 +6,8 @@
 RankWindow::RankWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::RankWindow) {
   ui->setupUi(this);
+  // 固定窗口大小
+  this->setFixedSize(800, 600);
 }
 
 RankWindow::~RankWindow() { delete ui; }

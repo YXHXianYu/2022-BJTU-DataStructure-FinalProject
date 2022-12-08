@@ -2,6 +2,7 @@
 #define GAMEWINDOW_H
 
 #include <QMainWindow>
+#include <QTime>
 
 namespace Ui {
 class GameWindow;
