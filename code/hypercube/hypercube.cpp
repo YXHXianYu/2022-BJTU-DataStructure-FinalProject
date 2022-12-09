@@ -109,22 +109,24 @@ void Hypercube::paintGL() {
 
     shader_program_.setUniformValue("numberOfLights", 2);
 
-    shader_program_.setUniformValue("lights[0].type", 1);
-    shader_program_.setUniformValue("lights[0].ambient", 0.3f, 0.3f, 0.3f);
-    shader_program_.setUniformValue("lights[0].diffuse", 0.7f, 0.7f, 0.7f);
-    shader_program_.setUniformValue("lights[0].specular", 1.0f, 1.0f, 1.0f);
+    shader_program_.setUniformValue("lights[0].type", 1);  // 平行光光源
+    shader_program_.setUniformValue("lights[0].ambient", 0.2f, 0.2f, 0.2f);
+    shader_program_.setUniformValue("lights[0].diffuse", 0.5f, 0.5f, 0.5f);
+    shader_program_.setUniformValue("lights[0].specular", 0.5f, 0.5f, 0.5f);
     shader_program_.setUniformValue("lights[0].direction", 0.0f, 0.5f, -0.3f);
 
     shader_program_.setUniformValue("lights[1].type", 0);  // 点光源
-    shader_program_.setUniformValue("lights[1].ambient", 0.1f, 0.1f, 0.1f);
-    shader_program_.setUniformValue("lights[1].diffuse", 0.5f, 0.5f, 0.5f);
-    shader_program_.setUniformValue("lights[1].specular", 1.0f, 1.0f, 1.0f);
-    shader_program_.setUniformValue("lights[1].position", 400.0f, 900.0f, 400.0f);
+    shader_program_.setUniformValue("lights[1].ambient", 0.2f, 0.2f, 0.2f);
+    shader_program_.setUniformValue("lights[1].diffuse", 0.6f, 0.6f, 0.6f);
+    shader_program_.setUniformValue("lights[1].specular", 0.9f, 0.9f, 0.9f);
+    shader_program_.setUniformValue("lights[1].position", 400.0f, 900.0f, 300.0f);
 
     shader_program_.setUniformValue("material.shininess", 32.0f);
 
     shader_program_.setUniformValue("view", view);
     shader_program_.setUniformValue("projection", projection);
+
+    shader_program_.setUniformValue("enableBlinnPhong", true);
 
     if (stone_manager_ != nullptr) stone_manager_->Draw(shader_program_);
 }
