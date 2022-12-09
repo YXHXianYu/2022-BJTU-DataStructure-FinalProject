@@ -77,7 +77,6 @@ void Stone::UpdateSwaping() {
         swaping_timer_ -= swaping_speed_;
 
         if (swaping_timer_ <= 0) {
-            std::cerr << "swap success!" << std::endl;
             x_ = swaping_target_x_;
             y_ = swaping_target_y_;
             z_ = 0;
@@ -110,10 +109,6 @@ void Stone::UpdateSwaping() {
             } else {
                 assert(false);
             }
-            std::cerr << "swaping: "
-                      << "(" << swaping_start_x_ << "," << swaping_start_y_ << ") -> (" << swaping_target_x_ << ","
-                      << swaping_target_y_ << "): "
-                      << "(" << x_ << "," << y_ << "," << z_ << ")" << std::endl;
         }
     }
 }

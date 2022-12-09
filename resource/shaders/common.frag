@@ -23,6 +23,8 @@ struct Light {
 uniform int numberOfLights;
 uniform Light lights[5];
 
+uniform bool enableBlinnPhong;
+
 out vec4 FragColor;
 
 in vec2 TexCoords;
@@ -61,8 +63,13 @@ void main() {
             lightDir = vec3(1.f, 1.f, 1.f);
         diffuse += max(dot(norm, lightDir), 0.0) * kd * lights[i].diffuse;
 
-        vec3 reflectDir = reflect(-lightDir, norm);
-        specular += pow(max(dot(viewDir, reflectDir), 0.0), material.shininess) * ks * lights[i].specular;
+        if(enableBlinnPhong) {
+            vec3 halfwayDir = normalize(lightDir + viewDir);
+            specular += pow(max(dot(norm, halfwayDir), 0.0), material.shininess) * ks * lights[i].specular;
+        } else {
+            vec3 reflectDir = reflect(-lightDir, norm);
+            specular += pow(max(dot(viewDir, reflectDir), 0.0), material.shininess) * ks * lights[i].specular;
+        }
     }
 
     vec3 result = (ambient + diffuse + specular);

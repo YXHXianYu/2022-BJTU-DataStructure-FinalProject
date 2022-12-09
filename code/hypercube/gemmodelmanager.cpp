@@ -15,7 +15,7 @@ GemModelManager::GemModelManager(QOpenGLFunctions_4_5_Core* func) {
 }
 
 Model* GemModelManager::GetModel(int type) {
-    if (type >= models_.size()) {
+    if ((unsigned int)(type) >= models_.size()) {
         return nullptr;
     }
     return models_[type];
