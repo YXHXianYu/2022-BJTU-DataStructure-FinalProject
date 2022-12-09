@@ -31,8 +31,8 @@ void Board::InitHypercube() {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             // std::cout << i << " " << j << " " << stones_[i][j].GetType() << std::endl;
-            std::cout << i << " " << j << " " << hypercube_->stone_manager_->Generate(i, j, stones_[i][j].GetType(), rand() % 500)
-                      << std::endl;
+            int ret = hypercube_->stone_manager_->Generate(i, j, stones_[i][j].GetType(), rand() % 500);
+            if (ret != Hypercube::StoneManager::kSuccess) std::cout << i << " " << j << " " << ret << std::endl;
         }
     }
 }

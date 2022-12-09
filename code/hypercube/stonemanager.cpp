@@ -37,10 +37,9 @@ int StoneManager::Init(int nx, int ny) {
 
     while (!animation_queue_.empty()) animation_queue_.pop();
 
-    if (DEBUG) std::cerr << "Hypercube::StoneManager::Init - 4 END" << std::endl;
-
-    std::cout << "Hypercube::StoneManager::Init - Intialized: "
-              << "(" << nx_ << ", " << ny_ << ")" << std::endl;
+    if (DEBUG)
+        std::cerr << "Hypercube::StoneManager::Init - 4 END: "
+                  << "(" << nx_ << ", " << ny_ << ")" << std::endl;
     have_initialized_ = true;
     return kSuccess;
 }
@@ -65,7 +64,7 @@ int StoneManager::Generate(int x, int y, int type, int fallen_pixel) {
     stones_.push_back(Stone(coordinate_x, coordinate_start_y, 0, 0, type));
     stones_.back().set_rotating_speed(Stone::kRotatingSpeed);
     // stones_.back().set_falling(Stone::kFallingSpeed, coordinate_y);
-    float falling_speed = (rand() % 10 + 5) / 2.5f;
+    float falling_speed = (rand() % 10 + 10) / 2.5f;
     stones_.back().set_falling(falling_speed, coordinate_y);
 
     animation_queue_.push(std::make_pair(-1, -1));
