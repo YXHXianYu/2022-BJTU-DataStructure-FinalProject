@@ -13,12 +13,15 @@ struct Material {
 uniform Material material;
 
 struct Light {
+    int type;
+    vec3 position;
     vec3 direction;
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
 };
-uniform Light light;
+uniform int numberOfLights;
+uniform Light lights[5];
 
 out vec4 FragColor;
 
@@ -40,19 +43,29 @@ void main() {
         ks = material.ks;
     }
 
-    // ambient
-    vec3 ambient = ka * light.ambient;
-    // diffuse
     vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(-light.direction);
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = diff * kd * light.diffuse;
-    // specular
     vec3 viewDir = normalize(viewPos - FragPos);
-    vec3 reflectDir = reflect(-lightDir, norm);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    vec3 specular =  spec * ks * light.specular;
+
+    vec3 ambient = vec3(0.f, 0.f, 0.f);
+    vec3 diffuse = vec3(0.f, 0.f, 0.f);
+    vec3 specular = vec3(0.f, 0.f, 0.f);
+    for(int i = 0; i < numberOfLights; i++) {
+        ambient += ka * lights[i].ambient;
+
+        vec3 lightDir;
+        if(lights[i].type == 0)
+            lightDir = normalize(lights[i].position - FragPos);
+        else if(lights[i].type == 1)
+            lightDir = normalize(-lights[i].direction);
+        else
+            lightDir = vec3(1.f, 1.f, 1.f);
+        diffuse += max(dot(norm, lightDir), 0.0) * kd * lights[i].diffuse;
+
+        vec3 reflectDir = reflect(-lightDir, norm);
+        specular += pow(max(dot(viewDir, reflectDir), 0.0), material.shininess) * ks * lights[i].specular;
+    }
 
     vec3 result = (ambient + diffuse + specular);
-    FragColor = vec4(result, 1.0);
+
+    FragColor = vec4(result, 1.f);
 }

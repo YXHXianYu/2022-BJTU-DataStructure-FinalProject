@@ -16,9 +16,9 @@ Board::Board() {
     rest_lightning = 2;
     rest_diamond = 2;
     rest_shuffle = 2;
-    std::cout << "generate start" << std::endl;
+    std::cerr << "generate start" << std::endl;
     Generate(1);
-    std::cout << "generate end" << std::endl;
+    std::cerr << "generate end" << std::endl;
 }
 
 void Board::SetHypercube(Hypercube::Hypercube *hypercube) { hypercube_ = hypercube; }
@@ -221,20 +221,20 @@ void Board::Refresh() {
     std::cerr << "in Refresh"
               << "\n";
     int flag = 0;
-    // while (!matches_.empty() || Check()) {
-    if (add_tools) {
-        rest_diamond++;
-        rest_shuffle++;
-        rest_lightning++;
-        add_tools = 0;
-    }
-    std::cerr << flag << "\n";
-    Remove();
-    Fall();
-    combo_base += accelerate_base;
-    accelerate_base += 0.1;
-    matches_.clear();
-    //};
+    while (!matches_.empty() || Check()) {
+        if (add_tools) {
+            rest_diamond++;
+            rest_shuffle++;
+            rest_lightning++;
+            add_tools = 0;
+        }
+        std::cerr << flag << "\n";
+        Remove();
+        Fall();
+        combo_base += accelerate_base;
+        accelerate_base += 0.1;
+        matches_.clear();
+    };
     std::cerr << "out Refresh"
               << "\n";
 }
