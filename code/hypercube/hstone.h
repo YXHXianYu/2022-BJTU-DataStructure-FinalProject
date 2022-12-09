@@ -42,10 +42,11 @@ class Stone {
     static constexpr float kRotatingSpeedFast = 4.0f;
 
     static constexpr float kFallingStatic = 0.0f;
-    static constexpr float kFallingSpeed = 0.2f;
+    static constexpr float kFallingSpeed = 6.0f;
+    static constexpr float kFallingSpeedRandom = -1.0f;
 
     static constexpr int kSwapingStatic = 0.0f;
-    static constexpr float kSwapingSpeed = 0.2f;
+    static constexpr float kSwapingSpeed = 6.f;
 
     // 属性
    private:

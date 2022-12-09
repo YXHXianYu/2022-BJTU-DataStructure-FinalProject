@@ -27,6 +27,9 @@ bool Stone::is_falling() const { return falling_target_y_ != 0; }
 float Stone::falling_speed() const { return falling_speed_; }
 float Stone::falling_acceleration() const { return falling_acceleration_; }
 void Stone::set_falling(float speed, int falling_target_y) {
+    if (std::abs(speed - kFallingSpeedRandom) <= 1e-6) {
+        speed = rand() % 4 + 4;
+    }
     falling_speed_ = speed;
     falling_target_y_ = falling_target_y;
 }
@@ -43,6 +46,8 @@ void Stone::set_swaping(int target_x, int target_y, float swaping_speed) {
     swaping_start_y_ = y_;
     swaping_target_x_ = target_x;
     swaping_target_y_ = target_y;
+    std::cerr << "set swap: "
+              << "(" << x_ << ", " << y_ << ") -> (" << target_x << ", " << target_y << ")" << std::endl;
 }
 
 void Stone::UpdateRotating() {
@@ -59,7 +64,6 @@ void Stone::UpdateFalling() {
         y_ -= falling_speed_;
         if (y_ < falling_target_y_) {
             y_ = falling_target_y_;
-
             falling_speed_ = 0;
             falling_acceleration_ = 0;
             falling_target_y_ = 0;
@@ -85,16 +89,16 @@ void Stone::UpdateSwaping() {
             swaping_target_x_ = 0;
             swaping_target_y_ = 0;
         } else {
-            const int& st_x = swaping_start_x_;
-            const int& st_y = swaping_start_y_;
-            const int& ed_x = swaping_target_x_;
-            const int& ed_y = swaping_target_y_;
+            const int& ed_x = swaping_start_x_;
+            const int& ed_y = swaping_start_y_;
+            const int& st_x = swaping_target_x_;
+            const int& st_y = swaping_target_y_;
             const int st_z = 0;
             const int ed_z = 0;
-            const int& theta = swaping_timer_;
+            const float& theta = swaping_timer_ / 180.0 * 3.1415926;
 
             if (st_y == ed_y) {  // alone Ox
-                float r = (st_x - ed_y) / 2.f;
+                float r = (st_x - ed_x) / 2.f;
                 x_ = (st_x + ed_x) / 2.f + r * std::cos(theta);
                 y_ = st_y;
                 z_ = (st_z + ed_z) / 2.f + r * std::sin(theta);
@@ -106,6 +110,10 @@ void Stone::UpdateSwaping() {
             } else {
                 assert(false);
             }
+            std::cerr << "swaping: "
+                      << "(" << swaping_start_x_ << "," << swaping_start_y_ << ") -> (" << swaping_target_x_ << ","
+                      << swaping_target_y_ << "): "
+                      << "(" << x_ << "," << y_ << "," << z_ << ")" << std::endl;
         }
     }
 }

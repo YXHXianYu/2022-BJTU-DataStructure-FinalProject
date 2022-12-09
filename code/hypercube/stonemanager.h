@@ -80,6 +80,8 @@ class StoneManager : public QObject {
     static constexpr int kFailureEmpty = 3;
     static constexpr int kFailureHaveInitialized = 4;
     static constexpr int kFailureHaveNotInitialized = 5;
+    static constexpr int kFailureIDHaveBeenUsed = 6;
+    static constexpr int kFailureIDNotFound = 7;
 
     // SetRotate's arguments
     static constexpr int kStatic = 0;
@@ -100,6 +102,7 @@ class StoneManager : public QObject {
     std::map<int, Stone> stones_;
 
     std::queue<Animation*> animation_queue_;
+    bool is_falling;
 
     GemModelManager gem_model_manager_;
 };
