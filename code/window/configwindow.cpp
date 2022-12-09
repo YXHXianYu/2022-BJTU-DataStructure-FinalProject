@@ -15,7 +15,8 @@ ConfigWindow::ConfigWindow(QWidget *parent)
 ConfigWindow::~ConfigWindow() { delete ui; }
 
 void ConfigWindow::on_btnReturn_clicked() {
-  MainWindow *mw = dynamic_cast<MainWindow *>(this->parent());
+  MainWindow *mw = new MainWindow();
+  mw->move(this->pos().x(), this->pos().y());
   mw->show();
   delay(20);
   this->close();
