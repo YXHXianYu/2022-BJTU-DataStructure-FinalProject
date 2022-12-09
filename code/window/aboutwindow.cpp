@@ -15,7 +15,8 @@ AboutWindow::AboutWindow(QWidget *parent)
 AboutWindow::~AboutWindow() { delete ui; }
 
 void AboutWindow::on_btnReturn_clicked() {
-  MainWindow *mw = dynamic_cast<MainWindow *>(this->parent());
+  MainWindow *mw = new MainWindow();
+  mw->move(this->pos().x(), this->pos().y());
   mw->show();
   delay(20);
   this->close();

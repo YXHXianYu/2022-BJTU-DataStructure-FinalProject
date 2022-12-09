@@ -5,6 +5,7 @@
 #include <QEvent>
 #include <QMessageBox>
 #include <QMouseEvent>
+#include <QScreen>
 #include <QTime>
 
 #include "framelesswindow.h"
