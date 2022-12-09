@@ -7,7 +7,7 @@
 namespace Hypercube {
 
 Hypercube::Hypercube(QWidget *parent) : QOpenGLWidget(parent) {
-    // timer
+    // thread
     hypercube_thread_ = new HypercubeThread(this);
     connect(hypercube_thread_, &HypercubeThread::timeout, this, &Hypercube::HypercubeThreadSlot);
     hypercube_thread_->start();
@@ -17,12 +17,8 @@ Hypercube::Hypercube(QWidget *parent) : QOpenGLWidget(parent) {
 
 Hypercube::~Hypercube() {
     // thread (no need)
-
     // stone manager
     delete stone_manager_;
-
-    makeCurrent();
-    doneCurrent();
 }
 
 StoneManager *Hypercube::GetStoneManager() {
