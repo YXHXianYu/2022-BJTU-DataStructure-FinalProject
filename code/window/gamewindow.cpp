@@ -19,7 +19,7 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
     // 去除自带的边框
     this->setWindowFlag(Qt::FramelessWindowHint);
     // close时析构成员变量
-    setAttribute(Qt::WA_DeleteOnClose);
+    // setAttribute(Qt::WA_DeleteOnClose);
     // 创建窗口
     int DEBUG = true;
     if (DEBUG) std::cerr << "GameWindow::GameWindow - 0" << std::endl;
@@ -89,7 +89,8 @@ GameWindow::~GameWindow() {
     // timer_init_hypercube_ (no need)
     // hypercube_ (no need)
     // board
-    delete board;
+    // delete board;
+    std::cerr << "GameWindow::~GameWindow End" << std::endl;
 }
 
 void GameWindow::getDifficulty(QString data) {
@@ -103,4 +104,5 @@ void GameWindow::on_btnReturn_clicked() {
     mw->show();
     delay(20);
     this->close();
+    std::cerr << "GameWindow::on_btnReturn_clicked - End" << std::endl;
 }
