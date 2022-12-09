@@ -20,7 +20,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # ----- SOURCES & HEADERS -----
 # 1. main
 SOURCES += \
-    ./code/main.cpp
+    ./code/main.cpp \
+    code/hypercube/hypercubethread.cpp
 
 # 2. core
 SOURCES += \
@@ -28,7 +29,9 @@ SOURCES += \
     ./code/core/stone.cpp
 HEADERS += \
     ./code/core/board.h \
-    ./code/core/stone.h \
+    ./code/core/stone.h \ \
+    code/hypercube/DEBUG.h \
+    code/hypercube/hypercubethread.h
 
 # 3. window
 SOURCES += \

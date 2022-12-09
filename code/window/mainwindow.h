@@ -3,7 +3,9 @@
 
 #include <QCoreApplication>
 #include <QEvent>
+#include <QMessageBox>
 #include <QMouseEvent>
+#include <QScreen>
 #include <QTime>
 
 #include "framelesswindow.h"
@@ -33,9 +35,11 @@ class MainWindow : public FrameLessWindow {
 
   void on_btnQuit_clicked();
 
+ signals:
+  void sentDifficulty(QString data);
+
  private:
   Ui::MainWindow *ui;
-  Ui::GameWindow *gw;
 };
 
 // 延迟时间，为优化切换窗口体验

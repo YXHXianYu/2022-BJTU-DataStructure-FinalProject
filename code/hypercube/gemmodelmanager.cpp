@@ -4,6 +4,7 @@ namespace Hypercube {
 
 GemModelManager::GemModelManager(QOpenGLFunctions_4_5_Core* func) {
     models_.push_back(new Model(func, "../2022-BJTU-DataStructure-FinalProject/resource/models/gem/gemstone_1.obj"));
+    models_.push_back(new Model(func, "../2022-BJTU-DataStructure-FinalProject/resource/models/gem/gemstone_1.obj"));
     models_.push_back(new Model(func, "../2022-BJTU-DataStructure-FinalProject/resource/models/gem/gemstone_2.obj"));
     models_.push_back(new Model(func, "../2022-BJTU-DataStructure-FinalProject/resource/models/gem/gemstone_3.obj"));
     models_.push_back(new Model(func, "../2022-BJTU-DataStructure-FinalProject/resource/models/gem/gemstone_4.obj"));

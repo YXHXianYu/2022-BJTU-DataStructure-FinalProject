@@ -26,21 +26,23 @@ class Stone {
     void set_rotating_speed(float speed);
 
     bool is_swaping() const;
-    void set_swaping(int target_x, int target_y, int swaping_speed);
+    void set_swaping(int target_x, int target_y, float swaping_speed);
 
-    void Update();
+    void UpdateRotating();
+    void UpdateFalling();
+    void UpdateSwaping();
 
     // 常量
    public:
     static constexpr float kRotatingStatic = 0.0f;
-    static constexpr float kRotatingSpeed = 0.2f;
-    static constexpr float kRotatingSpeedFast = 1.0f;
+    static constexpr float kRotatingSpeed = 0.4f;
+    static constexpr float kRotatingSpeedFast = 4.0f;
 
     static constexpr float kFallingStatic = 0.0f;
-    static constexpr float kFallingSpeed = 0.1f;
+    static constexpr float kFallingSpeed = 0.2f;
 
     static constexpr int kSwapingStatic = 0.0f;
-    static constexpr int kSwapingSpeed = 10.f;
+    static constexpr float kSwapingSpeed = 0.2f;
 
     // 属性
    private:
@@ -56,8 +58,8 @@ class Stone {
 
     float rotating_speed_;
 
-    int swaping_timer_;
-    int swaping_speed_;
+    float swaping_timer_;
+    float swaping_speed_;
     int swaping_start_x_;
     int swaping_start_y_;
     int swaping_target_x_;

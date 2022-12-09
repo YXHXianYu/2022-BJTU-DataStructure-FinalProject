@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 
-int Stone::MAX_TYPE = 4;
+int Stone::MAX_TYPE = 8;  // 这里有修改，为了测试方便，多放几种宝石（yxh）
 
 Stone::Stone() {
     srand((unsigned int)time(0));

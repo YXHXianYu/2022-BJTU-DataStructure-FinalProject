@@ -76,6 +76,7 @@ class StoneManager : public QObject {
     static constexpr int kFailureOccupied = 2;
     static constexpr int kFailureEmpty = 3;
     static constexpr int kFailureHaveInitialized = 4;
+    static constexpr int kFailureHaveNotInitialized = 5;
 
     // SetRotate's arguments
     static constexpr int kStatic = 0;
@@ -94,10 +95,11 @@ class StoneManager : public QObject {
     bool have_initialized_;
     int nx_, ny_;  // x轴方向和y轴方向
     std::vector<std::vector<int>> position_;
+    std::vector<std::vector<int>> position_cur_;
     std::vector<Stone> stones_;
 
     bool is_playing_animation_;
-    std::queue<std::pair<int, int>> swap_queue_;
+    std::queue<std::pair<int, int>> animation_queue_;
     bool is_swaping_;
     QTimer* timer_;
 
