@@ -30,26 +30,25 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
 
     if (DEBUG) std::cerr << "GameWindow::GameWindow - 1" << std::endl;
 
-    board = new Board();
-    board->SetHypercube(hypercube_);
-
     if (DEBUG) std::cerr << "GameWindow::GameWindow - 2" << std::endl;
-
-    timer_init_hypercube_ = new QTimer(this);
-    connect(timer_init_hypercube_, &QTimer::timeout, [&]() {
-        // board->InitHypercube(); /////////////////////////////////////////
-        // hypercube_->Demo();
-        board->InitHypercube();
-        std::cerr << "GameWindow::GameWindow InitHypercube." << std::endl;
-    });
 
     if (DEBUG) std::cerr << "GameWindow::GameWindow - 3" << std::endl;
 
-    timer_init_hypercube_->setSingleShot(true);
-    timer_init_hypercube_->setInterval(500);
-    timer_init_hypercube_->start();
-
     if (DEBUG) std::cerr << "GameWindow::GameWindow - 4 END" << std::endl;
+}
+
+void GameWindow::InitBoard() {
+    board = new Board(difficulty_);
+    board->SetHypercube(hypercube_);
+    // timer_init_hypercube_ = new QTimer(this);
+    // connect(timer_init_hypercube_, &QTimer::timeout, [&]() {
+    board->InitHypercube();
+    std::cerr << "GameWindow::GameWindow InitHypercube." << std::endl;
+    //});
+    /*
+        timer_init_hypercube_->setSingleShot(true);
+        timer_init_hypercube_->setInterval(500);
+        timer_init_hypercube_->start();*/
 }
 
 void GameWindow::mousePressEvent(QMouseEvent *event) {
@@ -94,6 +93,11 @@ GameWindow::~GameWindow() {
 }
 
 void GameWindow::getDifficulty(QString data) {
+    if (data == "easy") difficulty_ = 1;
+    if (data == "normal") difficulty_ = 2;
+    if (data == "hard") difficulty_ = 3;
+    std::cout << "difficulty is " << difficulty_ << std::endl;
+    InitBoard();
     QMessageBox mes(this);
     mes.setText(data);
     mes.exec();
