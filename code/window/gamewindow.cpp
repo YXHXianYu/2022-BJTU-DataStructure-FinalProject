@@ -30,14 +30,15 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
 
     if (DEBUG) std::cerr << "GameWindow::GameWindow - 1" << std::endl;
 
-    board = new Board();
-    board->SetHypercube(hypercube_);
+    // board = new Board(); /////////////////////////////////////////
+    // board->SetHypercube(hypercube_); /////////////////////////////////////////
 
     if (DEBUG) std::cerr << "GameWindow::GameWindow - 2" << std::endl;
 
     timer_init_hypercube_ = new QTimer(this);
     connect(timer_init_hypercube_, &QTimer::timeout, [&]() {
-        board->InitHypercube();
+        // board->InitHypercube(); /////////////////////////////////////////
+        hypercube_->Demo();
         std::cerr << "GameWindow::GameWindow InitHypercube." << std::endl;
     });
 

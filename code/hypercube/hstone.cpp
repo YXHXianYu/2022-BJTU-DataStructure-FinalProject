@@ -8,7 +8,7 @@ namespace Hypercube {
 
 Stone::Stone() {}
 
-Stone::Stone(int x, int y, int z, int angle, int type) : x_(x), y_(y), z_(z), angle_(angle), type_(type) {
+Stone::Stone(int x, int y, int z, int angle, int type) : x_(x), y_(y), z_(z), angle_(angle), type_(type), active_(true) {
     falling_target_y_ = 0;
     swaping_timer_ = 0;
     rotating_speed_ = 0;
@@ -20,10 +20,12 @@ int Stone::z() const { return z_; }
 float Stone::angle() const { return angle_; }
 int Stone::type() const { return type_; }
 
+bool Stone::is_active() const { return active_; }
+void Stone::set_active(bool active) { active_ = active; }
+
 bool Stone::is_falling() const { return falling_target_y_ != 0; }
 float Stone::falling_speed() const { return falling_speed_; }
 float Stone::falling_acceleration() const { return falling_acceleration_; }
-
 void Stone::set_falling(float speed, int falling_target_y) {
     falling_speed_ = speed;
     falling_target_y_ = falling_target_y;
