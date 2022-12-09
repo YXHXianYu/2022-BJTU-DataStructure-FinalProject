@@ -6,20 +6,16 @@ namespace Hypercube {
 
 Hypercube::Hypercube(QWidget *parent) : QOpenGLWidget(parent) {
     // timer
-    timer_ = new QTimer(this);
-    connect(timer_, &QTimer::timeout, [=]() {
-        if (stone_manager_ != nullptr) {
-            stone_manager_->Update();
-        }
-        update();
-    });
-    timer_->start(timer_inteval_);
+    hypercube_thread_ = new HypercubeThread(this);
+    connect(hypercube_thread_, &HypercubeThread::timeout, this, &Hypercube::HypercubeThreadSlot);
+    hypercube_thread_->start();
     // camera
     camera_.Position = kCameraPosition;
 }
 
 Hypercube::~Hypercube() {
-    // timer (no need)
+    // thread (no need)
+    hypercube_thread_->exit();
 
     // stone manager
     delete stone_manager_;
@@ -62,10 +58,21 @@ void Hypercube::paintGL() {
     // shader program
     shader_program_.bind();
     shader_program_.setUniformValue("viewPos", camera_.GetPosition());
-    shader_program_.setUniformValue("light.ambient", 0.4f, 0.4f, 0.4f);
-    shader_program_.setUniformValue("light.diffuse", 0.9f, 0.9f, 0.9f);
-    shader_program_.setUniformValue("light.specular", 1.0f, 1.0f, 1.0f);
-    shader_program_.setUniformValue("light.direction", -0.0f, -0.0f, -0.3f);
+
+    shader_program_.setUniformValue("numberOfLights", 2);
+
+    shader_program_.setUniformValue("lights[0].type", 1);
+    shader_program_.setUniformValue("lights[0].ambient", 0.3f, 0.3f, 0.3f);
+    shader_program_.setUniformValue("lights[0].diffuse", 0.7f, 0.7f, 0.7f);
+    shader_program_.setUniformValue("lights[0].specular", 1.0f, 1.0f, 1.0f);
+    shader_program_.setUniformValue("lights[0].direction", 0.0f, 0.5f, -0.3f);
+
+    shader_program_.setUniformValue("lights[1].type", 0);  // 点光源
+    shader_program_.setUniformValue("lights[1].ambient", 0.1f, 0.1f, 0.1f);
+    shader_program_.setUniformValue("lights[1].diffuse", 0.5f, 0.5f, 0.5f);
+    shader_program_.setUniformValue("lights[1].specular", 1.0f, 1.0f, 1.0f);
+    shader_program_.setUniformValue("lights[1].position", 400.0f, 900.0f, 400.0f);
+
     shader_program_.setUniformValue("material.shininess", 32.0f);
 
     shader_program_.setUniformValue("view", view);
@@ -80,5 +87,13 @@ void Hypercube::resizeGL(int w, int h) {
 }
 
 void Hypercube::wheelEvent(QWheelEvent *event) { camera_.ProcessMouseScroll(event->angleDelta().y() / 90); }
+
+void Hypercube::HypercubeThreadSlot() {
+    // std::cerr << "slot" << std::endl;
+    if (stone_manager_ != nullptr) {
+        stone_manager_->Update();
+    }
+    update();
+}
 
 }  // namespace Hypercube

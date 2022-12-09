@@ -94,6 +94,7 @@ class StoneManager : public QObject {
     bool have_initialized_;
     int nx_, ny_;  // x轴方向和y轴方向
     std::vector<std::vector<int>> position_;
+    std::vector<std::vector<int>> position_cur_;
     std::vector<Stone> stones_;
 
     bool is_playing_animation_;
