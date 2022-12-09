@@ -28,6 +28,35 @@ StoneManager *Hypercube::GetStoneManager() {
     return stone_manager_;
 }
 
+void Hypercube::Demo() {
+    std::cerr << "Demo imported." << std::endl;
+    // 0. some vars
+    int nx = 8;
+    int ny = 8;
+
+    auto Checker = [&](int va) {
+        if (va != 0) std::cerr << "Error" << std::endl;
+    };
+
+    // 1. initialize
+    Checker(GetStoneManager()->Init(nx, ny));
+
+    // 2. generate gemstone
+    int tot = 0;
+    for (int i = 0; i < nx; i++) {
+        for (int j = 0; j < ny; j++) {
+            Checker(GetStoneManager()->Generate(++tot, i, j, rand() % 8 + 1, rand() % 500 + 100));
+        }
+    }
+
+    // 3. swap
+    GetStoneManager()->SwapStone(1, 2);
+    GetStoneManager()->SwapStone(3, 4);
+    GetStoneManager()->SwapStone(5, 6);
+
+    // 4. remove
+}
+
 void Hypercube::initializeGL() {
     if (DEBUG) std::cerr << "Hypercube::Hypercube::initializeGL - 0" << std::endl;
     // GL Functions
@@ -90,10 +119,7 @@ void Hypercube::resizeGL(int w, int h) {
 void Hypercube::wheelEvent(QWheelEvent *event) { camera_.ProcessMouseScroll(event->angleDelta().y() / 90); }
 
 void Hypercube::HypercubeThreadSlot() {
-    // std::cerr << "slot" << std::endl;
-    if (stone_manager_ != nullptr) {
-        stone_manager_->Update();
-    }
+    GetStoneManager()->Update();
     update();
 }
 

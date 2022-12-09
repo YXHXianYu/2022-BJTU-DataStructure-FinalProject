@@ -25,6 +25,8 @@ class Hypercube : public QOpenGLWidget, public QOpenGLFunctions_4_5_Core {
 
     StoneManager* GetStoneManager();
 
+    void Demo();
+
    protected:
     virtual void initializeGL() override;
     virtual void paintGL() override;
@@ -32,7 +34,7 @@ class Hypercube : public QOpenGLWidget, public QOpenGLFunctions_4_5_Core {
 
     virtual void wheelEvent(QWheelEvent* event) override;
 
-   public:
+   private:
     StoneManager* stone_manager_;
 
    private:

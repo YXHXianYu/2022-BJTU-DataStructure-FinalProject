@@ -4,7 +4,7 @@ QT       += multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++17
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -21,6 +21,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # 1. main
 SOURCES += \
     ./code/main.cpp \
+    code/hypercube/animation/animation.cpp \
+    code/hypercube/animation/animationfactory.cpp \
+    code/hypercube/animation/animationfall.cpp \
+    code/hypercube/animation/animationremove.cpp \
+    code/hypercube/animation/animationswap.cpp \
+    code/hypercube/animation/animationwait.cpp \
     code/hypercube/hypercubethread.cpp
 
 # 2. core
@@ -31,6 +37,12 @@ HEADERS += \
     ./code/core/board.h \
     ./code/core/stone.h \ \
     code/hypercube/DEBUG.h \
+    code/hypercube/animation/animation.h \
+    code/hypercube/animation/animationfactory.h \
+    code/hypercube/animation/animationfall.h \
+    code/hypercube/animation/animationremove.h \
+    code/hypercube/animation/animationswap.h \
+    code/hypercube/animation/animationwait.h \
     code/hypercube/hypercubethread.h
 
 # 3. window

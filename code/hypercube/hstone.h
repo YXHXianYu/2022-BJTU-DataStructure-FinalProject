@@ -16,6 +16,9 @@ class Stone {
     float angle() const;
     int type() const;
 
+    bool is_active() const;
+    void set_active(bool active);
+
     bool is_falling() const;
     float falling_speed() const;
     float falling_acceleration() const;
@@ -51,6 +54,8 @@ class Stone {
     int z_;
     float angle_;
     int type_;
+
+    bool active_;
 
     float falling_speed_;
     float falling_acceleration_;

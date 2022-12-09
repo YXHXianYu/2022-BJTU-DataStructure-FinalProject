@@ -5,9 +5,11 @@
 #include <QObject>
 #include <QOpenGLShaderProgram>
 #include <QTimer>
+#include <map>
 #include <queue>
 #include <vector>
 
+#include "animation/animationfactory.h"
 #include "gemmodelmanager.h"
 #include "hstone.h"
 
@@ -35,30 +37,31 @@ class StoneManager : public QObject {
     // 启动
     void Start();
 
-    // 在(x, y)格生成一个type类的宝石。下落fallen_height像素后到达目标，下落速度为fallen_speed
+    // 在(x, y)格生成一个编号为id、类型为type的宝石。
+    // 下落fallen_pixel像素后到达目标
     // - 成功，返回 kSuccess
-    // - 如果参数错误，失败，返回 kFailureArgumentError
-    // - 如果(x, y)已经存在一个宝石，失败，返回 kFailureOccupied
-    int Generate(int x, int y, int type, int fallen_pixel = -1);
+    // - 如果该编号的宝石已经生成，失败，返回 kFailureArgumentError
+    int Generate(int id, int x, int y, int type, int fallen_pixel = -1);
 
-    // 删除(x, y)格的宝石
+    // 删除编号为id的宝石
     // - 成功，返回 kSuccess
-    // - 如果参数错误，失败，返回 kFailureArgumentError
-    // - 如果(x, y)为空，失败，返回 kFailureEmpty
-    int Remove(int x, int y);
+    // - 如果该宝石不存在，失败，返回 kFailureArgumentError
+    int Remove(int id);
 
-    // 设置是否旋转
+    // 设置编号为id的宝石的旋转模式
     // - 成功，返回 kSuccess
-    int SetRotate(int x, int y, int rotateMode);
+    // - 如果该宝石不存在，失败，返回 kFailureArgumentError
+    int SetRotate(int id, int rotateMode);
 
-    // 让(x, y)的宝石下落到(x, tar_y)处
-    // - 包含两个动作：下落 & 移动
+    // 让编号为id的宝石下落到(x, tar_y)处
     // - 成功，返回 kSuccess
-    int FallTo(int x, int y, int tar_y);
+    // - 如果该宝石不存在，失败，返回 kFailureArgumentError
+    int FallTo(int id, int tar_y);
 
-    // 交换位于(x1, y1)的宝石和位于(x2, y2)的宝石
+    // 交换编号为id1的宝石和编号为id2的宝石
     // - 成功，返回 kSuccess
-    int SwapStone(int x1, int y1, int x2, int y2);
+    // - 如果宝石不存在，失败，返回 kFailureArgumentError
+    int SwapStone(int id1, int id2);
 
     // 是否正在播放动画
     bool isPlayingAnimation();
@@ -93,15 +96,10 @@ class StoneManager : public QObject {
 
    private:
     bool have_initialized_;
-    int nx_, ny_;  // x轴方向和y轴方向
-    std::vector<std::vector<int>> position_;
-    std::vector<std::vector<int>> position_cur_;
-    std::vector<Stone> stones_;
+    int nx_, ny_;
+    std::map<int, Stone> stones_;
 
-    bool is_playing_animation_;
-    std::queue<std::pair<int, int>> animation_queue_;
-    bool is_swaping_;
-    QTimer* timer_;
+    std::queue<Animation*> animation_queue_;
 
     GemModelManager gem_model_manager_;
 };
