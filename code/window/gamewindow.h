@@ -19,6 +19,8 @@ class GameWindow : public QMainWindow {
  public:
   explicit GameWindow(QWidget *parent = nullptr);
   ~GameWindow();
+ public slots:
+  void getDifficulty(QString data);
 
  protected:
   void mousePressEvent(QMouseEvent *event);

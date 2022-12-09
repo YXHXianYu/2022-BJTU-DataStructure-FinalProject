@@ -3,6 +3,7 @@
 
 #include <QCoreApplication>
 #include <QEvent>
+#include <QMessageBox>
 #include <QMouseEvent>
 #include <QTime>
 
@@ -32,6 +33,9 @@ class MainWindow : public FrameLessWindow {
   void on_btnAbout_clicked();
 
   void on_btnQuit_clicked();
+
+ signals:
+  void sentDifficulty(QString data);
 
  private:
   Ui::MainWindow *ui;

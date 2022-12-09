@@ -76,6 +76,12 @@ GameWindow::~GameWindow() {
   timer_init_hypercube_ = nullptr;
 }
 
+void GameWindow::getDifficulty(QString data) {
+  QMessageBox mes(this);
+  mes.setText(data);
+  mes.exec();
+}
+
 void GameWindow::on_btnReturn_clicked() {
   MainWindow *mw = dynamic_cast<MainWindow *>(this->parent());
   mw->show();
