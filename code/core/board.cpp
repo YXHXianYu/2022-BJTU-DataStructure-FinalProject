@@ -7,12 +7,17 @@ int Board::length_ = 530 / 8;
 int Board::start_x = 35;
 int Board::start_y = 35;
 
-Board::Board() {
-    srand((unsigned int)time(0));
+Board::Board() {}
+
+Board::Board(int difficulty) {
+    std::cerr << "Into second constructor\n";
+    SetDifficulty(difficulty);
+    std::cout << difficulty << std::endl;
     mouse_on_lightning = 0;
     mouse_on_diamond = 0;
     mouse_on_shuffle = 0;
     add_tools = 0;
+    cnt_ = 0;
     rest_lightning = 2;
     rest_diamond = 2;
     rest_shuffle = 2;
@@ -25,6 +30,7 @@ void Board::SetHypercube(Hypercube::Hypercube *hypercube) { hypercube_ = hypercu
 
 void Board::InitHypercube() {
     Sleep(100);
+
     hypercube_->GetStoneManager()->Init(8, 8);
 
     for (int i = 0; i < 8; i++) {
@@ -39,6 +45,18 @@ void Board::InitHypercube() {
 
 std::pair<int, int> Board::GetChosen() { return chosen_; }
 
+void Board::SetDifficulty(int difficulty) {
+    difficulty_ = difficulty;
+    if (difficulty == 1) {
+        Stone::SetMaxType(4);
+    }
+    if (difficulty == 2) {
+        Stone::SetMaxType(6);
+    }
+    if (difficulty == 3) {
+        Stone::SetMaxType(8);
+    }
+}
 /* 生成 */
 void Board::Generate(bool start) {
     for (int i = 0; i < 8; ++i) {
@@ -130,6 +148,14 @@ void Board::Clicked(int x, int y) {
         }
         std::cerr << "\n";
     }
+    std::cerr << "\n";
+    std::cerr << "\n";
+    for (int j = 0; j < 8; ++j) {
+        for (int i = 0; i < 8; ++i) {
+            std::cerr << stones_[i][j].GetId() << " ";
+        }
+        std::cerr << "\n";
+    }
     int chosen_x = -1, chosen_y = -1;
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
@@ -195,6 +221,7 @@ void Board::Clicked(int x, int y) {
     if (chosen_x == chosen_.first && chosen_y == chosen_.second) {
         hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
                                                  Hypercube::StoneManager::kRotate);
+        chosen_ = {-1, -1};
         return;
     }
     if (abs(chosen_x - chosen_.first) + abs(chosen_y - chosen_.second) <= 1) {

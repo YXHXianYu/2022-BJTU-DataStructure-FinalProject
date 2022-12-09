@@ -14,33 +14,37 @@ class GameWindow;
 }
 
 class GameWindow : public QMainWindow {
-  Q_OBJECT
+    Q_OBJECT
 
- public:
-  explicit GameWindow(QWidget *parent = nullptr);
-  ~GameWindow();
- public slots:
-  void getDifficulty(QString data);
+   public:
+    explicit GameWindow(QWidget *parent = nullptr);
+    ~GameWindow();
+   public slots:
+    void getDifficulty(QString data);
 
- protected:
-  void mousePressEvent(QMouseEvent *event);
-  void mouseMoveEvent(QMouseEvent *e);
-  void mouseReleaseEvent(QMouseEvent *e);
+   protected:
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *e);
+    void mouseReleaseEvent(QMouseEvent *e);
 
- private:
-  QPoint last;
+   private:
+    QPoint last;
+    int difficulty_ = 1;
 
- private slots:
-  void on_btnReturn_clicked();
+   private slots:
+    void on_btnReturn_clicked();
 
- private:
-  Ui::GameWindow *ui;
+   private:
+    Ui::GameWindow *ui;
 
-  QTimer *timer_init_hypercube_;
-  int timer_init_hypercube_cnt_;
+    QTimer *timer_init_hypercube_;
+    int timer_init_hypercube_cnt_;
 
-  Board *board;
-  Hypercube::Hypercube *hypercube_;
+    Board *board;
+    Hypercube::Hypercube *hypercube_;
+
+   public:
+    void InitBoard();
 };
 
 #endif  // GAMEWINDOW_H
