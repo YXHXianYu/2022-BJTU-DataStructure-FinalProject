@@ -111,7 +111,7 @@ int StoneManager::FallTo(int id, int tar_y) {
 
     // stones_[id].set_falling(Stone::kFallingSpeed, PositionToCoordinateY(tar_y));
     Animation *animation = AnimationFactory::GetInstance().GetAnimation(AnimationFactory::kAnimationFall);
-    animation->set_tag(tar_y);
+    animation->set_tag(PositionToCoordinateY(tar_y));
     animation->set_tag_id(id);
     animation_queue_.push(animation);
 
@@ -133,8 +133,10 @@ bool StoneManager::isPlayingAnimation() { return animation_queue_.size() > 0; }
 
 void StoneManager::Update() {
     if (!have_initialized_) return;
+
     //    std::cout << "Hypercube::StoneManager::Update Begin: "
-    //              << ((animation_queue_.empty()) ? ("empty") : std::to_string(animation_queue_.front()->type())) << std::endl;
+    //              << ((animation_queue_.empty()) ? ("empty") : std::to_string(animation_queue_.front()->type())) <<
+    //              std::endl;
 
     // Rotate
     std::vector<int> is_not_active_stones_;
@@ -163,7 +165,7 @@ void StoneManager::Update() {
                 animation_queue_.pop();
 
                 int id = animation->tag_id();
-                stones_[id].set_falling(Stone::kFallingSpeedRandom, animation->tag());
+                stones_[id].set_falling(Stone::kFallingSpeed, animation->tag());
             }
             is_falling = true;
             break;

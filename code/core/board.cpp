@@ -25,14 +25,13 @@ void Board::SetHypercube(Hypercube::Hypercube *hypercube) { hypercube_ = hypercu
 
 void Board::InitHypercube() {
     Sleep(100);
-    //    hypercube_->stone_manager_->Init(8, 8);
-    //    hypercube_->stone_manager_->Start();
+    hypercube_->GetStoneManager()->Init(8, 8);
 
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             // std::cout << i << " " << j << " " << stones_[i][j].GetType() << std::endl;
-            //            int ret = hypercube_->stone_manager_->Generate(i, j, stones_[i][j].GetType(), rand() % 500);
-            int ret;
+            int ret = hypercube_->GetStoneManager()->Generate(stones_[i][j].GetId(), i, j, stones_[i][j].GetType(),
+                                                              rand() % 500);
             if (ret != Hypercube::StoneManager::kSuccess) std::cout << i << " " << j << " " << ret << std::endl;
         }
     }
@@ -45,8 +44,8 @@ void Board::Generate(bool start) {
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
             positions_[i][j] = {start_x + i * length_, start_y + j * length_};
-            stones_[i][j] = Stone(start_x + i * length_, start_y + j * length_);
-            // if(!start) animation : falll
+            stones_[i][j] = Stone(++cnt_);
+            // if(!start) Refresh()animation : fall
         }
     }
     if (start) {
@@ -54,8 +53,12 @@ void Board::Generate(bool start) {
             for (auto match : matches_) {
                 stones_[match.first][match.second].SetType(rand() % Stone::GetMaxType() + 1);
             }
-            // Fall2();
             add_tools = 0;
+        }
+        for (int i = 0; i < 8; ++i) {
+            for (int j = 0; j < 8; ++j) {
+                stones_[i][j].SetId(++cnt_);
+            }
         }
     }
     chosen_ = {-1, -1};
@@ -120,6 +123,7 @@ bool Board::Check() {
 
 /* 鼠标点击坐标(x,y) */
 void Board::Clicked(int x, int y) {
+    std::cout << "Board:Clicked" << x << " " << y << "\n";
     for (int j = 0; j < 8; ++j) {
         for (int i = 0; i < 8; ++i) {
             std::cerr << stones_[i][j].GetType() << " ";
@@ -167,7 +171,8 @@ void Board::Clicked(int x, int y) {
     std::cerr << x << " " << y << " " << chosen_x << " " << chosen_y << std::endl;
     if (chosen_x == -1) {
         if (chosen_.first != -1) {
-            //            hypercube_->stone_manager_->SetRotate(chosen_.first, chosen_.second, Hypercube::StoneManager::kRotate);
+            hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
+                                                     Hypercube::StoneManager::kRotate);
         }
         return;
     }
@@ -180,29 +185,38 @@ void Board::Clicked(int x, int y) {
         }
         chosen_ = {chosen_x, chosen_y};
 
-        //        hypercube_->stone_manager_->SetRotate(chosen_x, chosen_y, Hypercube::StoneManager::kRotateFastInverse);
+        std::cerr << "Roatate: " << stones_[chosen_x][chosen_y].GetId() << " "
+                  << hypercube_->GetStoneManager()->SetRotate(stones_[chosen_x][chosen_y].GetId(),
+                                                              Hypercube::StoneManager::kRotateFastInverse)
+                  << "\n";
 
         return;
     }
     if (chosen_x == chosen_.first && chosen_y == chosen_.second) {
-        //        hypercube_->stone_manager_->SetRotate(chosen_.first, chosen_.second, Hypercube::StoneManager::kRotate);
+        hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
+                                                 Hypercube::StoneManager::kRotate);
         return;
     }
     if (abs(chosen_x - chosen_.first) + abs(chosen_y - chosen_.second) <= 1) {
         Swap(stones_[chosen_x][chosen_y], stones_[chosen_.first][chosen_.second]);
         if (!Check()) {
             Swap(stones_[chosen_x][chosen_y], stones_[chosen_.first][chosen_.second]);
-            //            hypercube_->stone_manager_->SetRotate(chosen_.first, chosen_.second, Hypercube::StoneManager::kRotate);
+            hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
+                                                     Hypercube::StoneManager::kRotate);
             chosen_ = {chosen_x, chosen_y};
             // animation setRotate
-            //            hypercube_->stone_manager_->SetRotate(chosen_x, chosen_y, Hypercube::StoneManager::kRotateFastInverse);
+            hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
+                                                     Hypercube::StoneManager::kRotateFastInverse);
 
             return;
         } else {
-            //            hypercube_->stone_manager_->SetRotate(chosen_.first, chosen_.second, Hypercube::StoneManager::kRotate);
-            //            std::cout << hypercube_->stone_manager_->SwapStone(chosen_.first, chosen_.second, chosen_x, chosen_y) <<
-            //            "\n";
-            std::cerr << "swap:" << chosen_.first << " " << chosen_.second << " " << chosen_x << " " << chosen_y << "\n";
+            hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
+                                                     Hypercube::StoneManager::kRotate);
+            hypercube_->GetStoneManager()->SwapStone(stones_[chosen_.first][chosen_.second].GetId(),
+                                                     stones_[chosen_x][chosen_y].GetId());
+
+            std::cerr << "swap:" << chosen_.first << " " << chosen_.second << " " << chosen_x << " " << chosen_y
+                      << "\n";
             while (false && hypercube_->GetStoneManager()->isPlayingAnimation()) {
                 Sleep(20);
             };
@@ -211,10 +225,11 @@ void Board::Clicked(int x, int y) {
         }
         return;
     }
-    //    hypercube_->stone_manager_->SetRotate(chosen_.first, chosen_.second, Hypercube::StoneManager::kRotate);
+    hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
+                                             Hypercube::StoneManager::kRotate);
     chosen_ = {chosen_x, chosen_y};
-    // animation setRotate
-    //    hypercube_->stone_manager_->SetRotate(chosen_x, chosen_y, Hypercube::StoneManager::kRotateFastInverse);
+    hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
+                                             Hypercube::StoneManager::kRotateFastInverse);
 }
 
 void Board::Refresh() {
@@ -231,6 +246,7 @@ void Board::Refresh() {
             add_tools = 0;
         }
         std::cerr << flag << "\n";
+        flag++;
         Remove();
         Fall();
         combo_base += accelerate_base;
@@ -259,7 +275,7 @@ void Board::Remove(int x, int y) {
     point_ += 2000.0 * combo_base;
     stones_[x][y].SetEmpty(1);
     // animation Remove
-    //    hypercube_->stone_manager_->Remove(x, y);
+    std::cerr << "Remove:" << x << " " << y << " " << hypercube_->GetStoneManager()->Remove(stones_[x][y].GetId());
     if (stones_[x][y].GetType() == stones_[x][y].GetMaxType() + 1) {
         point_ += 10000.0 * combo_base;
         for (int i = x - 2; i <= x + 2; ++i) {
@@ -328,7 +344,7 @@ void Board::Fall() {
             now--;
             if (now == j) continue;
 
-            //            hypercube_->stone_manager_->FallTo(i, j, now);
+            hypercube_->GetStoneManager()->FallTo(stones_[i][j].GetId(), now);
             Swap(stones_[i][j], stones_[i][now]);
         }
     }
@@ -337,9 +353,9 @@ void Board::Fall() {
             if (!stones_[i][j].Empty()) break;
             // animation generate
 
-            stones_[i][j] = Stone(positions_[i][j].first, positions_[i][j].second);
+            stones_[i][j] = Stone(++cnt_);
             stones_[i][j].SetEmpty(0);
-            //            hypercube_->stone_manager_->Generate(i, j, stones_[i][j].GetType());
+            hypercube_->GetStoneManager()->Generate(stones_[i][j].GetId(), i, j, stones_[i][j].GetType());
         }
     }
     while (false && hypercube_->GetStoneManager()->isPlayingAnimation()) {
