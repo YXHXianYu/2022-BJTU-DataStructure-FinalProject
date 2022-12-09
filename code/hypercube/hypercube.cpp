@@ -50,11 +50,29 @@ void Hypercube::Demo() {
     }
 
     // 3. swap
-    GetStoneManager()->SwapStone(1, 2);
-    GetStoneManager()->SwapStone(3, 4);
-    GetStoneManager()->SwapStone(5, 6);
+    Checker(GetStoneManager()->SwapStone(1, 2));
+    Checker(GetStoneManager()->SwapStone(3, 4));
+    Checker(GetStoneManager()->SwapStone(5, 6));
+    Checker(GetStoneManager()->SwapStone(1, 10));
+    Checker(GetStoneManager()->SwapStone(12, 12 + 8));
 
     // 4. remove
+    Checker(GetStoneManager()->Remove(3));
+    Checker(GetStoneManager()->Remove(4));
+
+    // 5. fall
+    Checker(GetStoneManager()->FallTo(1, 50));
+    Checker(GetStoneManager()->FallTo(2, 50));
+    Checker(GetStoneManager()->FallTo(13, 50));
+    Checker(GetStoneManager()->FallTo(14, 50));
+
+    // 6. random fall
+    for (int i = 1; i <= 10; i++) {
+        int random = 0;
+        while (random == 0 || random == 3 || random == 4) random = rand() % (nx + ny) + 1;
+
+        Checker(GetStoneManager()->FallTo(random, 50));
+    }
 }
 
 void Hypercube::initializeGL() {

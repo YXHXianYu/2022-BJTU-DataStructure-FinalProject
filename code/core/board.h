@@ -12,9 +12,10 @@
 #include "stone.h"
 class Board {
    private:
-    static int start_y;                                           // 棋盘左上角y坐标
-    static int start_x;                                           // 棋盘左上角x坐标
-    static int length_;                                           // 宝石框的长度
+    static int start_y;  // 棋盘左上角y坐标
+    static int start_x;  // 棋盘左上角x坐标
+    static int length_;  // 宝石框的长度
+    int difficulty;
     bool mouse_on_diamond, mouse_on_lightning, mouse_on_shuffle;  // 鼠标是否选中了宝石、十字(道具)
     bool add_tools;
     int rest_diamond, rest_lightning, rest_shuffle;  // 剩下的宝石和十字
@@ -43,6 +44,7 @@ class Board {
     bool ShowHint(bool show);   // 提示
     void Remove(int i, int j);  // 移除位置(i,j)上的宝石
     void Refresh();
+    void SetDifficulty();
     std::pair<int, int> GetChosen();  // 获取点击的宝石位置
 };
 
