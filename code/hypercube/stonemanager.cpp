@@ -122,7 +122,8 @@ int StoneManager::SwapStone(int id1, int id2) {
 
     stones_[id1].set_swaping(stones_[id2].x(), stones_[id2].y(), Stone::kSwapingSpeed);
     stones_[id2].set_swaping(stones_[id1].x(), stones_[id1].y(), Stone::kSwapingSpeed);
-    animation_queue_.push(AnimationFactory::GetInstance().GetAnimation(AnimationFactory::kAnimationRemove, 0, id1, id2));
+    animation_queue_.push(
+        AnimationFactory::GetInstance().GetAnimation(AnimationFactory::kAnimationRemove, 0, id1, id2));
 
     return kSuccess;
 }
@@ -131,7 +132,7 @@ bool StoneManager::isPlayingAnimation() { return animation_queue_.size() > 0; }
 
 void StoneManager::Update() {
     if (!have_initialized_) return;
-    std::cout << "Hypercube::StoneManager::Update Begin" << std::endl;
+    // std::cout << "Hypercube::StoneManager::Update Begin" << std::endl;
 
     // Rotate
     std::vector<int> is_not_active_stones_;

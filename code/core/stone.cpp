@@ -5,26 +5,22 @@
 
 int Stone::MAX_TYPE = 8;  // 这里有修改，为了测试方便，多放几种宝石（yxh）
 
+void Stone::init_rand() { srand((unsigned int)time(0)); }
+
 Stone::Stone() {
-    srand((unsigned int)time(0));
-    x_ = -1;
-    y_ = -1;
-    type_ = 1;
-    empty_ = 1;
+    id_ = 0;
+    type_ = rand() % MAX_TYPE + 1;
+    empty_ = 0;
 }
 
-Stone::Stone(int x, int y) : x_(x), y_(y) {
+Stone::Stone(int id) : id_(id) {
     empty_ = 0;
     type_ = rand() % MAX_TYPE + 1;
 }
 
-Stone::Stone(int x, int y, int type) : x_(x), y_(y), type_(type) { empty_ = 0; }
+Stone::Stone(int id, int type) : type_(type), id_(id) { empty_ = 0; }
 
-Stone::Stone(int x, int y, int type, int empty) : x_(x), y_(y), type_(type), empty_(empty) {}
-
-int Stone::GetX() { return x_; }
-
-int Stone::GetY() { return y_; }
+Stone::Stone(int id, int type, int empty) : type_(type), empty_(empty), id_(id) {}
 
 int Stone::GetMaxType() { return MAX_TYPE; }
 
@@ -32,11 +28,11 @@ void Stone::SetMaxType(int new_max_type) { MAX_TYPE = new_max_type; }
 
 int Stone::GetType() { return type_; }
 
+int Stone::GetId() { return id_; }
+
+void Stone::SetId(int id) { id_ = id; }
+
 bool Stone::Empty() { return empty_; }
-
-void Stone::SetX(int x) { x_ = x; }
-
-void Stone::SetY(int y) { y_ = y; }
 
 void Stone::SetType(int type) { type_ = type; }
 
