@@ -14,6 +14,8 @@ GameWindow::GameWindow(QWidget *parent)
   this->setFixedSize(800, 600);
   // 去除自带的边框
   this->setWindowFlag(Qt::FramelessWindowHint);
+  // close时析构成员变量
+  setAttribute(Qt::WA_DeleteOnClose);
   // 创建窗口
   hypercube_ = new Hypercube::Hypercube(this);
   hypercube_->setFixedSize(562, 562);

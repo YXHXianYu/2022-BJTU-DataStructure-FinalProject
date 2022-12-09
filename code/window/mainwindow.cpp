@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 
+#include <iostream>
+
 #include "aboutwindow.h"
 #include "configwindow.h"
 #include "gamewindow.h"
