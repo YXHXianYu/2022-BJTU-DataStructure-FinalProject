@@ -77,8 +77,6 @@ HEADERS += \
     ./code/database/ranking.h
     
 # 5. Audio
-SOURCES += \
-    ./code/audio/BGM.cpp
 HEADERS += \
     ./code/audio/BGM.h
 
