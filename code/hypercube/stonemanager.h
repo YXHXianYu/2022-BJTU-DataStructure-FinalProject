@@ -76,6 +76,7 @@ class StoneManager : public QObject {
     static constexpr int kFailureOccupied = 2;
     static constexpr int kFailureEmpty = 3;
     static constexpr int kFailureHaveInitialized = 4;
+    static constexpr int kFailureHaveNotInitialized = 5;
 
     // SetRotate's arguments
     static constexpr int kStatic = 0;

@@ -7,6 +7,7 @@ class HypercubeThread : public QThread {
     Q_OBJECT
    public:
     explicit HypercubeThread(QObject *parent = nullptr);
+    ~HypercubeThread();
 
    private:
     void run() override;

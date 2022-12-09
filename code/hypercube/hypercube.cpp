@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "DEBUG.h"
+
 namespace Hypercube {
 
 Hypercube::Hypercube(QWidget *parent) : QOpenGLWidget(parent) {
@@ -15,7 +17,6 @@ Hypercube::Hypercube(QWidget *parent) : QOpenGLWidget(parent) {
 
 Hypercube::~Hypercube() {
     // thread (no need)
-    hypercube_thread_->exit();
 
     // stone manager
     delete stone_manager_;
@@ -32,15 +33,19 @@ StoneManager *Hypercube::GetStoneManager() {
 }
 
 void Hypercube::initializeGL() {
+    if (DEBUG) std::cerr << "Hypercube::Hypercube::initializeGL - 0" << std::endl;
     // GL Functions
     initializeOpenGLFunctions();
+    if (DEBUG) std::cerr << "Hypercube::Hypercube::initializeGL - 1" << std::endl;
     // Stone Manager
     stone_manager_ = new StoneManager(QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_5_Core>());
+    if (DEBUG) std::cerr << "Hypercube::Hypercube::initializeGL - 2" << std::endl;
     // Shader Program
     shader_program_.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/common.vert");
     shader_program_.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/common.frag");
     bool success = shader_program_.link();
     if (!success) qDebug() << "Hypercube::Hypercube::InitializeGL Error: " << shader_program_.log();
+    if (DEBUG) std::cerr << "Hypercube::Hypercube::initializeGL - 3 END" << std::endl;
 }
 
 void Hypercube::paintGL() {

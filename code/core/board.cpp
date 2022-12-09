@@ -16,9 +16,9 @@ Board::Board() {
     rest_lightning = 2;
     rest_diamond = 2;
     rest_shuffle = 2;
-    std::cout << "generate start" << std::endl;
+    std::cerr << "generate start" << std::endl;
     Generate(1);
-    std::cout << "generate end" << std::endl;
+    std::cerr << "generate end" << std::endl;
 }
 
 void Board::SetHypercube(Hypercube::Hypercube *hypercube) { hypercube_ = hypercube; }

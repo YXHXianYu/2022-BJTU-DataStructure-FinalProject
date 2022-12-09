@@ -30,6 +30,7 @@ SOURCES += \
 HEADERS += \
     ./code/core/board.h \
     ./code/core/stone.h \ \
+    code/hypercube/DEBUG.h \
     code/hypercube/hypercubethread.h
 
 # 3. window
