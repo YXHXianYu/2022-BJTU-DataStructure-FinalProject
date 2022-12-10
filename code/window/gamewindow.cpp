@@ -27,6 +27,7 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
     hypercube_->setGeometry(opengl_up_left.x(), opengl_up_left.y(), hypercube_->width(), hypercube_->height());
 
     // 初始化进度条
+    is_pausing_ = false;
     ui->left_time_bar->setRange(0, 600);  // 1min
     // 创建timer
     timer_flush_score_and_left_time_bar_ = new QTimer(this);
@@ -35,8 +36,9 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
         // score_bar
         ui->score_bar->setText(QString::fromStdString(std::to_string(board->GetScore())));
         // left_time_bar
+        if (is_pausing_ == false) left_time_cnt_++;
         ui->left_time_bar->setValue(
-            std::min(std::max(++left_time_cnt_, ui->left_time_bar->minimum()), ui->left_time_bar->maximum()));
+            std::min(std::max(left_time_cnt_, ui->left_time_bar->minimum()), ui->left_time_bar->maximum()));
 
         if (left_time_cnt_ > ui->left_time_bar->maximum()) {
             on_btnReturn_clicked();  // 时间到，直接退出游戏（

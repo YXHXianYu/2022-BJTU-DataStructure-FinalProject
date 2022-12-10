@@ -43,10 +43,10 @@ class StoneManager : public QObject {
     // - 如果该编号的宝石已经生成，失败，返回 kFailureArgumentError
     int Generate(int id, int x, int y, int type, int fallen_pixel = -1);
 
-    // 删除编号为id的宝石
+    // 删除编号为id的宝石。如果playAnimation为真，则播放爆炸动画
     // - 成功，返回 kSuccess
     // - 如果该宝石不存在，失败，返回 kFailureArgumentError
-    int Remove(int id);
+    int Remove(int id, bool playAnimation = false);
 
     // 设置编号为id的宝石的旋转模式
     // - 成功，返回 kSuccess
@@ -66,6 +66,20 @@ class StoneManager : public QObject {
     // 是否正在播放动画
     bool isPlayingAnimation();
 
+    // 设置暂停状态
+    int SetPause(bool is_pause);
+
+    // 是否暂停
+    bool IsPause() const;
+
+    // 获取最近是否有过Remove动画发生
+    // - 通过接口获取后，记录变量会重置为false
+    bool haveRemoveInRecentFrame();
+
+    // 获取最近是否有过Fall动画落到底
+    // - 通过接口获取后，记录变量会重置为false
+    bool haveFallInRecentFrame();
+
     // 刷新动画
     void Update();
 
@@ -82,6 +96,8 @@ class StoneManager : public QObject {
     static constexpr int kFailureHaveNotInitialized = 5;
     static constexpr int kFailureIDHaveBeenUsed = 6;
     static constexpr int kFailureIDNotFound = 7;
+    static constexpr int kFailureHavePaused = 8;
+    static constexpr int kFailureHaveContinued = 9;
 
     // SetRotate's arguments
     static constexpr int kStatic = 0;
@@ -103,6 +119,11 @@ class StoneManager : public QObject {
 
     std::queue<Animation*> animation_queue_;
     bool is_falling;
+    bool remove_in_recent_frame_;
+    bool fall_in_recent_frame_;
+
+    bool is_pausing;
+    std::queue<std::pair<int, bool>> pausing_queue_;
 
     GemModelManager gem_model_manager_;
 };

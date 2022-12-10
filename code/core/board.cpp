@@ -278,9 +278,11 @@ int Board::GetScore() { return point_; }
 void Board::ClickedOnStop() {
     if (stop_ == 1) {
         // hypercube->stop(0)
+        hypercube_->GetStoneManager()->SetPause(false);
         stop_ = 0;
     } else if (stop_ == 0) {
         // hypercube->stop(1)
+        hypercube_->GetStoneManager()->SetPause(true);
         stop_ = 1;
     }
     // std::cout << "set stop: " << (stop_ ? "true" : "false") << std::endl;

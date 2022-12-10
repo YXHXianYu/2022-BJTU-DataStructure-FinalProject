@@ -8,21 +8,26 @@ namespace Hypercube {
 
 Stone::Stone() {}
 
-Stone::Stone(int x, int y, int z, int angle, int type) : x_(x), y_(y), z_(z), angle_(angle), type_(type), active_(true) {
+Stone::Stone(int x, int y, int z, int angle, int type)
+    : x_(x), y_(y), z_(z), angle_(angle), type_(type), pausing_(false), active_(true) {
     falling_target_y_ = 0;
     swaping_timer_ = 0;
     rotating_speed_ = 0;
+    removing_acceleration_ = 0;
 }
-
+// 基础属性
 int Stone::x() const { return x_; }
 int Stone::y() const { return y_; }
 int Stone::z() const { return z_; }
 float Stone::angle() const { return angle_; }
 int Stone::type() const { return type_; }
-
+// 暂停
+bool Stone::is_pausing() const { return pausing_; }
+void Stone::set_pausing(int pausing) { pausing_ = pausing; }
+// 可用
 bool Stone::is_active() const { return active_; }
 void Stone::set_active(bool active) { active_ = active; }
-
+// 下落
 bool Stone::is_falling() const { return falling_target_y_ != 0; }
 float Stone::falling_speed() const { return falling_speed_; }
 float Stone::falling_acceleration() const { return falling_acceleration_; }
@@ -33,11 +38,11 @@ void Stone::set_falling(float speed, int falling_target_y) {
     falling_speed_ = speed;
     falling_target_y_ = falling_target_y;
 }
-
+// 旋转
 bool Stone::is_rotating() const { return rotating_speed_ != 0; }
 float Stone::rotating_speed() const { return rotating_speed_; }
 void Stone::set_rotating_speed(float speed) { rotating_speed_ = speed; }
-
+// 交换
 bool Stone::is_swaping() const { return swaping_timer_ > 0; }
 void Stone::set_swaping(int target_x, int target_y, float swaping_speed) {
     swaping_timer_ = 180;
@@ -50,6 +55,14 @@ void Stone::set_swaping(int target_x, int target_y, float swaping_speed) {
               << "(" << x_ << ", " << y_ << ") -> (" << target_x << ", " << target_y << ")" << std::endl;
 }
 
+// 删除
+bool Stone::is_removing() const { return removing_acceleration_ != 0; }
+void Stone::set_removing(int removing_speed, int removing_acceleration) {
+    removing_speed_ = removing_speed;
+    removing_acceleration_ = removing_acceleration;
+}
+
+// 更新
 void Stone::UpdateRotating() {
     // rotating
     if (is_rotating()) {
@@ -109,6 +122,19 @@ void Stone::UpdateSwaping() {
             } else {
                 assert(false);
             }
+        }
+    }
+}
+
+void Stone::UpdataRemoving() {
+    if (is_removing()) {
+        removing_speed_ += removing_acceleration_;
+
+        y_ += removing_speed_;
+
+        if (y_ <= kRemovingEndY) {
+            set_active(false);
+            removing_acceleration_ = 0;
         }
     }
 }
