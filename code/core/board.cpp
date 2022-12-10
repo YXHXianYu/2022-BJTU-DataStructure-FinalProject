@@ -22,6 +22,7 @@ Board::Board(int difficulty) {
     rest_lightning = 2;
     rest_diamond = 2;
     rest_shuffle = 2;
+    point_ = 0;
     std::cerr << "generate start" << std::endl;
     Generate(1);
     std::cerr << "generate end" << std::endl;
@@ -88,7 +89,7 @@ void Board::Generate(bool start) {
             }
         }
     }
-    chosen_ = {-1, -1};
+    hint_[0] = hint_[1] = chosen_ = {-1, -1};
 }
 
 /* 交换两个宝石 */
@@ -159,13 +160,7 @@ void Board::Clicked(int x, int y) {
         std::cerr << "\n";
     }
     std::cerr << "\n";
-    std::cerr << "\n";
-    for (int j = 0; j < 8; ++j) {
-        for (int i = 0; i < 8; ++i) {
-            std::cerr << stones_[i][j].GetId() << " ";
-        }
-        std::cerr << "\n";
-    }
+
     int chosen_x = -1, chosen_y = -1;
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
@@ -178,32 +173,6 @@ void Board::Clicked(int x, int y) {
         }
     }
 
-    // 点击其它判断
-    /*
-        // 如果点击到了钻石道具(坐标判断)
-        if () {
-            chosen_ = {-1, -1};
-            mouse_on_diamond = 1;
-            return;
-        }
-        // 如果点击到了闪电道具(坐标判断)
-        if () {
-            chosen_ = {-1, -1};
-            rest_lightning--;
-            for (int i = 0; i < 8; ++i) {
-                for (int j = 0; j < 8; ++j) {
-                    int dice = rand()%10;
-                    if(dice <= 1) matches_.push_back({i, j});
-                }
-            }
-            Refresh();
-            return;
-        }
-        //如果点到了刷新棋盘(坐标判断)
-        if() {
-            Generate();
-        }
-    */
     std::cerr << x << " " << y << " " << chosen_x << " " << chosen_y << std::endl;
     if (chosen_x == -1) {
         if (chosen_.first != -1) {
@@ -213,6 +182,7 @@ void Board::Clicked(int x, int y) {
         }
         return;
     }
+    CancelHint();
     if (chosen_.first == -1) {
         if (mouse_on_diamond) {
             for (int i = chosen_x - 2; i <= chosen_x + 2; ++i) {
@@ -274,14 +244,13 @@ void Board::Clicked(int x, int y) {
         } else {
             hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
                                                      Hypercube::StoneManager::kRotate);
+            hypercube_->GetStoneManager()->SetRotate(stones_[chosen_x][chosen_y].GetId(),
+                                                     Hypercube::StoneManager::kRotate);
             hypercube_->GetStoneManager()->SwapStone(stones_[chosen_.first][chosen_.second].GetId(),
                                                      stones_[chosen_x][chosen_y].GetId());
 
             std::cerr << "swap:" << chosen_.first << " " << chosen_.second << " " << chosen_x << " " << chosen_y
                       << "\n";
-            while (false && hypercube_->GetStoneManager()->isPlayingAnimation()) {
-                Sleep(20);
-            };
             chosen_ = {-1, -1};
             Refresh();
         }
@@ -308,6 +277,7 @@ void Board::ClickedOnStop() {
 }
 
 void Board::ClickedOnDiamond() {
+    CancelHint();
     if (mouse_on_diamond == 1) {
         mouse_on_diamond = 0;
         return;
@@ -319,6 +289,7 @@ void Board::ClickedOnDiamond() {
 }
 
 void Board::ClickedOnShuffle() {
+    CancelHint();
     if (mouse_on_shuffle == 1) {
         mouse_on_shuffle = 0;
         return;
@@ -330,6 +301,7 @@ void Board::ClickedOnShuffle() {
 }
 
 void Board::ClickedOnLightning() {
+    CancelHint();
     if (mouse_on_lightning == 1) {
         mouse_on_lightning = 0;
         return;
@@ -341,6 +313,7 @@ void Board::ClickedOnLightning() {
 }
 
 void Board::Refresh() {
+    CancelHint();
     combo_base = 1.0;
     double accelerate_base = 0.2;
     std::cerr << "in Refresh"
@@ -387,6 +360,8 @@ void Board::Remove(int x, int y) {
     return;
 }
 
+void Board::ClickedOnHint() { ShowHint(1); }
+
 // 提示
 bool Board::ShowHint(bool show) {
     bool get_hint = 0;
@@ -411,7 +386,7 @@ bool Board::ShowHint(bool show) {
                 Swap(stones_[i][j], stones_[i][j + 1]);
                 if (flag) {
                     hint_[0] = {i, j};
-                    hint_[1] = {i + 1, j};
+                    hint_[1] = {i, j + 1};
                     get_hint = 1;
                     break;
                 }
@@ -420,13 +395,31 @@ bool Board::ShowHint(bool show) {
         if (get_hint) break;
     }
     if (show) {
-        // animation show_hint
+        if (chosen_.first != -1) {
+            hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
+                                                     Hypercube::StoneManager::kRotate);
+        }
+        chosen_ = {-1, -1};
+        hypercube_->GetStoneManager()->SetRotate(stones_[hint_[0].first][hint_[0].second].GetId(),
+                                                 Hypercube::StoneManager::kRotateFast);
+        hypercube_->GetStoneManager()->SetRotate(stones_[hint_[1].first][hint_[1].second].GetId(),
+                                                 Hypercube::StoneManager::kRotateFast);
     }
     return get_hint;
 }
 
-bool Board::Check_Game_Over() {
-    if (ShowHint(0)) {
+void Board::CancelHint() {
+    if (hint_[0].first == -1) return;
+    hypercube_->GetStoneManager()->SetRotate(stones_[hint_[0].first][hint_[0].second].GetId(),
+                                             Hypercube::StoneManager::kRotate);
+    hypercube_->GetStoneManager()->SetRotate(stones_[hint_[1].first][hint_[1].second].GetId(),
+                                             Hypercube::StoneManager::kRotate);
+    hint_[0] = hint_[1] = {-1, -1};
+    return;
+}
+
+bool Board::IsGameOver() {
+    if (!rest_shuffle && !ShowHint(0)) {
         return 1;
     }
     return 0;
