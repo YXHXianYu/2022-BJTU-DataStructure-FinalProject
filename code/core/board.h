@@ -3,6 +3,7 @@
 
 #include <math.h>
 
+#include <QTimer>
 #include <cstdlib>
 #include <ctime>
 #include <utility>
@@ -30,6 +31,7 @@ class Board {
     Stone stones_[8][8];                             // 宝石矩阵
     std::vector<std::pair<int, int>> matches_;       // 可消除的宝石
     Hypercube::Hypercube* hypercube_;
+    QTimer* timer_;
 
    public:
     Board();

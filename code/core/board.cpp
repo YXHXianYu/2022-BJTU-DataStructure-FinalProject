@@ -27,6 +27,13 @@ Board::Board(int difficulty) {
     std::cerr << "generate start" << std::endl;
     Generate(1);
     std::cerr << "generate end" << std::endl;
+
+    // 创建timer
+    timer_ = new QTimer();
+    QObject::connect(timer_, &QTimer::timeout, [&]() {
+        std::cout << "haha" << std::endl;
+    });
+    timer_->start(10);
 }
 
 void Board::SetHypercube(Hypercube::Hypercube *hypercube) { hypercube_ = hypercube; }
@@ -39,8 +46,8 @@ void Board::InitHypercube() {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             // std::cout << i << " " << j << " " << stones_[i][j].GetType() << std::endl;
-            int ret =
-                hypercube_->GetStoneManager()->Generate(stones_[i][j].GetId(), i, j, stones_[i][j].GetType(), 300 + rand() % 500);
+            int ret = hypercube_->GetStoneManager()->Generate(stones_[i][j].GetId(), i, j, stones_[i][j].GetType(),
+                                                              300 + rand() % 500);
             if (ret != Hypercube::StoneManager::kSuccess) std::cout << i << " " << j << " " << ret << std::endl;
         }
     }
@@ -73,7 +80,7 @@ void Board::Generate(bool start) {
         for (int j = 0; j < 8; ++j) {
             positions_[i][j] = {start_x + i * length_, start_y + j * length_};
             stones_[i][j] = Stone(++cnt_);
-            if (!start) hypercube_->GetStoneManager()->Generate(cnt_, i, j, stones_[i][j].GetType(), 300 + rand() % 500);
+            if (!start) hypercube_->GetStoneManager()->Generate(cnt_, i, j, stones_[i][j].GetType());
         }
     }
     if (start) {
@@ -185,7 +192,7 @@ void Board::Clicked(int x, int y) {
         return;
     }
     CancelHint();
-    BGM::GetInstance()->PlaySwitchType();
+    BGM::GetInstance()->PlaySwitchTask();
     if (chosen_.first == -1) {
         if (mouse_on_diamond) {
             for (int i = chosen_x - 2; i <= chosen_x + 2; ++i) {
@@ -247,17 +254,20 @@ void Board::Clicked(int x, int y) {
         } else {
             hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
                                                      Hypercube::StoneManager::kRotate);
-            hypercube_->GetStoneManager()->SetRotate(stones_[chosen_x][chosen_y].GetId(), Hypercube::StoneManager::kRotate);
+            hypercube_->GetStoneManager()->SetRotate(stones_[chosen_x][chosen_y].GetId(),
+                                                     Hypercube::StoneManager::kRotate);
             hypercube_->GetStoneManager()->SwapStone(stones_[chosen_.first][chosen_.second].GetId(),
                                                      stones_[chosen_x][chosen_y].GetId());
 
-            std::cerr << "swap:" << chosen_.first << " " << chosen_.second << " " << chosen_x << " " << chosen_y << "\n";
+            std::cerr << "swap:" << chosen_.first << " " << chosen_.second << " " << chosen_x << " " << chosen_y
+                      << "\n";
             chosen_ = {-1, -1};
             Refresh();
         }
         return;
     }
-    hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(), Hypercube::StoneManager::kRotate);
+    hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
+                                             Hypercube::StoneManager::kRotate);
     chosen_ = {chosen_x, chosen_y};
     hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
                                              Hypercube::StoneManager::kRotateFastInverse);
@@ -328,6 +338,14 @@ void Board::Refresh() {
         }
         std::cerr << flag << "\n";
         flag++;
+        if (flag == 1) {
+            BGM::GetInstance()->PlayMatch1();
+        } else if (flag == 2) {
+            BGM::GetInstance()->PlayMatch2();
+        } else {
+            BGM::GetInstance()->PlayMatch3();
+        }
+        BGM::GetInstance()->PlayFall();
         Remove();
         Fall();
         combo_base += accelerate_base;
@@ -410,8 +428,10 @@ bool Board::ShowHint(bool show) {
 
 void Board::CancelHint() {
     if (hint_[0].first == -1) return;
-    hypercube_->GetStoneManager()->SetRotate(stones_[hint_[0].first][hint_[0].second].GetId(), Hypercube::StoneManager::kRotate);
-    hypercube_->GetStoneManager()->SetRotate(stones_[hint_[1].first][hint_[1].second].GetId(), Hypercube::StoneManager::kRotate);
+    hypercube_->GetStoneManager()->SetRotate(stones_[hint_[0].first][hint_[0].second].GetId(),
+                                             Hypercube::StoneManager::kRotate);
+    hypercube_->GetStoneManager()->SetRotate(stones_[hint_[1].first][hint_[1].second].GetId(),
+                                             Hypercube::StoneManager::kRotate);
     hint_[0] = hint_[1] = {-1, -1};
     return;
 }
