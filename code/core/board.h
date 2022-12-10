@@ -16,6 +16,7 @@ class Board {
     static int start_x;  // 棋盘左上角x坐标
     static int length_;  // 宝石框的长度
     int difficulty_;
+    int stop_;
     bool mouse_on_diamond, mouse_on_lightning, mouse_on_shuffle;  // 鼠标是否选中了宝石、十字(道具)
     bool add_tools;
     int rest_diamond, rest_lightning, rest_shuffle;  // 剩下的宝石和十字
@@ -47,6 +48,11 @@ class Board {
     void Refresh();
     void SetDifficulty(int difficulty);
     std::pair<int, int> GetChosen();  // 获取点击的宝石位置
+    int GetScore();                   // 获取分数
+    void ClickedOnStop();             // 暂停
+    void ClickedOnDiamond();          // 道具1
+    void ClickedOnLightning();        // 道具2
+    void ClickedOnShuffle();          // 道具3
 };
 
 #endif  // BOARD_H
