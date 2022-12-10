@@ -106,6 +106,41 @@ void GameWindow::mouseReleaseEvent(QMouseEvent *event) {
     }
 }
 
+/*
+ * 键盘监听函数
+ */
+void GameWindow::keyPressEvent(QKeyEvent *e) {
+    static bool shader_blinn_phong = true;
+    static int shader_render_mode = 0;
+    static int shader_light_source = 0;
+    static float shader_hdr_exposure = 0.0;
+
+    if (e->key() == Qt::Key_B) {  // B键，是否启用BlinnPhong光照模型
+        shader_blinn_phong ^= 1;
+        std::cout << "Blinn Phong: " << (shader_blinn_phong ? "true" : "false") << std::endl;
+        hypercube_->SetBlinnPhong(shader_blinn_phong);
+    }
+    if (e->key() == Qt::Key_E || e->key() == Qt::Key_R) {
+        if (e->key() == Qt::Key_E)
+            shader_render_mode = (shader_render_mode + 4) % 5;  // E键，切换渲染模式，前翻
+        else
+            shader_render_mode = (shader_render_mode + 1) % 5;  // R键，切换渲染模式，后翻
+
+        std::cout << "Render Mode: " << shader_render_mode << std::endl;
+        hypercube_->SetRenderMode(shader_render_mode);
+    }
+    if (e->key() == Qt::Key_L) {  // L键，切换渲染光源
+        shader_light_source = (shader_light_source + 1) % 3;
+        std::cout << "Light Source: " << shader_light_source << std::endl;
+        hypercube_->SetLightSource(shader_light_source);
+    }
+    if (e->key() == Qt::Key_G || e->key() == Qt::Key_H) {  // H键，切换HDR曝光等级
+        shader_hdr_exposure += (e->key() == Qt::Key_H ? 1.f : -1.f) * 0.1f;
+        std::cout << "HDR Exposure: " << shader_hdr_exposure << std::endl;
+        hypercube_->SetHDRExposure(shader_hdr_exposure);
+    }
+}
+
 void GameWindow::getDifficulty(QString data) {
     if (data == "easy") difficulty_ = 1;
     if (data == "normal") difficulty_ = 2;

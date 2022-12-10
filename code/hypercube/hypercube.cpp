@@ -13,6 +13,8 @@ Hypercube::Hypercube(QWidget *parent) : QOpenGLWidget(parent) {
     hypercube_thread_->start();
     // camera
     camera_.Position = kCameraPosition;
+    // msaa
+    SetMSAA(16);
 }
 
 Hypercube::~Hypercube() {
@@ -75,6 +77,14 @@ void Hypercube::Demo() {
     }
 }
 
+void Hypercube::SetBlinnPhong(bool enable) { shader_blinn_phong_ = enable; }
+
+void Hypercube::SetRenderMode(int mode) { shader_render_mode_ = mode; }
+
+void Hypercube::SetLightSource(int source) { shader_light_source_ = source; }
+
+void Hypercube::SetHDRExposure(float exposure) { shader_hdr_exposure_ = exposure; }
+
 void Hypercube::initializeGL() {
     if (DEBUG) std::cerr << "Hypercube::Hypercube::initializeGL - 0" << std::endl;
     // GL Functions
@@ -126,8 +136,12 @@ void Hypercube::paintGL() {
     shader_program_.setUniformValue("view", view);
     shader_program_.setUniformValue("projection", projection);
 
-    shader_program_.setUniformValue("enableBlinnPhong", true);
     shader_program_.setUniformValue("onlySpecular", false);
+
+    shader_program_.setUniformValue("enableBlinnPhong", shader_blinn_phong_);
+    shader_program_.setUniformValue("renderMode", shader_render_mode_);
+    shader_program_.setUniformValue("lightSource", shader_light_source_);
+    shader_program_.setUniformValue("hdrExposure", shader_hdr_exposure_);
 
     if (stone_manager_ != nullptr) stone_manager_->Draw(shader_program_);
 }
@@ -138,6 +152,12 @@ void Hypercube::resizeGL(int w, int h) {
 }
 
 void Hypercube::wheelEvent(QWheelEvent *event) { camera_.ProcessMouseScroll(event->angleDelta().y() / 90); }
+
+void Hypercube::SetMSAA(int sampling_multiple) {  // 设置MSAA
+    QSurfaceFormat format;
+    format.setSamples(sampling_multiple);
+    setFormat(format);
+}
 
 void Hypercube::HypercubeThreadSlot() {
     GetStoneManager()->Update();
