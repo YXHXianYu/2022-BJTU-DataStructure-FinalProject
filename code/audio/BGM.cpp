@@ -3,11 +3,48 @@
 #include <iostream>
 
 BGM::BGM() {
-    open = new QSound("../2022-BJTU-DataStructrue-FinalProject/resource/sounds/open_win.wav");
-    close = new QSound("../2022-BJTU-DataStructrue-FinalProject/resource/sounds/close_win.wav");
-    switch_task = new QSound("../2022-BJTU-DataStructrue-FinalProject/resource/sounds/switch_task.wav");
-    switch_type = new QSound("../2022-BJTU-DataStructrue-FinalProject/resource/sounds/switch_type.wav");
-    music = new QSound("../2022-BJTU-DataStructrue-FinalProject/resource/sounds/music.wav");
+    open = new QMediaPlayer();
+    open->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"));
+    open->setVolume(50);
+
+    close = new QMediaPlayer();
+    close->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/close_win.wav"));
+    close->setVolume(50);
+
+    switch_task = new QMediaPlayer();
+    switch_task->setMedia(
+        QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/switch_task.wav"));
+    switch_task->setVolume(50);
+
+    switch_type = new QMediaPlayer();
+    switch_type->setMedia(
+        QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/switch_type.wav"));
+    switch_type->setVolume(50);
+
+    music = new QMediaPlayer();
+    music->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/music.wav"));
+    music->setVolume(50);
+
+    match1 = new QMediaPlayer();
+    match1->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match1.wav"));
+    match1->setVolume(50);
+
+    match2 = new QMediaPlayer();
+    match2->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match2.wav"));
+    match2->setVolume(50);
+
+    match3 = new QMediaPlayer();
+    match3->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match3.wav"));
+    match3->setVolume(50);
+
+    fall = new QMediaPlayer();
+    fall->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/fall.wav"));
+    fall->setVolume(50);
+
+    /*
+    player = new QMediaPlayer();
+    player->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/switch_task.wav"));
+    player->setVolume(50);*/
 }
 
 BGM* BGM::instance_ = nullptr;
@@ -33,3 +70,10 @@ void BGM::StopSwitchType() { switch_type->stop(); }
 
 void BGM::PlayMusic() { music->play(); }
 void BGM::StopMusic() { music->stop(); }
+
+void BGM::PlayMatch1() { match1->play(); }
+void BGM::PlayMatch2() { match2->play(); }
+void BGM::PlayMatch3() { match3->play(); }
+void BGM::PlayFall() { fall->play(); }
+
+void BGM::PlayPlayer() { player->play(); }
