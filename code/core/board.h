@@ -54,6 +54,7 @@ class Board {
     void ClickedOnDiamond();          // 道具1
     void ClickedOnLightning();        // 道具2
     void ClickedOnShuffle();          // 道具3
+    void CancelHint();                // 取消暂停
 };
 
 #endif  // BOARD_H
