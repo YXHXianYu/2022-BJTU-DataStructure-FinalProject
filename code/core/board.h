@@ -3,6 +3,7 @@
 
 #include <math.h>
 
+#include <QTimer>
 #include <cstdlib>
 #include <ctime>
 #include <utility>
@@ -20,6 +21,7 @@ class Board {
     int stop_;
     bool mouse_on_diamond, mouse_on_lightning, mouse_on_shuffle;  // 鼠标是否选中了宝石、十字(道具)
     bool add_tools;
+    int combo_times;
     int rest_diamond, rest_lightning, rest_shuffle;  // 剩下的宝石和十字
     int point_;                                      // 分数
     int cnt_;                                        // 记录宝石id编号
@@ -30,6 +32,7 @@ class Board {
     Stone stones_[8][8];                             // 宝石矩阵
     std::vector<std::pair<int, int>> matches_;       // 可消除的宝石
     Hypercube::Hypercube* hypercube_;
+    QTimer* timer_;
 
    public:
     Board();

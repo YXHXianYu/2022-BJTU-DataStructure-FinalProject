@@ -153,6 +153,7 @@ int StoneManager::SetPause(bool is_pause) {
         pausing_queue_.push(std::make_pair(id, is_pause));  // 这里来限定是否为暂停
     }
     is_pausing = is_pause;
+    return kSuccess;
 }
 
 bool StoneManager::IsPause() const { return is_pausing; }
