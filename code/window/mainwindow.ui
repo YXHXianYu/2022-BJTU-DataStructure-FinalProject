@@ -124,14 +124,7 @@
      <item>
       <widget class="QRadioButton" name="rbtnEasy">
        <property name="text">
-        <string>简单</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="rbtnNormal">
-       <property name="text">
-        <string>一般</string>
+        <string>普通</string>
        </property>
        <property name="checked">
         <bool>true</bool>
@@ -139,9 +132,19 @@
       </widget>
      </item>
      <item>
-      <widget class="QRadioButton" name="rbtnHard">
+      <widget class="QRadioButton" name="rbtnNormal">
        <property name="text">
         <string>困难</string>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="rbtnHard">
+       <property name="text">
+        <string>不可能</string>
        </property>
       </widget>
      </item>

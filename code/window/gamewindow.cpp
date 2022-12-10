@@ -41,15 +41,22 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
             std::min(std::max(left_time_cnt_, ui->left_time_bar->minimum()), ui->left_time_bar->maximum()));
 
         if (left_time_cnt_ > ui->left_time_bar->maximum()) {
-            on_btnReturn_clicked();  // 时间到，直接退出游戏（
             timer_flush_score_and_left_time_bar_->stop();
+            left_time_cnt_ = -10;
+            on_btnReturn_clicked();  // 时间到，直接退出游戏（
         }
+        if (false)
+            std::cerr << std::min(std::max(left_time_cnt_, ui->left_time_bar->minimum()), ui->left_time_bar->maximum()) << ", "
+                      << ui->left_time_bar->value() << ", " << ui->left_time_bar->minimum() << ", "
+                      << ui->left_time_bar->maximum() << std::endl;
     });
     timer_flush_score_and_left_time_bar_->setInterval(100);  // 0.1s
     timer_flush_score_and_left_time_bar_->start();
 }
 
 GameWindow::~GameWindow() {
+    // timer
+    timer_flush_score_and_left_time_bar_->stop();
     // ui
     delete ui;
     // board
@@ -105,9 +112,9 @@ void GameWindow::getDifficulty(QString data) {
     if (data == "hard") difficulty_ = 3;
     std::cout << "difficulty is " << difficulty_ << std::endl;
     InitBoard();
-    QMessageBox mes(this);
-    mes.setText(data);
-    mes.exec();
+    // QMessageBox mes(this);
+    // mes.setText(data);
+    // mes.exec();
 }
 
 void GameWindow::on_btnReturn_clicked() {
@@ -134,6 +141,7 @@ void GameWindow::on_skill3_button_clicked() {
 
 void GameWindow::on_pause_button_clicked() {
     board->ClickedOnStop();  // 暂停
+    is_pausing_ ^= 1;
 }
 
 void GameWindow::on_hint_button_clicked() {
