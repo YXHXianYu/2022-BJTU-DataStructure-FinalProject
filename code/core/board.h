@@ -59,6 +59,9 @@ class Board {
     void ClickedOnLightning();        // 道具2
     void ClickedOnShuffle();          // 道具3
     void CancelHint();                // 取消暂停
+    int GetRest1();
+    int GetRest2();
+    int GetRest3();
 };
 
 #endif  // BOARD_H

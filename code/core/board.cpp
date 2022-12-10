@@ -40,8 +40,8 @@ void Board::InitHypercube() {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             // std::cout << i << " " << j << " " << stones_[i][j].GetType() << std::endl;
-            int ret =
-                hypercube_->GetStoneManager()->Generate(stones_[i][j].GetId(), i, j, stones_[i][j].GetType(), 300 + rand() % 500);
+            int ret = hypercube_->GetStoneManager()->Generate(stones_[i][j].GetId(), i, j, stones_[i][j].GetType(),
+                                                              300 + rand() % 500);
             if (ret != Hypercube::StoneManager::kSuccess) std::cout << i << " " << j << " " << ret << std::endl;
         }
     }
@@ -266,17 +266,20 @@ void Board::Clicked(int x, int y) {
         } else {
             hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
                                                      Hypercube::StoneManager::kRotate);
-            hypercube_->GetStoneManager()->SetRotate(stones_[chosen_x][chosen_y].GetId(), Hypercube::StoneManager::kRotate);
+            hypercube_->GetStoneManager()->SetRotate(stones_[chosen_x][chosen_y].GetId(),
+                                                     Hypercube::StoneManager::kRotate);
             hypercube_->GetStoneManager()->SwapStone(stones_[chosen_.first][chosen_.second].GetId(),
                                                      stones_[chosen_x][chosen_y].GetId());
 
-            std::cerr << "swap:" << chosen_.first << " " << chosen_.second << " " << chosen_x << " " << chosen_y << "\n";
+            std::cerr << "swap:" << chosen_.first << " " << chosen_.second << " " << chosen_x << " " << chosen_y
+                      << "\n";
             chosen_ = {-1, -1};
             Refresh();
         }
         return;
     }
-    hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(), Hypercube::StoneManager::kRotate);
+    hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
+                                             Hypercube::StoneManager::kRotate);
     chosen_ = {chosen_x, chosen_y};
     hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
                                              Hypercube::StoneManager::kRotateFastInverse);
@@ -375,14 +378,22 @@ void Board::Remove() {
 void Board::Remove(int x, int y) {
     if (x < 0 || y < 0 || x > 7 || y > 7) return;
     if (stones_[x][y].Empty()) return;
-    point_ += 2000.0 * combo_base;
+    int difficulty_base = 1;
+    if (difficulty_ == 2) difficulty_base = 2;
+    if (difficulty_ == 3) difficulty_base = 4;
+    point_ += 2000.0 * combo_base * difficulty_base;
     stones_[x][y].SetEmpty(1);
     // animation Remove
-    std::cerr << "Remove:" << x << " " << y << " " << hypercube_->GetStoneManager()->Remove(stones_[x][y].GetId(), true);
+    std::cerr << "Remove:" << x << " " << y << " "
+              << hypercube_->GetStoneManager()->Remove(stones_[x][y].GetId(), true);
     return;
 }
 
 void Board::ClickedOnHint() { ShowHint(1); }
+
+int Board::GetRest1() { return rest_diamond; }
+int Board::GetRest2() { return rest_lightning; }
+int Board::GetRest3() { return rest_shuffle; }
 
 // 提示
 bool Board::ShowHint(bool show) {
@@ -432,8 +443,10 @@ bool Board::ShowHint(bool show) {
 
 void Board::CancelHint() {
     if (hint_[0].first == -1) return;
-    hypercube_->GetStoneManager()->SetRotate(stones_[hint_[0].first][hint_[0].second].GetId(), Hypercube::StoneManager::kRotate);
-    hypercube_->GetStoneManager()->SetRotate(stones_[hint_[1].first][hint_[1].second].GetId(), Hypercube::StoneManager::kRotate);
+    hypercube_->GetStoneManager()->SetRotate(stones_[hint_[0].first][hint_[0].second].GetId(),
+                                             Hypercube::StoneManager::kRotate);
+    hypercube_->GetStoneManager()->SetRotate(stones_[hint_[1].first][hint_[1].second].GetId(),
+                                             Hypercube::StoneManager::kRotate);
     hint_[0] = hint_[1] = {-1, -1};
     return;
 }
