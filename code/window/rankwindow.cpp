@@ -91,6 +91,7 @@ RankWindow::RankWindow(QWidget *parent) : FrameLessWindow(parent), ui(new Ui::Ra
                 ui->label19->setText("");
                 ui->label20->setText("");
             }
+            break;
         }
         now++;
     }

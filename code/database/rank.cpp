@@ -1,8 +1,11 @@
 #include "rank.h"
+
+#include <algorithm>
+#include <cmath>
 Rank* Rank::rank = NULL;
 void Rank::Insert(std::string id, int score) {
     sqliteDb db;
-    db.setDbDir(QDir::currentPath());
+    db.setDbDir("../2022-BJTU-DataStructure-FinalProject/resource/db");
     if (!db.reOpenSql("Rank")) {
         db.creatDbFile("Rank");
         if (!db.reOpenSql("Rank")) {
@@ -41,7 +44,7 @@ void Rank::Insert(std::string id, int score) {
 void Rank::Query(std::vector<std::pair<std::string, int>>& pairs) {
     // 返回前十，SELECT * from RANK ORDER BY SCORE DESC
     sqliteDb db;
-    db.setDbDir(QDir::currentPath());
+    db.setDbDir("../2022-BJTU-DataStructure-FinalProject/resource/db");
     if (!db.reOpenSql("Rank")) {
         qDebug() << "打开数据库失败";
         for (auto pair : pairs) {
@@ -53,7 +56,7 @@ void Rank::Query(std::vector<std::pair<std::string, int>>& pairs) {
     }
 
     db.transaction();  // 开启事务
-    QString sqlStr = QString(" SELECT * from RANK ORDER BY SCORE DESC");
+    QString sqlStr = QString("SELECT * FROM Rank");
     QList<QHash<QString, QString>> allData;
     if (!db.queryExec("Rank", sqlStr, allData)) {
         qDebug() << "分数降序获取失败";
@@ -65,14 +68,12 @@ void Rank::Query(std::vector<std::pair<std::string, int>>& pairs) {
         return;
     }
 
-    for (auto pair : pairs) {
-        if (!allData.isEmpty()) {
-            QString id = QString("%1").arg(allData.first()["ID"]);
-            pair = {id.toStdString(), allData.takeFirst()["SCORE"].toInt()};
-        } else {
-            pair = {"empty", -1};
-        }
+    while (!allData.isEmpty()) {
+        QString id = QString("%1").arg(allData.first()["ID"]);
+        pairs.push_back({id.toStdString(), allData.takeFirst()["SCORE"].toInt()});
     }
+    sort(pairs.begin(), pairs.end(),
+         [&](std::pair<std::string, int> a, std::pair<std::string, int> b) -> bool { return a.second > b.second; });
     db.commit();
     db.closeSql();
     return;
@@ -80,7 +81,7 @@ void Rank::Query(std::vector<std::pair<std::string, int>>& pairs) {
 
 int Rank::Query(std::string id) {
     sqliteDb db;
-    db.setDbDir(QDir::currentPath());
+    db.setDbDir("../2022-BJTU-DataStructure-FinalProject/resource/db");
     if (!db.reOpenSql("Rank")) {
         qDebug() << "打开数据库失败";
         return -1;
