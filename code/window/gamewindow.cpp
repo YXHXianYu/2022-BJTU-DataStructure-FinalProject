@@ -20,35 +20,48 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
     this->setWindowFlag(Qt::FramelessWindowHint);
     // close时析构成员变量
     // setAttribute(Qt::WA_DeleteOnClose);
-    // 创建窗口
-    int DEBUG = true;
-    if (DEBUG) std::cerr << "GameWindow::GameWindow - 0" << std::endl;
 
+    // 创建Hypercube窗口
     hypercube_ = new Hypercube::Hypercube(this);
     hypercube_->setFixedSize(hypercube_size.x(), hypercube_size.y());
     hypercube_->setGeometry(opengl_up_left.x(), opengl_up_left.y(), hypercube_->width(), hypercube_->height());
 
-    if (DEBUG) std::cerr << "GameWindow::GameWindow - 1" << std::endl;
+    // 初始化进度条
+    ui->left_time_bar->setRange(0, 600);  // 1min
+    // 创建timer
+    timer_flush_score_and_left_time_bar_ = new QTimer(this);
+    left_time_cnt_ = -10;
+    connect(timer_flush_score_and_left_time_bar_, &QTimer::timeout, [&]() {
+        // score_bar
+        ui->score_bar->setText(QString::fromStdString(std::to_string(board->GetScore())));
+        // left_time_bar
+        ui->left_time_bar->setValue(
+            std::min(std::max(++left_time_cnt_, ui->left_time_bar->minimum()), ui->left_time_bar->maximum()));
 
-    if (DEBUG) std::cerr << "GameWindow::GameWindow - 2" << std::endl;
+        if (left_time_cnt_ > ui->left_time_bar->maximum()) {
+            on_btnReturn_clicked();  // 时间到，直接退出游戏（
+        }
+    });
+    timer_flush_score_and_left_time_bar_->setInterval(100);  // 0.1s
+    timer_flush_score_and_left_time_bar_->start();
+}
 
-    if (DEBUG) std::cerr << "GameWindow::GameWindow - 3" << std::endl;
-
-    if (DEBUG) std::cerr << "GameWindow::GameWindow - 4 END" << std::endl;
+GameWindow::~GameWindow() {
+    // ui
+    delete ui;
+    // board
+    delete board;
 }
 
 void GameWindow::InitBoard() {
+    // board
     board = new Board(difficulty_);
     board->SetHypercube(hypercube_);
-    // timer_init_hypercube_ = new QTimer(this);
-    // connect(timer_init_hypercube_, &QTimer::timeout, [&]() {
     board->InitHypercube();
+    // timer etc
+    left_time_cnt_ = -10;
+
     std::cerr << "GameWindow::GameWindow InitHypercube." << std::endl;
-    //});
-    /*
-        timer_init_hypercube_->setSingleShot(true);
-        timer_init_hypercube_->setInterval(500);
-        timer_init_hypercube_->start();*/
 }
 
 void GameWindow::mousePressEvent(QMouseEvent *event) {
@@ -83,15 +96,6 @@ void GameWindow::mouseReleaseEvent(QMouseEvent *event) {
     }
 }
 
-GameWindow::~GameWindow() {
-    // ui
-    delete ui;
-    // timer_init_hypercube_ (no need)
-    // hypercube_ (no need)
-    // board
-    delete board;
-}
-
 void GameWindow::getDifficulty(QString data) {
     if (data == "easy") difficulty_ = 1;
     if (data == "normal") difficulty_ = 2;
@@ -109,4 +113,24 @@ void GameWindow::on_btnReturn_clicked() {
     mw->show();
     delay(20);
     this->close();
+}
+
+void GameWindow::on_skill1_button_clicked() {
+    board->ClickedOnDiamond();  // 道具1
+}
+
+void GameWindow::on_skill2_button_clicked() {
+    board->ClickedOnLightning();  // 道具2
+}
+
+void GameWindow::on_skill3_button_clicked() {
+    board->ClickedOnShuffle();  // 道具3
+}
+
+void GameWindow::on_pause_button_clicked() {
+    board->ClickedOnStop();  // 暂停
+}
+
+void GameWindow::on_hint_button_clicked() {
+    board->ShowHint(true);  // 提示
 }

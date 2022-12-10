@@ -1,5 +1,8 @@
 #version 330 core
 
+uniform bool enableBlinnPhong;
+uniform bool onlySpecular;
+
 struct Material {
     bool have_texture;
     vec3 ka;
@@ -23,7 +26,6 @@ struct Light {
 uniform int numberOfLights;
 uniform Light lights[5];
 
-uniform bool enableBlinnPhong;
 
 out vec4 FragColor;
 
@@ -72,7 +74,12 @@ void main() {
         }
     }
 
-    vec3 result = (ambient + diffuse + specular);
+    vec3 result;
+
+    if(onlySpecular)
+        result = specular;
+    else
+        result = (ambient + diffuse + specular);
 
     FragColor = vec4(result, 1.f);
 }

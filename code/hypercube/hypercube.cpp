@@ -127,6 +127,7 @@ void Hypercube::paintGL() {
     shader_program_.setUniformValue("projection", projection);
 
     shader_program_.setUniformValue("enableBlinnPhong", true);
+    shader_program_.setUniformValue("onlySpecular", false);
 
     if (stone_manager_ != nullptr) stone_manager_->Draw(shader_program_);
 }
