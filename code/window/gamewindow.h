@@ -19,6 +19,7 @@ class GameWindow : public QMainWindow {
    public:
     explicit GameWindow(QWidget *parent = nullptr);
     ~GameWindow();
+
    public slots:
     void getDifficulty(QString data);
 
@@ -34,11 +35,21 @@ class GameWindow : public QMainWindow {
    private slots:
     void on_btnReturn_clicked();
 
+    void on_skill1_button_clicked();
+
+    void on_skill2_button_clicked();
+
+    void on_skill3_button_clicked();
+
+    void on_pause_button_clicked();
+
+    void on_hint_button_clicked();
+
    private:
     Ui::GameWindow *ui;
 
-    QTimer *timer_init_hypercube_;
-    int timer_init_hypercube_cnt_;
+    QTimer *timer_flush_score_and_left_time_bar_;
+    int left_time_cnt_;
 
     Board *board;
     Hypercube::Hypercube *hypercube_;

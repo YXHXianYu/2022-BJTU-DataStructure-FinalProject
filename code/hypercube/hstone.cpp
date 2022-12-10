@@ -28,7 +28,7 @@ float Stone::falling_speed() const { return falling_speed_; }
 float Stone::falling_acceleration() const { return falling_acceleration_; }
 void Stone::set_falling(float speed, int falling_target_y) {
     if (std::abs(speed - kFallingSpeedRandom) <= 1e-6) {
-        speed = rand() % 4 + 4;
+        speed = kFallingSpeed + (rand() % 5) - 2;
     }
     falling_speed_ = speed;
     falling_target_y_ = falling_target_y;
