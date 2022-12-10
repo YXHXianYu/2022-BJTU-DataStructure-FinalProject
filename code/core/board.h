@@ -39,7 +39,7 @@ class Board {
     void Swap(Stone& a, Stone& b);  // 交换两个宝石
     void Clicked(int x, int y);     // 鼠标点击坐标(x,y)
     bool Check();                   // 检查是否有可以消除的宝石，若有则将位置记录在matches_中
-    bool Check_Game_Over();
+    bool IsGameOver();
     void Remove();              // 消除matches_中的宝石
     void Fall();                // 宝石掉落并补齐
     void Fall2();               // 宝石掉落并补齐(无动画和加分)
@@ -48,6 +48,7 @@ class Board {
     void Refresh();
     void SetDifficulty(int difficulty);
     std::pair<int, int> GetChosen();  // 获取点击的宝石位置
+    void ClickedOnHint();             // 提示
     int GetScore();                   // 获取分数
     void ClickedOnStop();             // 暂停
     void ClickedOnDiamond();          // 道具1

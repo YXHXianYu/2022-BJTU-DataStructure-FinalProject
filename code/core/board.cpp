@@ -387,6 +387,8 @@ void Board::Remove(int x, int y) {
     return;
 }
 
+void Board::ClickedOnHint() { ShowHint(1); }
+
 // 提示
 bool Board::ShowHint(bool show) {
     bool get_hint = 0;
@@ -411,7 +413,7 @@ bool Board::ShowHint(bool show) {
                 Swap(stones_[i][j], stones_[i][j + 1]);
                 if (flag) {
                     hint_[0] = {i, j};
-                    hint_[1] = {i + 1, j};
+                    hint_[1] = {i, j + 1};
                     get_hint = 1;
                     break;
                 }
@@ -420,13 +422,21 @@ bool Board::ShowHint(bool show) {
         if (get_hint) break;
     }
     if (show) {
-        // animation show_hint
+        if (chosen_.first != -1) {
+            hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
+                                                     Hypercube::StoneManager::kRotate);
+        }
+        chosen_ = {-1, -1};
+        hypercube_->GetStoneManager()->SetRotate(stones_[hint_[0].first][hint_[0].second].GetId(),
+                                                 Hypercube::StoneManager::kRotateFast);
+        hypercube_->GetStoneManager()->SetRotate(stones_[hint_[1].first][hint_[1].second].GetId(),
+                                                 Hypercube::StoneManager::kRotateFast);
     }
     return get_hint;
 }
 
-bool Board::Check_Game_Over() {
-    if (ShowHint(0)) {
+bool Board::IsGameOver() {
+    if (!rest_shuffle && !ShowHint(0)) {
         return 1;
     }
     return 0;
