@@ -4,5 +4,6 @@
         <file>shaders/common.vert</file>
         <file>shaders/light.frag</file>
         <file>shaders/light.vert</file>
+        <file>shaders/anime.frag</file>
     </qresource>
 </RCC>

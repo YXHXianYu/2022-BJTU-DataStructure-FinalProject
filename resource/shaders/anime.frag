@@ -72,7 +72,12 @@ void main() {
 
         if(enableBlinnPhong) {
             vec3 halfwayDir = normalize(lightDir + viewDir);
-            specular += pow(max(dot(norm, halfwayDir), 0.0), material.shininess) * ks * lights[i].specular;
+            float delta = max(dot(norm, halfwayDir), 0.0);
+            if(delta <= 0) delta = 0;
+            else if(delta <= 0.5f) delta = 0.25f;
+            else if(delta <= 0.9f) delta = 0.75f;
+            else delta = 1.f;
+            specular += pow(delta, material.shininess) * ks * lights[i].specular;
         } else {
             vec3 reflectDir = reflect(-lightDir, norm);
             specular += pow(max(dot(viewDir, reflectDir), 0.0), material.shininess) * ks * lights[i].specular;
