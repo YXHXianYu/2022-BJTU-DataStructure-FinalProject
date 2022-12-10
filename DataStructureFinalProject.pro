@@ -55,9 +55,11 @@ FORMS += \
 
 # 4. database
 SOURCES += \
-    ./code/database/sqliteDb.cpp
+    ./code/database/sqliteDb.cpp \
+    ./code/database/rank.cpp
 HEADERS += \
-    ./code/database/sqliteDb.h
+    ./code/database/sqliteDb.h \
+    ./code/database/rank.h
     
 # 5. Audio
 SOURCES += \
