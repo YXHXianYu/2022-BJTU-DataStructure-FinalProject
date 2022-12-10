@@ -27,15 +27,27 @@ BGM::BGM() {
 
     match1 = new QMediaPlayer();
     match1->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match1.wav"));
-    match1->setVolume(50);
+    match1->setVolume(25);
 
     match2 = new QMediaPlayer();
     match2->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match2.wav"));
-    match2->setVolume(50);
+    match2->setVolume(25);
 
     match3 = new QMediaPlayer();
     match3->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match3.wav"));
-    match3->setVolume(50);
+    match3->setVolume(25);
+
+    fall = new QMediaPlayer();
+    fall->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/fall.wav"));
+    fall->setVolume(50);
+
+    bgm1 = new QMediaPlayer();
+    bgm1->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/bgm1.wav"));
+    bgm1->setVolume(50);
+
+    bgm2 = new QMediaPlayer();
+    bgm2->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/bgm2.wav"));
+    bgm2->setVolume(50);
 
     fall = new QMediaPlayer();
     fall->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/fall.wav"));
@@ -77,3 +89,9 @@ void BGM::PlayMatch3() { match3->play(); }
 void BGM::PlayFall() { fall->play(); }
 
 void BGM::PlayPlayer() { player->play(); }
+
+void BGM::PlayBgm1() { bgm1->play(); }
+void BGM::StopBgm1() { bgm1->stop(); }
+
+void BGM::PlayBgm2() { bgm2->play(); }
+void BGM::StopBgm2() { bgm2->stop(); }
