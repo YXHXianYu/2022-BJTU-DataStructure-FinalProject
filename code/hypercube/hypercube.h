@@ -27,28 +27,37 @@ class Hypercube : public QOpenGLWidget, public QOpenGLFunctions_4_5_Core {
 
     void Demo();
 
+    void SetBlinnPhong(bool enable);
+    void SetRenderMode(int mode);
+    void SetLightSource(int source);
+    void SetHDRExposure(float exposure);
+
    protected:
     virtual void initializeGL() override;
     virtual void paintGL() override;
     virtual void resizeGL(int w, int h) override;
-
     virtual void wheelEvent(QWheelEvent* event) override;
 
    private:
-    StoneManager* stone_manager_;
+    void SetMSAA(int sampling_multiple);
 
    private:
     const unsigned int timer_inteval_ = 10;
 
-    HypercubeThread* hypercube_thread_;
+    StoneManager* stone_manager_;          // StoneManager
+    HypercubeThread* hypercube_thread_;    // 控制帧数的线程
+    QOpenGLShaderProgram shader_program_;  // 渲染程序
+    Camera camera_;                        // 摄像机
 
-    QOpenGLShaderProgram shader_program_;
+    // 一些参数
+    QVector3D kCameraPosition = QVector3D(400.f, 400.f, 1000.f);     // 摄像机位置
+    QVector4D kBackgroundColor = QVector4D(0.2f, 0.3f, 0.3f, 1.0f);  // 背景颜色
 
-    Camera camera_;
-
-   private:
-    QVector3D kCameraPosition = QVector3D(400.f, 400.f, 1000.f);
-    QVector4D kBackgroundColor = QVector4D(0.2f, 0.3f, 0.3f, 1.0f);
+    // 着色器设置
+    bool shader_blinn_phong_ = true;
+    int shader_render_mode_ = 0;
+    int shader_light_source_ = 0;
+    float shader_hdr_exposure_ = 0.0f;
 
    public slots:
     void HypercubeThreadSlot();
