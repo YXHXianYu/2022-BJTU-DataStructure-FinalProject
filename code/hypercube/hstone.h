@@ -16,6 +16,9 @@ class Stone {
     float angle() const;
     int type() const;
 
+    bool is_pausing() const;
+    void set_pausing(int pausing);
+
     bool is_active() const;
     void set_active(bool active);
 
@@ -31,9 +34,13 @@ class Stone {
     bool is_swaping() const;
     void set_swaping(int target_x, int target_y, float swaping_speed);
 
+    bool is_removing() const;
+    void set_removing(int removing_speed, int removing_acceleration);
+
     void UpdateRotating();
     void UpdateFalling();
     void UpdateSwaping();
+    void UpdataRemoving();
 
     // 常量
    public:
@@ -42,19 +49,26 @@ class Stone {
     static constexpr float kRotatingSpeedFast = 4.0f;
 
     static constexpr float kFallingStatic = 0.0f;
-    static constexpr float kFallingSpeed = 10.0f;
+    static constexpr float kFallingSpeed = 12.0f;
     static constexpr float kFallingSpeedRandom = -1.0f;
 
     static constexpr int kSwapingStatic = 0.0f;
     static constexpr float kSwapingSpeed = 10.f;
 
-    // 属性
+    static constexpr float kRemovingSpeed = 3.f;
+    static constexpr float kRemovingAcceleration = -0.1f;
+
    private:
+    static constexpr int kRemovingEndY = -100;
+
+   private:  // 属性
     int x_;
     int y_;
     int z_;
     float angle_;
     int type_;
+
+    bool pausing_;
 
     bool active_;
 
@@ -70,6 +84,9 @@ class Stone {
     int swaping_start_y_;
     int swaping_target_x_;
     int swaping_target_y_;
+
+    float removing_speed_;
+    float removing_acceleration_;
 };
 
 }  // namespace Hypercube
