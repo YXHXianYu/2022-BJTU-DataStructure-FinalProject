@@ -21,6 +21,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # 1. main
 SOURCES += \
     ./code/main.cpp \
+    code/audio/BGM.cpp \
     code/hypercube/animation/animation.cpp \
     code/hypercube/animation/animationfactory.cpp \
     code/hypercube/animation/animationfall.cpp \

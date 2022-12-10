@@ -2,15 +2,32 @@
 #define BGM_H
 #include <QSound>
 
-class BGM{
-public:
-    QSound *open=new QSound("../2022-BJTU-DataStructrue-FinalProject/resource/sounds/open_win.wav");
-    QSound *close=new QSound("../2022-BJTU-DataStructrue-FinalProject/resource/sounds/close_win.wav");
-    QSound *switch_task=new QSound("../2022-BJTU-DataStructrue-FinalProject/resource/sounds/switch_task.wav");
-    QSound *switch_type=new QSound("../2022-BJTU-DataStructrue-FinalProject/resource/sounds/switch_type.wav");
-    QSound *music=new QSound("../2022-BJTU-DataStructrue-FinalProject/resource/sounds/music.wav");
-private:
+class BGM {
+   private:
+    static BGM *instance_;
+    QSound *open;
+    QSound *close;
+    QSound *switch_task;
+    QSound *switch_type;
+    QSound *music;
 
+   public:
+    BGM();
+    static BGM *GetInstance();
+    void PlayOpen();
+    void StopOpen();
+
+    void PlayClose();
+    void StopClose();
+
+    void PlaySwitchTask();
+    void StopSwitchTask();
+
+    void PlaySwitchType();
+    void StopSwitchType();
+
+    void PlayMusic();
+    void StopMusic();
 };
 
-#endif // BGM_H
+#endif  // BGM_H
