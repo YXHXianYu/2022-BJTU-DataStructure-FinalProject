@@ -3,6 +3,7 @@
 #include <windows.h>
 
 #include <iostream>
+
 int Board::length_ = 530 / 8;
 int Board::start_x = 35;
 int Board::start_y = 35;
@@ -151,7 +152,9 @@ bool Board::Check() {
 
 /* 鼠标点击坐标(x,y) */
 void Board::Clicked(int x, int y) {
+    if (stop_) return;
     if (hypercube_->GetStoneManager()->isPlayingAnimation()) return;
+
     std::cout << "Board:Clicked" << x << " " << y << "\n";
     for (int j = 0; j < 8; ++j) {
         for (int i = 0; i < 8; ++i) {
@@ -183,6 +186,7 @@ void Board::Clicked(int x, int y) {
         return;
     }
     CancelHint();
+    BGM::GetInstance()->PlaySwitchType();
     if (chosen_.first == -1) {
         if (mouse_on_diamond) {
             for (int i = chosen_x - 2; i <= chosen_x + 2; ++i) {

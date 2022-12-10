@@ -8,6 +8,7 @@
 #include <utility>
 #include <vector>
 
+#include "../audio/BGM.h"
 #include "../hypercube/hypercube.h"
 #include "stone.h"
 class Board {
