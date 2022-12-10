@@ -19,6 +19,7 @@ Board::Board(int difficulty) {
     mouse_on_shuffle = 0;
     add_tools = 0;
     cnt_ = 0;
+    combo_times = 0;
     stop_ = 0;
     rest_lightning = 2;
     rest_diamond = 2;
@@ -27,13 +28,6 @@ Board::Board(int difficulty) {
     std::cerr << "generate start" << std::endl;
     Generate(1);
     std::cerr << "generate end" << std::endl;
-
-    // 创建timer
-    timer_ = new QTimer();
-    QObject::connect(timer_, &QTimer::timeout, [&]() {
-        std::cout << "haha" << std::endl;
-    });
-    timer_->start(10);
 }
 
 void Board::SetHypercube(Hypercube::Hypercube *hypercube) { hypercube_ = hypercube; }
@@ -51,6 +45,24 @@ void Board::InitHypercube() {
             if (ret != Hypercube::StoneManager::kSuccess) std::cout << i << " " << j << " " << ret << std::endl;
         }
     }
+    // 创建timer
+    timer_ = new QTimer();
+    QObject::connect(timer_, &QTimer::timeout, [&]() {
+        // std::cout << "haha" << std::endl;
+        if (hypercube_->GetStoneManager()->haveFallInRecentFrame()) {
+            if (combo_times == 1) {
+                BGM::GetInstance()->PlayMatch1();
+            } else if (combo_times == 2) {
+                BGM::GetInstance()->PlayMatch2();
+            } else {
+                BGM::GetInstance()->PlayMatch3();
+            }
+        }
+        if (hypercube_->GetStoneManager()->haveRemoveInRecentFrame()) {
+            BGM::GetInstance()->PlayFall();
+        }
+    });
+    timer_->start(10);
 }
 
 std::pair<int, int> Board::GetChosen() { return chosen_; }
@@ -330,7 +342,7 @@ void Board::Refresh() {
     double accelerate_base = 0.2;
     std::cerr << "in Refresh"
               << "\n";
-    int flag = 0;
+    combo_times = 0;
     while (!matches_.empty() || Check()) {
         if (add_tools) {
             rest_diamond++;
@@ -338,15 +350,8 @@ void Board::Refresh() {
             rest_lightning++;
             add_tools = 0;
         }
-        std::cerr << flag << "\n";
-        flag++;
-        if (flag == 1) {
-            BGM::GetInstance()->PlayMatch1();
-        } else if (flag == 2) {
-            BGM::GetInstance()->PlayMatch2();
-        } else {
-            BGM::GetInstance()->PlayMatch3();
-        }
+        combo_times++;
+
         BGM::GetInstance()->PlayFall();
         Remove();
         Fall();
