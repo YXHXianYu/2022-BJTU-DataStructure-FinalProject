@@ -18,6 +18,7 @@ Board::Board(int difficulty) {
     mouse_on_shuffle = 0;
     add_tools = 0;
     cnt_ = 0;
+    stop_ = 0;
     rest_lightning = 2;
     rest_diamond = 2;
     rest_shuffle = 2;
@@ -37,7 +38,7 @@ void Board::InitHypercube() {
         for (int j = 0; j < 8; j++) {
             // std::cout << i << " " << j << " " << stones_[i][j].GetType() << std::endl;
             int ret = hypercube_->GetStoneManager()->Generate(stones_[i][j].GetId(), i, j, stones_[i][j].GetType(),
-                                                              rand() % 500);
+                                                              300 + rand() % 500);
             if (ret != Hypercube::StoneManager::kSuccess) std::cout << i << " " << j << " " << ret << std::endl;
         }
     }
@@ -59,11 +60,19 @@ void Board::SetDifficulty(int difficulty) {
 }
 /* 生成 */
 void Board::Generate(bool start) {
+    if (!start) {
+        for (int i = 0; i < 8; ++i) {
+            for (int j = 0; j < 8; ++j) {
+                hypercube_->GetStoneManager()->Remove(stones_[i][j].GetId());
+            }
+        }
+    }
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
             positions_[i][j] = {start_x + i * length_, start_y + j * length_};
             stones_[i][j] = Stone(++cnt_);
-            // if(!start) Refresh()animation : fall
+            if (!start)
+                hypercube_->GetStoneManager()->Generate(cnt_, i, j, stones_[i][j].GetType(), 300 + rand() % 500);
         }
     }
     if (start) {
@@ -141,6 +150,7 @@ bool Board::Check() {
 
 /* 鼠标点击坐标(x,y) */
 void Board::Clicked(int x, int y) {
+    if (hypercube_->GetStoneManager()->isPlayingAnimation()) return;
     std::cout << "Board:Clicked" << x << " " << y << "\n";
     for (int j = 0; j < 8; ++j) {
         for (int i = 0; i < 8; ++i) {
@@ -197,6 +207,7 @@ void Board::Clicked(int x, int y) {
     std::cerr << x << " " << y << " " << chosen_x << " " << chosen_y << std::endl;
     if (chosen_x == -1) {
         if (chosen_.first != -1) {
+            chosen_ = {-1, -1};
             hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
                                                      Hypercube::StoneManager::kRotate);
         }
@@ -204,9 +215,33 @@ void Board::Clicked(int x, int y) {
     }
     if (chosen_.first == -1) {
         if (mouse_on_diamond) {
-            stones_[chosen_x][chosen_y].SetType(stones_[chosen_x][chosen_y].GetMaxType() + 1);
+            for (int i = chosen_x - 2; i <= chosen_x + 2; ++i) {
+                for (int j = chosen_y - 2; j <= chosen_y + 2; ++j) {
+                    matches_.push_back({i, j});
+                }
+            }
+            Refresh();
             mouse_on_diamond = 0;
             rest_diamond--;
+            return;
+        }
+        if (mouse_on_lightning) {
+            int type = stones_[chosen_x][chosen_y].GetType();
+            for (int i = 0; i < 8; ++i) {
+                for (int j = 0; j < 8; ++j) {
+                    if (stones_[i][j].GetType() == type) matches_.push_back({i, j});
+                }
+            }
+            Refresh();
+            mouse_on_lightning = 0;
+            rest_lightning--;
+            return;
+        }
+        if (mouse_on_shuffle) {
+            Generate(0);
+            Refresh();
+            mouse_on_shuffle = 0;
+            rest_shuffle--;
             return;
         }
         chosen_ = {chosen_x, chosen_y};
@@ -259,6 +294,52 @@ void Board::Clicked(int x, int y) {
                                              Hypercube::StoneManager::kRotateFastInverse);
 }
 
+int Board::GetScore() { return point_; }
+
+void Board::ClickedOnStop() {
+    if (stop_ == 1) {
+        // hypercube->stop(0)
+        stop_ = 0;
+    }
+    if (stop_ == 0) {
+        // hypercube->stop(1)
+        stop_ = 1;
+    }
+}
+
+void Board::ClickedOnDiamond() {
+    if (mouse_on_diamond == 1) {
+        mouse_on_diamond = 0;
+        return;
+    }
+    if (rest_diamond) {
+        mouse_on_diamond = 1;
+    }
+    return;
+}
+
+void Board::ClickedOnShuffle() {
+    if (mouse_on_shuffle == 1) {
+        mouse_on_shuffle = 0;
+        return;
+    }
+    if (rest_shuffle) {
+        mouse_on_shuffle = 1;
+    }
+    return;
+}
+
+void Board::ClickedOnLightning() {
+    if (mouse_on_lightning == 1) {
+        mouse_on_lightning = 0;
+        return;
+    }
+    if (rest_lightning) {
+        mouse_on_lightning = 1;
+    }
+    return;
+}
+
 void Board::Refresh() {
     combo_base = 1.0;
     double accelerate_base = 0.2;
@@ -303,14 +384,6 @@ void Board::Remove(int x, int y) {
     stones_[x][y].SetEmpty(1);
     // animation Remove
     std::cerr << "Remove:" << x << " " << y << " " << hypercube_->GetStoneManager()->Remove(stones_[x][y].GetId());
-    if (stones_[x][y].GetType() == stones_[x][y].GetMaxType() + 1) {
-        point_ += 10000.0 * combo_base;
-        for (int i = x - 2; i <= x + 2; ++i) {
-            for (int j = y - 2; j <= y + 2; ++j) {
-                Remove(i, j);
-            }
-        }
-    }
     return;
 }
 
