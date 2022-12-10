@@ -54,6 +54,8 @@ class GameWindow : public QMainWindow {
     Board *board;
     Hypercube::Hypercube *hypercube_;
 
+    bool is_pausing_;  // 这个变量记录当前是否为暂停状态。游戏是否暂停，在项目中有三个不同变量记录它，注意数据同步问题！！！
+
    public:
     void InitBoard();
 };
