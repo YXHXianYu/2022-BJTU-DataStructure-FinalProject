@@ -43,11 +43,11 @@ BGM::BGM() {
 
     bgm1 = new QMediaPlayer();
     bgm1->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/bgm1.wav"));
-    bgm1->setVolume(50);
+    bgm1->setVolume(10);
 
     bgm2 = new QMediaPlayer();
     bgm2->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/bgm2.wav"));
-    bgm2->setVolume(50);
+    bgm2->setVolume(10);
 
     fall = new QMediaPlayer();
     fall->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/fall.wav"));

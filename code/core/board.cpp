@@ -49,7 +49,7 @@ void Board::InitHypercube() {
     timer_ = new QTimer();
     QObject::connect(timer_, &QTimer::timeout, [&]() {
         // std::cout << "haha" << std::endl;
-        if (hypercube_->GetStoneManager()->haveFallInRecentFrame()) {
+        if (hypercube_->GetStoneManager()->haveRemoveInRecentFrame()) {
             if (combo_times == 1) {
                 BGM::GetInstance()->PlayMatch1();
             } else if (combo_times == 2) {
@@ -58,7 +58,7 @@ void Board::InitHypercube() {
                 BGM::GetInstance()->PlayMatch3();
             }
         }
-        if (hypercube_->GetStoneManager()->haveRemoveInRecentFrame()) {
+        if (hypercube_->GetStoneManager()->haveFallInRecentFrame()) {
             BGM::GetInstance()->PlayFall();
         }
     });

@@ -46,6 +46,7 @@ void MainWindow::on_btnGame_clicked() {
 
 // 排行榜
 void MainWindow::on_btnRank_clicked() {
+    BGM::GetInstance()->PlayOpen();
     RankWindow *rw = new RankWindow();
     rw->move(this->pos().x(), this->pos().y());
     rw->show();
@@ -55,6 +56,7 @@ void MainWindow::on_btnRank_clicked() {
 
 // 设置
 void MainWindow::on_btnConfig_clicked() {
+    BGM::GetInstance()->PlayOpen();
     ConfigWindow *cw = new ConfigWindow();
     cw->move(this->pos().x(), this->pos().y());
     cw->show();
@@ -64,6 +66,7 @@ void MainWindow::on_btnConfig_clicked() {
 
 // 关于
 void MainWindow::on_btnAbout_clicked() {
+    BGM::GetInstance()->PlayOpen();
     AboutWindow *aw = new AboutWindow();
     aw->move(this->pos().x(), this->pos().y());
     aw->show();
@@ -71,4 +74,7 @@ void MainWindow::on_btnAbout_clicked() {
     this->close();
 }
 
-void MainWindow::on_btnQuit_clicked() { this->close(); }
+void MainWindow::on_btnQuit_clicked() {
+    BGM::GetInstance()->PlayClose();
+    this->close();
+}
