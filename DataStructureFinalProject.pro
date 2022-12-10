@@ -21,14 +21,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # 1. main
 SOURCES += \
     ./code/main.cpp \
-    code/audio/BGM.cpp \
-    code/hypercube/animation/animation.cpp \
-    code/hypercube/animation/animationfactory.cpp \
-    code/hypercube/animation/animationfall.cpp \
-    code/hypercube/animation/animationremove.cpp \
-    code/hypercube/animation/animationswap.cpp \
-    code/hypercube/animation/animationwait.cpp \
-    code/hypercube/hypercubethread.cpp
 
 # 2. core
 SOURCES += \
@@ -36,15 +28,7 @@ SOURCES += \
     ./code/core/stone.cpp
 HEADERS += \
     ./code/core/board.h \
-    ./code/core/stone.h \ \
-    code/hypercube/DEBUG.h \
-    code/hypercube/animation/animation.h \
-    code/hypercube/animation/animationfactory.h \
-    code/hypercube/animation/animationfall.h \
-    code/hypercube/animation/animationremove.h \
-    code/hypercube/animation/animationswap.h \
-    code/hypercube/animation/animationwait.h \
-    code/hypercube/hypercubethread.h
+    ./code/core/stone.h
 
 # 3. window
 SOURCES += \
@@ -71,13 +55,13 @@ FORMS += \
 
 # 4. database
 SOURCES += \
-    ./code/database/sqliteDb.cpp \
-    ./code/database/ranking.cpp
+    ./code/database/sqliteDb.cpp
 HEADERS += \
-    ./code/database/sqliteDb.h \
-    ./code/database/ranking.h
+    ./code/database/sqliteDb.h
     
 # 5. Audio
+SOURCES += \
+    ./code/audio/BGM.cpp
 HEADERS += \
     ./code/audio/BGM.h
 
@@ -88,7 +72,14 @@ SOURCES += \
     code/hypercube/hypercube.cpp \
     code/hypercube/mesh.cpp \
     code/hypercube/model.cpp \
-    code/hypercube/stonemanager.cpp
+    code/hypercube/stonemanager.cpp \
+    code/hypercube/animation/animation.cpp \
+    code/hypercube/animation/animationfactory.cpp \
+    code/hypercube/animation/animationfall.cpp \
+    code/hypercube/animation/animationremove.cpp \
+    code/hypercube/animation/animationswap.cpp \
+    code/hypercube/animation/animationwait.cpp \
+    code/hypercube/hypercubethread.cpp
 HEADERS += \
     code/hypercube/camera.h \
     code/hypercube/gemmodelmanager.h \
@@ -96,7 +87,15 @@ HEADERS += \
     code/hypercube/hypercube.h \
     code/hypercube/mesh.h \
     code/hypercube/model.h \
-    code/hypercube/stonemanager.h
+    code/hypercube/stonemanager.h \
+    code/hypercube/DEBUG.h \
+    code/hypercube/animation/animation.h \
+    code/hypercube/animation/animationfactory.h \
+    code/hypercube/animation/animationfall.h \
+    code/hypercube/animation/animationremove.h \
+    code/hypercube/animation/animationswap.h \
+    code/hypercube/animation/animationwait.h \
+    code/hypercube/hypercubethread.h
 
 
 # Default rules for deployment.
