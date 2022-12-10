@@ -46,8 +46,8 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
             on_btnReturn_clicked();  // 时间到，直接退出游戏（
         }
         if (false)
-            std::cerr << std::min(std::max(left_time_cnt_, ui->left_time_bar->minimum()), ui->left_time_bar->maximum()) << ", "
-                      << ui->left_time_bar->value() << ", " << ui->left_time_bar->minimum() << ", "
+            std::cerr << std::min(std::max(left_time_cnt_, ui->left_time_bar->minimum()), ui->left_time_bar->maximum())
+                      << ", " << ui->left_time_bar->value() << ", " << ui->left_time_bar->minimum() << ", "
                       << ui->left_time_bar->maximum() << std::endl;
     });
     timer_flush_score_and_left_time_bar_->setInterval(100);  // 0.1s
@@ -121,6 +121,7 @@ void GameWindow::on_btnReturn_clicked() {
     MainWindow *mw = new MainWindow();
     mw->move(this->pos().x(), this->pos().y());
     mw->show();
+    BGM::GetInstance()->PlayClose();
     BGM::GetInstance()->StopBgm2();
     BGM::GetInstance()->PlayBgm1();
     delay(20);
