@@ -35,7 +35,7 @@ class Stone {
     void set_swaping(int target_x, int target_y, float swaping_speed);
 
     bool is_removing() const;
-    void set_removing(int removing_speed, int removing_acceleration);
+    void set_removing(float removing_speed, float removing_acceleration);
 
     void UpdateRotating();
     void UpdateFalling();
@@ -55,8 +55,9 @@ class Stone {
     static constexpr int kSwapingStatic = 0.0f;
     static constexpr float kSwapingSpeed = 10.f;
 
-    static constexpr float kRemovingSpeed = 3.f;
-    static constexpr float kRemovingAcceleration = -0.1f;
+    static constexpr float kRemovingSpeed = 6.f;
+    static constexpr float kRemovingAcceleration = -1.0f;
+    static constexpr float kRemovingZSpeed = 5.f;
 
    private:
     static constexpr int kRemovingEndY = -100;

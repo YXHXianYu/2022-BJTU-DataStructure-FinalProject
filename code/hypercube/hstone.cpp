@@ -57,7 +57,7 @@ void Stone::set_swaping(int target_x, int target_y, float swaping_speed) {
 
 // 删除
 bool Stone::is_removing() const { return removing_acceleration_ != 0; }
-void Stone::set_removing(int removing_speed, int removing_acceleration) {
+void Stone::set_removing(float removing_speed, float removing_acceleration) {
     removing_speed_ = removing_speed;
     removing_acceleration_ = removing_acceleration;
 }
@@ -131,6 +131,7 @@ void Stone::UpdataRemoving() {
         removing_speed_ += removing_acceleration_;
 
         y_ += removing_speed_;
+        z_ += kRemovingZSpeed;
 
         if (y_ <= kRemovingEndY) {
             set_active(false);
