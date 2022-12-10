@@ -114,6 +114,8 @@ void GameWindow::on_btnReturn_clicked() {
     MainWindow *mw = new MainWindow();
     mw->move(this->pos().x(), this->pos().y());
     mw->show();
+    BGM::GetInstance()->StopBgm2();
+    BGM::GetInstance()->PlayBgm1();
     delay(20);
     this->close();
 }

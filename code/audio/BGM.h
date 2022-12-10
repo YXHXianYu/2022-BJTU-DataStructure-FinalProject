@@ -15,6 +15,8 @@ class BGM {
     QMediaPlayer *match2;
     QMediaPlayer *match3;
     QMediaPlayer *fall;
+    QMediaPlayer *bgm1;
+    QMediaPlayer *bgm2;
 
    public:
     BGM();
@@ -30,6 +32,12 @@ class BGM {
 
     void PlaySwitchType();
     void StopSwitchType();
+
+    void PlayBgm1();
+    void StopBgm1();
+
+    void PlayBgm2();
+    void StopBgm2();
 
     void PlayMusic();
     void StopMusic();
