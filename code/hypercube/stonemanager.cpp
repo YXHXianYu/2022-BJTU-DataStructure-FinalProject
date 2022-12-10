@@ -257,11 +257,11 @@ void StoneManager::Update() {
                 stone.UpdateFalling();
                 have_fallen = true;
             }
-            if (!stone.is_falling()) {  // 有宝石在Update之后，落到目标点了。将记录变量设置为true
-                fall_in_recent_frame_ = true;
-            }
         }
-        if (!have_fallen) is_falling = false;
+        if (!have_fallen) {
+            is_falling = false;
+            fall_in_recent_frame_ = true;  // ************
+        }
     }
 
     // 暂停宝石
