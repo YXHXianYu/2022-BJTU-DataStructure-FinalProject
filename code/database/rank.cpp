@@ -56,9 +56,8 @@ void Rank::Query(std::vector<std::pair<std::string, int>>& pairs) {
     }
 
     db.transaction();  // 开启事务
-    QString sqlStr = QString("SELECT * FROM RANK ORDER BY SCORE DESC");
     QList<QHash<QString, QString>> allData;
-    if (!db.queryExec("Rank", sqlStr, allData)) {
+    if (!db.queryExec("Rank", allData)) {
         qDebug() << "分数降序获取失败";
         for (auto pair : pairs) {
             pair = {"empty", -1};
