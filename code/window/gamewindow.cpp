@@ -1,5 +1,9 @@
 #include "gamewindow.h"
 
+#include <QAction>
+#include <QBitmap>
+#include <QFont>
+#include <QFontDatabase>
 #include <ctime>
 #include <iostream>
 #include <random>
@@ -20,6 +24,13 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
     this->setWindowFlag(Qt::FramelessWindowHint);
     // close时析构成员变量
     // setAttribute(Qt::WA_DeleteOnClose);
+    /*
+    QPixmap pix;
+    pix.load(":/images/gamewindow/1.png");
+    ui->skill1_button->setFixedSize(pix.size());
+    ui->skill1_button->setMask(pix.mask());
+    */
+    ui->skill1_button->setStyleSheet("background-color:rgba(0,0,0,0)");
 
     // 创建Hypercube窗口
     hypercube_ = new Hypercube::Hypercube(ui->centralwidget);
@@ -28,38 +39,47 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
 
     // 初始化进度条
     is_pausing_ = false;
-    ui->left_time_bar->setRange(0, 100);  // 1min
     // 创建timer
     timer_flush_score_and_left_time_bar_ = new QTimer(this);
-    left_time_cnt_ = -10;
+    left_time_cnt_ = 12100;  // 1200* 0.1s
     connect(timer_flush_score_and_left_time_bar_, &QTimer::timeout, [&]() {
         // score_bar
         ui->score_bar->setText(QString::fromStdString(std::to_string(board->GetScore())));
         // left_time_bar
-        if (is_pausing_ == false) left_time_cnt_++;
-        ui->left_time_bar->setValue(
-            std::min(std::max(left_time_cnt_, ui->left_time_bar->minimum()), ui->left_time_bar->maximum()));
+        if (is_pausing_ == false) left_time_cnt_ -= 10;
+        RefreshTimeLabel();
         // set button state
         ui->skill1_button->setEnabled(board->GetRest1() > 0);
         ui->skill2_button->setEnabled(board->GetRest2() > 0);
         ui->skill3_button->setEnabled(board->GetRest3() > 0);
         // stop
-        if (left_time_cnt_ > ui->left_time_bar->maximum()) {
+        if (left_time_cnt_ <= 0 || board->IsGameOver()) {
             timer_flush_score_and_left_time_bar_->stop();
             left_time_cnt_ = -10;
             record_rank_window->set_score(board->GetScore());
             on_btnReturn_clicked();  // 时间到，直接退出游戏（
         }
-        // log
-        if (false)
-            std::cerr << std::min(std::max(left_time_cnt_, ui->left_time_bar->minimum()), ui->left_time_bar->maximum()) << ", "
-                      << ui->left_time_bar->value() << ", " << ui->left_time_bar->minimum() << ", "
-                      << ui->left_time_bar->maximum() << std::endl;
     });
-    timer_flush_score_and_left_time_bar_->setInterval(100);  // 0.1s
-    timer_flush_score_and_left_time_bar_->start();
+    timer_flush_score_and_left_time_bar_->start(100);
+
     // Record Rank Window
     record_rank_window = new RecordRankWindow(-1);
+
+    int font_Id = QFontDatabase::addApplicationFont(":/font/SmileySans-Oblique.ttf");
+    QStringList font_list = QFontDatabase::applicationFontFamilies(font_Id);
+    qDebug() << font_Id;
+    qDebug() << font_list;
+    if (!font_list.isEmpty()) {
+        QFont f;
+        f.setFamily(font_list[0]);
+        f.setPointSize(16);
+        ui->score_bar->setFont(f);
+        f.setPointSize(20);
+        ui->minute_label->setFont(f);
+        ui->minute_label->setStyleSheet("color:white;");
+        ui->second_label->setFont(f);
+        ui->second_label->setStyleSheet("color:white;");
+    }
 }
 
 GameWindow::~GameWindow() {
@@ -71,16 +91,34 @@ GameWindow::~GameWindow() {
     delete board;
 }
 
+void GameWindow::RefreshTimeLabel() {
+    int seconds = left_time_cnt_ / 100;
+    int minutes = seconds / 60;
+    seconds %= 60;
+    ui->minute_label->setText(QString::number(minutes));
+    QString s = "";
+    if (seconds < 10) s += "0";
+    s += QString::number(seconds);
+    ui->second_label->setText(s);
+}
+
 void GameWindow::InitBoard() {
     // board
     board = new Board(difficulty_);
     board->SetHypercube(hypercube_);
     board->InitHypercube();
     // timer etc
-    left_time_cnt_ = -10;
-
+    left_time_cnt_ = 12100;
+    // connect
+    connect(board, SIGNAL(Release1()), this, SLOT(Release1()));
+    connect(board, SIGNAL(Release2()), this, SLOT(Release2()));
+    connect(board, SIGNAL(Release3()), this, SLOT(Release3()));
     std::cerr << "GameWindow::GameWindow InitHypercube." << std::endl;
 }
+
+void GameWindow::Release1() { ui->skill1_button->setIcon(QIcon(":/images/gamewindow/1.png")); }
+void GameWindow::Release2() { ui->skill2_button->setIcon(QIcon(":/images/gamewindow/2.png")); }
+void GameWindow::Release3() { ui->skill3_button->setIcon(QIcon(":/images/gamewindow/3.png")); }
 
 void GameWindow::mousePressEvent(QMouseEvent *event) {
     int x = event->x();
@@ -194,22 +232,43 @@ void GameWindow::on_btnReturn_clicked() {
 void GameWindow::on_skill1_button_clicked() {
     BGM::GetInstance()->PlayOpen();
     board->ClickedOnDiamond();  // 道具1
+    if (board->GetMouseOnDiamond())
+        ui->skill1_button->setIcon(QIcon(":/images/gamewindow/1-.png"));
+    else
+        ui->skill1_button->setIcon(QIcon(":/images/gamewindow/1.png"));
 }
 
 void GameWindow::on_skill2_button_clicked() {
     BGM::GetInstance()->PlayOpen();
+
     board->ClickedOnLightning();  // 道具2
+    if (board->GetMouseOnLightning())
+        ui->skill2_button->setIcon(QIcon(":/images/gamewindow/2-.png"));
+    else
+        ui->skill2_button->setIcon(QIcon(":/images/gamewindow/2.png"));
 }
 
 void GameWindow::on_skill3_button_clicked() {
     BGM::GetInstance()->PlayOpen();
+
     board->ClickedOnShuffle();  // 道具3
+    if (board->GetMouseOnShuffle())
+        ui->skill3_button->setIcon(QIcon(":/images/gamewindow/3-.png"));
+    else
+        ui->skill3_button->setIcon(QIcon(":/images/gamewindow/3.png"));
 }
 
 void GameWindow::on_pause_button_clicked() {
     BGM::GetInstance()->PlayOpen();
+
     board->ClickedOnStop();  // 暂停
     is_pausing_ ^= 1;
+    if (is_pausing_) {
+        ui->pause_button->setIcon(QIcon(":/images/gamewindow/4-.png"));
+        std::cerr << "Clicked!\n";
+    } else {
+        ui->pause_button->setIcon(QIcon(":/images/gamewindow/4.png"));
+    }
 }
 
 void GameWindow::on_hint_button_clicked() {

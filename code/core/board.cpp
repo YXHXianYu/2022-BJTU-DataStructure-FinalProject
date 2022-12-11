@@ -8,12 +8,12 @@ int Board::length_ = 530 / 8;
 int Board::start_x = 35;
 int Board::start_y = 35;
 
-Board::Board() {}
+Board::Board(QWidget *parent) : QMainWindow(parent) {}
 
-Board::Board(int difficulty) {
-    std::cerr << "Into second constructor\n";
+Board::Board(int difficulty, QWidget *parent) : QMainWindow(parent) {
+    // std::cerr << "Into second constructor\n";
     SetDifficulty(difficulty);
-    std::cout << difficulty << std::endl;
+    // std::cout << difficulty << std::endl;
     mouse_on_lightning = 0;
     mouse_on_diamond = 0;
     mouse_on_shuffle = 0;
@@ -25,9 +25,9 @@ Board::Board(int difficulty) {
     rest_diamond = 2;
     rest_shuffle = 2;
     point_ = 0;
-    std::cerr << "generate start" << std::endl;
+    // std::cerr << "generate start" << std::endl;
     Generate(1);
-    std::cerr << "generate end" << std::endl;
+    // std::cerr << "generate end" << std::endl;
 }
 
 void Board::SetHypercube(Hypercube::Hypercube *hypercube) { hypercube_ = hypercube; }
@@ -207,11 +207,15 @@ void Board::Clicked(int x, int y) {
     BGM::GetInstance()->PlaySwitchTask();
     if (chosen_.first == -1) {
         if (mouse_on_diamond) {
+            int now = 0;
             for (int i = chosen_x - 2; i <= chosen_x + 2; ++i) {
-                for (int j = chosen_y - 2; j <= chosen_y + 2; ++j) {
+                for (int j = chosen_y - now; j <= chosen_y + now; ++j) {
                     matches_.push_back({i, j});
                 }
+                if (i < chosen_x) now++;
+                if (i >= chosen_x) now--;
             }
+            emit Release1();
             Refresh();
             mouse_on_diamond = 0;
             rest_diamond--;
@@ -227,6 +231,7 @@ void Board::Clicked(int x, int y) {
             Refresh();
             mouse_on_lightning = 0;
             rest_lightning--;
+            emit Release2();
             return;
         }
         if (mouse_on_shuffle) {
@@ -234,6 +239,7 @@ void Board::Clicked(int x, int y) {
             Refresh();
             mouse_on_shuffle = 0;
             rest_shuffle--;
+            emit Release3();
             return;
         }
         chosen_ = {chosen_x, chosen_y};
@@ -340,8 +346,7 @@ void Board::Refresh() {
     CancelHint();
     combo_base = 1.0;
     double accelerate_base = 0.2;
-    std::cerr << "in Refresh"
-              << "\n";
+
     combo_times = 0;
     while (!matches_.empty() || Check()) {
         if (add_tools) {
@@ -359,15 +364,13 @@ void Board::Refresh() {
         accelerate_base += 0.1;
         matches_.clear();
     };
-    std::cerr << "out Refresh"
-              << "\n";
 }
 
 /*消除matches_中的宝石*/
 void Board::Remove() {
     for (const auto &match : matches_) {
         Remove(match.first, match.second);
-        std::cerr << "match: " << match.first << " " << match.second << "\n";
+        // std::cerr << "match: " << match.first << " " << match.second << "\n";
     }
     matches_.clear();
     while (false && hypercube_->GetStoneManager()->isPlayingAnimation()) {
@@ -381,11 +384,10 @@ void Board::Remove(int x, int y) {
     int difficulty_base = 1;
     if (difficulty_ == 2) difficulty_base = 2;
     if (difficulty_ == 3) difficulty_base = 4;
-    point_ += 2000.0 * combo_base * difficulty_base;
+    point_ += 2.0 * combo_base * difficulty_base;
     stones_[x][y].SetEmpty(1);
     // animation Remove
-    std::cerr << "Remove:" << x << " " << y << " "
-              << hypercube_->GetStoneManager()->Remove(stones_[x][y].GetId(), true);
+    hypercube_->GetStoneManager()->Remove(stones_[x][y].GetId(), true);
     return;
 }
 
@@ -395,6 +397,9 @@ int Board::GetRest1() { return rest_diamond; }
 int Board::GetRest2() { return rest_lightning; }
 int Board::GetRest3() { return rest_shuffle; }
 
+bool Board::GetMouseOnDiamond() { return mouse_on_diamond; }
+bool Board::GetMouseOnLightning() { return mouse_on_lightning; }
+bool Board::GetMouseOnShuffle() { return mouse_on_shuffle; }
 // 提示
 bool Board::ShowHint(bool show) {
     bool get_hint = 0;
