@@ -78,3 +78,20 @@ void MainWindow::on_btnQuit_clicked() {
     BGM::GetInstance()->PlayClose();
     this->close();
 }
+
+void MainWindow::on_rbtnEasy_clicked()
+{
+    BGM::GetInstance()->PlayOpen();
+}
+
+void MainWindow::on_rbtnNormal_clicked()
+{
+    BGM::GetInstance()->PlayOpen();
+}
+
+
+
+void MainWindow::on_rbtnHard_clicked()
+{
+    BGM::GetInstance()->PlayOpen();
+}

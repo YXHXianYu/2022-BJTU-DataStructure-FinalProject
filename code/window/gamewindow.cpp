@@ -164,22 +164,27 @@ void GameWindow::on_btnReturn_clicked() {
 }
 
 void GameWindow::on_skill1_button_clicked() {
+    BGM::GetInstance()->PlayOpen();
     board->ClickedOnDiamond();  // 道具1
 }
 
 void GameWindow::on_skill2_button_clicked() {
+    BGM::GetInstance()->PlayOpen();
     board->ClickedOnLightning();  // 道具2
 }
 
 void GameWindow::on_skill3_button_clicked() {
+    BGM::GetInstance()->PlayOpen();
     board->ClickedOnShuffle();  // 道具3
 }
 
 void GameWindow::on_pause_button_clicked() {
+    BGM::GetInstance()->PlayOpen();
     board->ClickedOnStop();  // 暂停
     is_pausing_ ^= 1;
 }
 
 void GameWindow::on_hint_button_clicked() {
+    BGM::GetInstance()->PlayOpen();
     board->ShowHint(true);  // 提示
 }

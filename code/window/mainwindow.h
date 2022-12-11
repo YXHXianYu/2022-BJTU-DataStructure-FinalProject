@@ -35,7 +35,13 @@ class MainWindow : public FrameLessWindow {
 
   void on_btnQuit_clicked();
 
- signals:
+  void on_rbtnEasy_clicked();
+
+  void on_rbtnNormal_clicked();
+
+  void on_rbtnHard_clicked();
+
+signals:
   void sentDifficulty(QString data);
 
  private:
