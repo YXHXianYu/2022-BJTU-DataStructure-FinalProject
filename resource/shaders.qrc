@@ -5,5 +5,11 @@
         <file>shaders/light.frag</file>
         <file>shaders/light.vert</file>
         <file>shaders/anime.frag</file>
+        <file>shaders/shader_toy.frag</file>
+        <file>shaders/shader_toy.vert</file>
+        <file>shaders/shader_toy_XsXXDn.frag</file>
+        <file>shaders/shader_toy_MdXyzX.frag</file>
+        <file>shaders/shader_toy_Mll3zj.frag</file>
+        <file>shaders/shader_toy_Ms2SD1.frag</file>
     </qresource>
 </RCC>

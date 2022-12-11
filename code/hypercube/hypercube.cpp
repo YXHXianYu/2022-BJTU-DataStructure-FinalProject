@@ -86,19 +86,30 @@ void Hypercube::SetLightSource(int source) { shader_light_source_ = source; }
 void Hypercube::SetHDRExposure(float exposure) { shader_hdr_exposure_ = exposure; }
 
 void Hypercube::initializeGL() {
-    if (DEBUG) std::cerr << "Hypercube::Hypercube::initializeGL - 0" << std::endl;
     // GL Functions
     initializeOpenGLFunctions();
-    if (DEBUG) std::cerr << "Hypercube::Hypercube::initializeGL - 1" << std::endl;
+
     // Stone Manager
     stone_manager_ = new StoneManager(QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_5_Core>());
-    if (DEBUG) std::cerr << "Hypercube::Hypercube::initializeGL - 2" << std::endl;
+
     // Shader Program
     shader_program_.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/common.vert");
     shader_program_.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/common.frag");
     bool success = shader_program_.link();
     if (!success) qDebug() << "Hypercube::Hypercube::InitializeGL Error: " << shader_program_.log();
-    if (DEBUG) std::cerr << "Hypercube::Hypercube::initializeGL - 3 END" << std::endl;
+
+    // Shader Toy Program
+    shader_toy_program_.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/shader_toy.vert");
+    shader_toy_program_.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/shader_toy_Ms2SD1.frag");
+    success = shader_toy_program_.link();
+    if (!success) qDebug() << "Hypercube::Hypercube::InitializeGL Error: " << shader_toy_program_.log();
+
+    // Background Model
+    background = new Model(QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_5_Core>(),
+                           "../2022-BJTU-DataStructure-FinalProject/resource/models/basic/cube.obj");
+
+    // start time
+    start_time = QTime::currentTime();
 }
 
 void Hypercube::paintGL() {
@@ -107,11 +118,23 @@ void Hypercube::paintGL() {
     QMatrix4x4 projection;
 
     view = camera_.GetViewMatrix();
-    projection.perspective(camera_.Zoom, float(width() / height()), 0.1f, 2000.f);
+    projection.perspective(camera_.Zoom, float(width() / height()), 0.1f, 4000.f);
 
     glClearColor(kBackgroundColor.x(), kBackgroundColor.y(), kBackgroundColor.z(), kBackgroundColor.w());
     glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // shader toy program
+    shader_toy_program_.bind();
+    shader_toy_program_.setUniformValue("iTime", QTime::currentTime().msecsSinceStartOfDay() / 2000.f);
+    shader_toy_program_.setUniformValue("iResolution", width(), height());
+    model.setToIdentity();
+    model.translate(400.f, 400.f, -1100.f);
+    shader_toy_program_.setUniformValue("model", model);
+    shader_toy_program_.setUniformValue("view", view);
+    shader_toy_program_.setUniformValue("projection", projection);
+
+    background->Draw(shader_toy_program_);
 
     // shader program
     shader_program_.bind();
