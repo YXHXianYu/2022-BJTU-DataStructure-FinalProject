@@ -7,8 +7,8 @@
 #include "mainwindow.h"
 #include "ui_gamewindow.h"
 
-const QPoint hypercube_size(562, 562);
-const QPoint opengl_up_left(20, 20);
+const QPoint hypercube_size(550, 550);
+const QPoint opengl_up_left(25, 25);
 const QPoint opengl_down_right = opengl_up_left + QPoint(hypercube_size.x(), hypercube_size.y());
 const int TITLE_HEIGHT = 30;
 
@@ -22,13 +22,13 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
     // setAttribute(Qt::WA_DeleteOnClose);
 
     // 创建Hypercube窗口
-    hypercube_ = new Hypercube::Hypercube(this);
+    hypercube_ = new Hypercube::Hypercube(ui->centralwidget);
     hypercube_->setFixedSize(hypercube_size.x(), hypercube_size.y());
     hypercube_->setGeometry(opengl_up_left.x(), opengl_up_left.y(), hypercube_->width(), hypercube_->height());
 
     // 初始化进度条
     is_pausing_ = false;
-    ui->left_time_bar->setRange(0, 600);  // 1min
+    ui->left_time_bar->setRange(0, 100);  // 1min
     // 创建timer
     timer_flush_score_and_left_time_bar_ = new QTimer(this);
     left_time_cnt_ = -10;
@@ -39,19 +39,27 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
         if (is_pausing_ == false) left_time_cnt_++;
         ui->left_time_bar->setValue(
             std::min(std::max(left_time_cnt_, ui->left_time_bar->minimum()), ui->left_time_bar->maximum()));
-
+        // set button state
+        ui->skill1_button->setEnabled(board->GetRest1() > 0);
+        ui->skill2_button->setEnabled(board->GetRest2() > 0);
+        ui->skill3_button->setEnabled(board->GetRest3() > 0);
+        // stop
         if (left_time_cnt_ > ui->left_time_bar->maximum()) {
             timer_flush_score_and_left_time_bar_->stop();
             left_time_cnt_ = -10;
+            record_rank_window->set_score(board->GetScore());
             on_btnReturn_clicked();  // 时间到，直接退出游戏（
         }
+        // log
         if (false)
-            std::cerr << std::min(std::max(left_time_cnt_, ui->left_time_bar->minimum()), ui->left_time_bar->maximum())
-                      << ", " << ui->left_time_bar->value() << ", " << ui->left_time_bar->minimum() << ", "
+            std::cerr << std::min(std::max(left_time_cnt_, ui->left_time_bar->minimum()), ui->left_time_bar->maximum()) << ", "
+                      << ui->left_time_bar->value() << ", " << ui->left_time_bar->minimum() << ", "
                       << ui->left_time_bar->maximum() << std::endl;
     });
     timer_flush_score_and_left_time_bar_->setInterval(100);  // 0.1s
     timer_flush_score_and_left_time_bar_->start();
+    // Record Rank Window
+    record_rank_window = new RecordRankWindow(-1);
 }
 
 GameWindow::~GameWindow() {
@@ -139,6 +147,18 @@ void GameWindow::keyPressEvent(QKeyEvent *e) {
         std::cout << "HDR Exposure: " << shader_hdr_exposure << std::endl;
         hypercube_->SetHDRExposure(shader_hdr_exposure);
     }
+    if (e->key() == Qt::Key_Shift) {
+        on_pause_button_clicked();
+    }
+    if (e->key() == Qt::Key_A) {
+        on_skill1_button_clicked();
+    }
+    if (e->key() == Qt::Key_S) {
+        on_skill2_button_clicked();
+    }
+    if (e->key() == Qt::Key_D) {
+        on_skill3_button_clicked();
+    }
 }
 
 void GameWindow::getDifficulty(QString data) {
@@ -156,10 +176,18 @@ void GameWindow::on_btnReturn_clicked() {
     MainWindow *mw = new MainWindow();
     mw->move(this->pos().x(), this->pos().y());
     mw->show();
+
+    record_rank_window->set_score(board->GetScore());
+    if (record_rank_window->score() > 0) {  // 分数>0，才显示排行榜窗口
+        record_rank_window->show();
+        record_rank_window->setFocus();
+    }
+
     BGM::GetInstance()->PlayClose();
     BGM::GetInstance()->StopBgm2();
     BGM::GetInstance()->PlayBgm1();
     delay(20);
+    timer_flush_score_and_left_time_bar_->stop();
     this->close();
 }
 

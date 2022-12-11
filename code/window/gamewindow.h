@@ -6,6 +6,7 @@
 
 #include "../core/board.h"
 #include "../hypercube/hypercube.h"
+#include "recordrankwindow.h"
 
 // 游戏窗口类
 
@@ -54,6 +55,8 @@ class GameWindow : public QMainWindow {
 
     Board *board;
     Hypercube::Hypercube *hypercube_;
+
+    RecordRankWindow *record_rank_window;  // 用作排行榜输入窗口
 
     bool is_pausing_;  // 这个变量记录当前是否为暂停状态。游戏是否暂停，在项目中有三个不同变量记录它，注意数据同步问题！！！
 
