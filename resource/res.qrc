@@ -19,5 +19,6 @@
         <file>images/gamewindow/7.png</file>
         <file>images/gamewindow/background.png</file>
         <file>font/SmileySans-Oblique.ttf</file>
+        <file>images/gamewindow/7cut.png</file>
     </qresource>
 </RCC>
