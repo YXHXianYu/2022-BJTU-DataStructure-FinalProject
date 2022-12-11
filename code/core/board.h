@@ -11,8 +11,12 @@
 
 #include "../audio/BGM.h"
 #include "../hypercube/hypercube.h"
+#include "QMainWindow"
 #include "stone.h"
-class Board {
+
+class Board : public QMainWindow {
+    Q_OBJECT
+
    private:
     static int start_y;  // 棋盘左上角y坐标
     static int start_x;  // 棋盘左上角x坐标
@@ -35,8 +39,8 @@ class Board {
     QTimer* timer_;
 
    public:
-    Board();
-    Board(int difficulty);
+    explicit Board(QWidget* parent = nullptr);
+    explicit Board(int difficulty, QWidget* parent = nullptr);
     void SetHypercube(Hypercube::Hypercube* hypercube);
 
     void InitHypercube();
@@ -60,9 +64,17 @@ class Board {
     void ClickedOnLightning();        // 道具2
     void ClickedOnShuffle();          // 道具3
     void CancelHint();                // 取消暂停
+    bool GetMouseOnDiamond();
+    bool GetMouseOnLightning();
+    bool GetMouseOnShuffle();
     int GetRest1();
     int GetRest2();
     int GetRest3();
+
+   signals:
+    void Release1();
+    void Release2();
+    void Release3();
 };
 
 #endif  // BOARD_H

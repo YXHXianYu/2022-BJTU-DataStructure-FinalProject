@@ -20,6 +20,8 @@ class BGM {
 
    public:
     BGM();
+    bool stopAllMusic = false;
+    bool stopAllSound = false;
     static BGM *GetInstance();
     void PlayOpen();
     void StopOpen();

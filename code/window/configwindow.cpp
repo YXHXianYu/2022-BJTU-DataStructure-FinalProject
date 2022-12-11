@@ -21,3 +21,30 @@ void ConfigWindow::on_btnReturn_clicked() {
     delay(20);
     this->close();
 }
+
+
+void ConfigWindow::on_btn_stopMusic_clicked()
+{
+    BGM::GetInstance()->stopAllMusic = true;
+    BGM::GetInstance()->StopBgm1();
+    BGM::GetInstance()->PlayOpen();
+}
+
+void ConfigWindow::on_btn_playMusic_clicked()
+{
+    BGM::GetInstance()->stopAllMusic = false;
+    BGM::GetInstance()->PlayBgm1();
+    BGM::GetInstance()->PlayOpen();
+}
+
+void ConfigWindow::on_btn_stopSound_clicked()
+{
+    BGM::GetInstance()->PlayOpen();
+    BGM::GetInstance()->stopAllSound = true;
+}
+
+void ConfigWindow::on_btn_openSound_clicked()
+{
+    BGM::GetInstance()->stopAllSound = false;
+    BGM::GetInstance()->PlayOpen();
+}
