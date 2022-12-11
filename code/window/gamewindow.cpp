@@ -4,6 +4,8 @@
 #include <QBitmap>
 #include <QFont>
 #include <QFontDatabase>
+#include <QPicture>
+#include <QPixmap>
 #include <ctime>
 #include <iostream>
 #include <random>
@@ -37,6 +39,9 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
     hypercube_->setFixedSize(hypercube_size.x(), hypercube_size.y());
     hypercube_->setGeometry(opengl_up_left.x(), opengl_up_left.y(), hypercube_->width(), hypercube_->height());
 
+    // shadow
+    ui->shadow->raise();
+
     // 初始化进度条
     is_pausing_ = false;
     // 创建timer
@@ -52,11 +57,11 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
         ui->skill1_button->setEnabled(board->GetRest1() > 0);
         ui->skill2_button->setEnabled(board->GetRest2() > 0);
         ui->skill3_button->setEnabled(board->GetRest3() > 0);
+
         // stop
         if (left_time_cnt_ <= 0 || board->IsGameOver()) {
             timer_flush_score_and_left_time_bar_->stop();
             left_time_cnt_ = -10;
-            record_rank_window->set_score(board->GetScore());
             on_btnReturn_clicked();  // 时间到，直接退出游戏（
         }
     });

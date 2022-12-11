@@ -19,11 +19,14 @@
      <property name="font">
       <font>
        <family>Agency FB</family>
-       <pointsize>22</pointsize>
+       <pointsize>18</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>记录你的ID!</string>
+      <string>获得了1145141919分！谱写下你的ID吧！</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>

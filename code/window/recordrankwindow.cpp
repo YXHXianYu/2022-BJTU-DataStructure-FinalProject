@@ -19,4 +19,7 @@ void RecordRankWindow::on_record_button_clicked() {
 
 int RecordRankWindow::score() const { return score_; }
 
-void RecordRankWindow::set_score(int score) { score_ = score; }
+void RecordRankWindow::set_score(int score) {
+    score_ = score;
+    ui->label->setText(QString::fromStdString("获得了" + std::to_string(score) + "分！谱写下你的ID吧！"));
+}

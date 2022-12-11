@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="opengl_position_label">
+   <widget class="QLabel" name="shadow">
     <property name="geometry">
      <rect>
       <x>25</x>
@@ -24,7 +24,13 @@
      </rect>
     </property>
     <property name="text">
-     <string>OpenGL窗体位置 - （小想法，如果觉得右侧进度条太丑，或许可以用字符画来替换，比如 |####----|）</string>
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../../resource/res.qrc">:/images/gamewindow/7cut.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QWidget" name="picwidget" native="true">
@@ -302,7 +308,7 @@
    </widget>
    <zorder>picwidget</zorder>
    <zorder>picwidget_2</zorder>
-   <zorder>opengl_position_label</zorder>
+   <zorder>shadow</zorder>
   </widget>
  </widget>
  <resources>
