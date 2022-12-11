@@ -30,6 +30,7 @@ void Rank::Insert(std::string id, int score) {
     addHash["ID"] = QString::fromStdString(id);
     addHash["SCORE"] = QString::number(score);
     if (!db.addData("RANK", addHash)) {
+        //qDebug() << db.getErrorSql();
         QString sqlWhere = QString(" where ID='%1'").arg(addHash["ID"]);
         if (!db.updateData("RANK", addHash, sqlWhere)) {
             qDebug() << db.getErrorSql();
@@ -56,10 +57,9 @@ void Rank::Query(std::vector<std::pair<std::string, int>>& pairs) {
     }
 
     db.transaction();  // 开启事务
-    QString sqlStr = QString("SELECT * FROM Rank");
     QList<QHash<QString, QString>> allData;
-    if (!db.queryExec("Rank", sqlStr, allData)) {
-        qDebug() << "分数降序获取失败";
+    if (!db.getData("RANK", allData)) {
+        qDebug() << "分数获取失败";
         for (auto pair : pairs) {
             pair = {"empty", -1};
         }
