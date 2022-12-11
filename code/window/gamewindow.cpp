@@ -47,7 +47,6 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
         if (left_time_cnt_ > ui->left_time_bar->maximum()) {
             timer_flush_score_and_left_time_bar_->stop();
             left_time_cnt_ = -10;
-            record_rank_window->set_score(board->GetScore());
             on_btnReturn_clicked();  // 时间到，直接退出游戏（
         }
         // log
