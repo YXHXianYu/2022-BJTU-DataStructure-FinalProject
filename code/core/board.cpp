@@ -308,6 +308,15 @@ void Board::ClickedOnStop() {
 
 void Board::ClickedOnDiamond() {
     CancelHint();
+    mouse_on_shuffle = 0;
+    mouse_on_lightning = 0;
+    emit Release2();
+    emit Release3();
+    if (chosen_.first != -1) {
+        hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
+                                                 Hypercube::StoneManager::kRotate);
+        chosen_ = {-1, -1};
+    }
     if (mouse_on_diamond == 1) {
         mouse_on_diamond = 0;
         return;
@@ -320,6 +329,15 @@ void Board::ClickedOnDiamond() {
 
 void Board::ClickedOnShuffle() {
     CancelHint();
+    mouse_on_diamond = 0;
+    mouse_on_lightning = 0;
+    emit Release1();
+    emit Release2();
+    if (chosen_.first != -1) {
+        hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
+                                                 Hypercube::StoneManager::kRotate);
+        chosen_ = {-1, -1};
+    }
     if (mouse_on_shuffle == 1) {
         mouse_on_shuffle = 0;
         return;
@@ -332,6 +350,15 @@ void Board::ClickedOnShuffle() {
 
 void Board::ClickedOnLightning() {
     CancelHint();
+    mouse_on_diamond = 0;
+    mouse_on_shuffle = 0;
+    emit Release1();
+    emit Release3();
+    if (chosen_.first != -1) {
+        hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
+                                                 Hypercube::StoneManager::kRotate);
+        chosen_ = {-1, -1};
+    }
     if (mouse_on_lightning == 1) {
         mouse_on_lightning = 0;
         return;

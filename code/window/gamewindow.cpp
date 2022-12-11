@@ -77,7 +77,7 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
     if (!font_list.isEmpty()) {
         QFont f;
         f.setFamily(font_list[0]);
-        f.setPointSize(16);
+        f.setPointSize(17);
         ui->score_bar->setFont(f);
         f.setPointSize(20);
         ui->minute_label->setFont(f);
