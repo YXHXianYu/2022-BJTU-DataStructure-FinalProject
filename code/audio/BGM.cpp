@@ -68,30 +68,80 @@ BGM* BGM::GetInstance() {
     return instance_;
 }
 
-void BGM::PlayOpen() { open->play(); }
+void BGM::PlayOpen() {
+    if (!BGM::GetInstance()->stopAllSound){
+    open->play();
+    }
+}
+
 void BGM::StopOpen() { open->stop(); }
 
-void BGM::PlayClose() { close->play(); }
+void BGM::PlayClose() {
+    if (!BGM::GetInstance()->stopAllSound){
+    close->play();
+    }
+}
+
 void BGM::StopClose() { close->stop(); }
 
-void BGM::PlaySwitchTask() { switch_task->play(); }
+void BGM::PlaySwitchTask() {
+    if (!BGM::GetInstance()->stopAllSound){
+    switch_task->play();
+    }
+}
 void BGM::StopSwitchTask() { switch_task->stop(); }
 
-void BGM::PlaySwitchType() { switch_type->play(); }
+void BGM::PlaySwitchType() {
+    if (!BGM::GetInstance()->stopAllSound){
+    switch_type->play();
+    }
+}
 void BGM::StopSwitchType() { switch_type->stop(); }
 
-void BGM::PlayMusic() { music->play(); }
+void BGM::PlayMusic() {
+    if (!BGM::GetInstance()->stopAllMusic){
+    music->play();
+    }
+}
 void BGM::StopMusic() { music->stop(); }
 
-void BGM::PlayMatch1() { match1->play(); }
-void BGM::PlayMatch2() { match2->play(); }
-void BGM::PlayMatch3() { match3->play(); }
-void BGM::PlayFall() { fall->play(); }
+void BGM::PlayMatch1() {
+    if (!BGM::GetInstance()->stopAllSound){
+    match1->play();
+    }
+}
+void BGM::PlayMatch2() {
+    if (!BGM::GetInstance()->stopAllSound){
+    match2->play();
+    }
+}
+void BGM::PlayMatch3() {
+    if (!BGM::GetInstance()->stopAllSound){
+    match3->play();
+    }
+}
+void BGM::PlayFall() {
+    if (!BGM::GetInstance()->stopAllSound){
+    fall->play();
+    }
+}
 
-void BGM::PlayPlayer() { player->play(); }
+void BGM::PlayPlayer() {
+    if (!BGM::GetInstance()->stopAllSound){
+    player->play();
+    }
+}
 
-void BGM::PlayBgm1() { bgm1->play(); }
+void BGM::PlayBgm1() {
+    if (!BGM::GetInstance()->stopAllMusic){
+    bgm1->play();
+    }
+}
 void BGM::StopBgm1() { bgm1->stop(); }
 
-void BGM::PlayBgm2() { bgm2->play(); }
+void BGM::PlayBgm2() {
+    if (!BGM::GetInstance()->stopAllMusic){
+    bgm2->play();
+    }
+}
 void BGM::StopBgm2() { bgm2->stop(); }

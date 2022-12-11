@@ -27,70 +27,57 @@
      <string>返回主菜单</string>
     </property>
    </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget">
+   <widget class="QPushButton" name="btn_stopMusic">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>320</y>
-      <width>281</width>
-      <height>51</height>
+      <x>130</x>
+      <y>90</y>
+      <width>161</width>
+      <height>81</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="DifficultyLayout">
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="rbtnEasy">
-       <property name="text">
-        <string>普通</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="rbtnNormal">
-       <property name="text">
-        <string>困难</string>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="rbtnHard">
-       <property name="text">
-        <string>不可能</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
+    <property name="text">
+     <string>关闭音乐</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_playMusic">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>90</y>
+      <width>161</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>播放音乐</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_stopSound">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>200</y>
+      <width>161</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>关闭音效</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_openSound">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>200</y>
+      <width>161</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>开启音效</string>
+    </property>
    </widget>
   </widget>
  </widget>
