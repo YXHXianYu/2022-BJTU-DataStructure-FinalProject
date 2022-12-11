@@ -4,5 +4,13 @@
         <file>images/mainwindow/background.jpg</file>
         <file>images/mainwindow/test.png</file>
         <file>images/mainwindow/test1.png</file>
+        <file>images/gamewindow/background.png</file>
+        <file>images/gamewindow/1.png</file>
+        <file>images/gamewindow/2.png</file>
+        <file>images/gamewindow/3.png</file>
+        <file>images/gamewindow/4.png</file>
+        <file>images/gamewindow/5.png</file>
+        <file>images/gamewindow/6.png</file>
+        <file>images/gamewindow/7.png</file>
     </qresource>
 </RCC>

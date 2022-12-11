@@ -21,6 +21,8 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
     // close时析构成员变量
     // setAttribute(Qt::WA_DeleteOnClose);
 
+    ui->skill1_button->setStyleSheet("background-color:rgba(0,0,0,0)");
+
     // 创建Hypercube窗口
     hypercube_ = new Hypercube::Hypercube(this);
     hypercube_->setFixedSize(hypercube_size.x(), hypercube_size.y());
@@ -40,7 +42,7 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
         ui->left_time_bar->setValue(
             std::min(std::max(left_time_cnt_, ui->left_time_bar->minimum()), ui->left_time_bar->maximum()));
 
-        if (left_time_cnt_ > ui->left_time_bar->maximum()) {
+        if (left_time_cnt_ > ui->left_time_bar->maximum() || board->IsGameOver()) {
             timer_flush_score_and_left_time_bar_->stop();
             left_time_cnt_ = -10;
             on_btnReturn_clicked();  // 时间到，直接退出游戏（
