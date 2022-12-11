@@ -1,6 +1,6 @@
 #ifndef DEBUG_H
 #define DEBUG_H
 
-#define DEBUG (true)
+#define DEBUG (false)
 
 #endif  // DEBUG_H
