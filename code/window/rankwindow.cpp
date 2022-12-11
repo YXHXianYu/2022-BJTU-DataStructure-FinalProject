@@ -9,7 +9,8 @@ RankWindow::RankWindow(QWidget *parent) : FrameLessWindow(parent), ui(new Ui::Ra
     this->setFixedSize(800, 600);
     // 去除自带的边框
     this->setWindowFlag(Qt::FramelessWindowHint);
-    Rank::GetInstance()->Insert("testplayer",999);
+    //for (int i=0;i<10;i++)
+    //Rank::GetInstance()->Insert(QString::number(i).toStdString(),-1);
     Rank::GetInstance()->Query(pairs);
     int now = 1;
     for (const auto &x : pairs) {
