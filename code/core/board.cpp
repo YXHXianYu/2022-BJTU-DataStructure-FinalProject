@@ -21,9 +21,9 @@ Board::Board(int difficulty, QWidget *parent) : QMainWindow(parent) {
     cnt_ = 0;
     combo_times = 0;
     stop_ = 0;
-    rest_lightning = 2;
-    rest_diamond = 2;
-    rest_shuffle = 2;
+    rest_lightning = 1;
+    rest_diamond = 1;
+    rest_shuffle = 1;
     point_ = 0;
     // std::cerr << "generate start" << std::endl;
     Generate(1);
@@ -50,12 +50,27 @@ void Board::InitHypercube() {
     QObject::connect(timer_, &QTimer::timeout, [&]() {
         // std::cout << "haha" << std::endl;
         if (hypercube_->GetStoneManager()->haveRemoveInRecentFrame()) {
-            if (combo_times == 1) {
-                BGM::GetInstance()->PlayMatch1();
-            } else if (combo_times == 2) {
+            int state1, state2, state3, state4, state5, state6;
+            state1 = BGM::GetInstance()->IsPlayingMatch1();
+            state2 = BGM::GetInstance()->IsPlayingMatch2();
+            state3 = BGM::GetInstance()->IsPlayingMatch3();
+            state4 = BGM::GetInstance()->IsPlayingMatch4();
+            state5 = BGM::GetInstance()->IsPlayingMatch5();
+            state6 = BGM::GetInstance()->IsPlayingMatch6();
+            if (state1 && !state2) {
                 BGM::GetInstance()->PlayMatch2();
-            } else {
+            } else if (state2 && !state3) {
                 BGM::GetInstance()->PlayMatch3();
+            } else if (state3 && !state4) {
+                BGM::GetInstance()->PlayMatch4();
+            } else if (state4 && !state5) {
+                BGM::GetInstance()->PlayMatch5();
+            } else if (state5 && !state6) {
+                BGM::GetInstance()->PlayMatch6();
+            } else if (state6) {
+                BGM::GetInstance()->PlayMatch3();
+            } else {
+                BGM::GetInstance()->PlayMatch1();
             }
         }
         if (hypercube_->GetStoneManager()->haveFallInRecentFrame()) {
@@ -84,7 +99,7 @@ void Board::Generate(bool start) {
     if (!start) {
         for (int i = 0; i < 8; ++i) {
             for (int j = 0; j < 8; ++j) {
-                hypercube_->GetStoneManager()->Remove(stones_[i][j].GetId(), true);
+                hypercube_->GetStoneManager()->Remove(stones_[i][j].GetId(), false);
             }
         }
     }
@@ -384,7 +399,7 @@ void Board::Refresh() {
         }
         combo_times++;
 
-        BGM::GetInstance()->PlayFall();
+        // BGM::GetInstance()->PlayFall();
         Remove();
         Fall();
         combo_base += accelerate_base;
@@ -459,6 +474,16 @@ bool Board::ShowHint(bool show) {
         }
         if (get_hint) break;
     }
+
+    if (show) {
+        if (get_hint == 0) return 0;
+        if (point_ < 100) {
+            return 0;
+        }
+        point_ -= 100;
+        BGM::GetInstance()->PlayOpen();
+    }
+
     if (show) {
         if (chosen_.first != -1) {
             hypercube_->GetStoneManager()->SetRotate(stones_[chosen_.first][chosen_.second].GetId(),
@@ -484,7 +509,9 @@ void Board::CancelHint() {
 }
 
 bool Board::IsGameOver() {
-    if (!rest_shuffle && !ShowHint(0)) {
+    if (hypercube_->GetStoneManager()->isPlayingAnimation()) return 0;
+    if (!rest_shuffle && !rest_diamond && !rest_lightning && !ShowHint(0)) {
+        // std::cout << "over" << std::endl;
         return 1;
     }
     return 0;

@@ -1,9 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/mainwindow/vain.png</file>
-        <file>images/mainwindow/background.jpg</file>
-        <file>images/mainwindow/test.png</file>
-        <file>images/mainwindow/test1.png</file>
         <file>images/gamewindow/1.png</file>
         <file>images/gamewindow/1-.png</file>
         <file>images/gamewindow/2.png</file>
@@ -20,5 +16,26 @@
         <file>images/gamewindow/background.png</file>
         <file>font/SmileySans-Oblique.ttf</file>
         <file>images/gamewindow/7cut.png</file>
+        <file>images/mainwindow/1.png</file>
+        <file>images/mainwindow/1-.png</file>
+        <file>images/mainwindow/2.png</file>
+        <file>images/mainwindow/2-.png</file>
+        <file>images/mainwindow/3.png</file>
+        <file>images/mainwindow/3-.png</file>
+        <file>images/mainwindow/4.png</file>
+        <file>images/mainwindow/4-.png</file>
+        <file>images/mainwindow/5.png</file>
+        <file>images/mainwindow/5-.png</file>
+        <file>images/mainwindow/6.png</file>
+        <file>images/mainwindow/6-.png</file>
+        <file>images/mainwindow/7.png</file>
+        <file>images/mainwindow/7-.png</file>
+        <file>images/mainwindow/8.png</file>
+        <file>images/mainwindow/8-.png</file>
+        <file>images/mainwindow/background.png</file>
+        <file>images/mainwindow/top.png</file>
+        <file>images/mainwindow/test1.png</file>
+        <file>images/mainwindow/vain.png</file>
+        <file>images/mainwindow/background.jpg</file>
     </qresource>
 </RCC>

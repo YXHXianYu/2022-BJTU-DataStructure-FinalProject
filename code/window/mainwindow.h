@@ -41,11 +41,32 @@ class MainWindow : public FrameLessWindow {
 
     void on_rbtnHard_clicked();
 
+    void on_btnGame_pressed();
+
+    void on_btnGame_released();
+
+    void on_btnRank_pressed();
+
+    void on_btnRank_released();
+
+    void on_btnConfig_pressed();
+
+    void on_btnConfig_released();
+
+    void on_btnQuit_pressed();
+
+    void on_btnQuit_released();
+
+    void on_btnAbout_pressed();
+
+    void on_btnAbout_released();
+
    signals:
     void sentDifficulty(QString data);
 
    private:
     Ui::MainWindow *ui;
+    QString msg;
 };
 
 // 延迟时间，为优化切换窗口体验
