@@ -26,11 +26,11 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
     this->setWindowFlag(Qt::FramelessWindowHint);
     // close时析构成员变量
     // setAttribute(Qt::WA_DeleteOnClose);
-    /*
-    QPixmap pix;
-    pix.load(":/images/gamewindow/1.png");
-    ui->skill1_button->setFixedSize(pix.size());
-    ui->skill1_button->setMask(pix.mask());
+
+    /*QPixmap pix;
+        pix.load(":/images/gamewindow/1.png");
+        ui->skill1_button->setFixedSize(pix.size());
+        ui->skill1_button->setMask(pix.mask());
     */
     ui->skill1_button->setStyleSheet("background-color:rgba(0,0,0,0)");
 
@@ -277,6 +277,13 @@ void GameWindow::on_pause_button_clicked() {
 }
 
 void GameWindow::on_hint_button_clicked() {
-    BGM::GetInstance()->PlayOpen();
     board->ShowHint(true);  // 提示
 }
+
+void GameWindow::on_hint_button_pressed() { ui->hint_button->setIcon(QIcon(":/images/gamewindow/5-.png")); }
+
+void GameWindow::on_hint_button_released() { ui->hint_button->setIcon(QIcon(":/images/gamewindow/5.png")); }
+
+void GameWindow::on_btnReturn_pressed() { ui->btnReturn->setIcon(QIcon(":/images/gamewindow/6-.png")); }
+
+void GameWindow::on_btnReturn_released() { ui->btnReturn->setIcon(QIcon(":/images/gamewindow/6.png")); }

@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent) : FrameLessWindow(parent), ui(new Ui::Ma
     // 去除自带的边框
     this->setWindowFlag(Qt::FramelessWindowHint);
     BGM::GetInstance()->PlayBgm1();
+    msg = "easy";
+    ui->rbtnEasy->setIcon(QIcon(":/images/mainwindow/1-.png"));
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -34,10 +36,6 @@ void MainWindow::on_btnGame_clicked() {
     connect(this, &MainWindow::sentDifficulty, gw, &GameWindow::getDifficulty);
     gw->show();
     std::cerr << "MainWindow::on_btnGame_clicked - GameWindow has showed." << std::endl;
-    QString msg;
-    if (ui->rbtnEasy->isChecked()) msg = "easy";
-    if (ui->rbtnNormal->isChecked()) msg = "normal";
-    if (ui->rbtnHard->isChecked()) msg = "hard";
     emit sentDifficulty(msg);
     delay(200);
 
@@ -46,7 +44,7 @@ void MainWindow::on_btnGame_clicked() {
 
 // 排行榜
 void MainWindow::on_btnRank_clicked() {
-    BGM::GetInstance()->PlayOpen();
+    BGM::GetInstance()->PlaySwitchType();
     RankWindow *rw = new RankWindow();
     rw->move(this->pos().x(), this->pos().y());
     rw->show();
@@ -56,7 +54,7 @@ void MainWindow::on_btnRank_clicked() {
 
 // 设置
 void MainWindow::on_btnConfig_clicked() {
-    BGM::GetInstance()->PlayOpen();
+    BGM::GetInstance()->PlaySwitchType();
     ConfigWindow *cw = new ConfigWindow();
     cw->move(this->pos().x(), this->pos().y());
     cw->show();
@@ -66,7 +64,7 @@ void MainWindow::on_btnConfig_clicked() {
 
 // 关于
 void MainWindow::on_btnAbout_clicked() {
-    BGM::GetInstance()->PlayOpen();
+    BGM::GetInstance()->PlaySwitchType();
     AboutWindow *aw = new AboutWindow();
     aw->move(this->pos().x(), this->pos().y());
     aw->show();
@@ -79,19 +77,46 @@ void MainWindow::on_btnQuit_clicked() {
     this->close();
 }
 
-void MainWindow::on_rbtnEasy_clicked()
-{
+void MainWindow::on_rbtnEasy_clicked() {
+    BGM::GetInstance()->PlayOpen();
+    msg = "easy";
+    ui->rbtnEasy->setIcon(QIcon(":/images/mainwindow/1-.png"));
+    ui->rbtnNormal->setIcon(QIcon(":/images/mainwindow/2.png"));
+    ui->rbtnHard->setIcon(QIcon(":/images/mainwindow/3.png"));
+}
+
+void MainWindow::on_rbtnNormal_clicked() {
+    msg = "normal";
+    ui->rbtnEasy->setIcon(QIcon(":/images/mainwindow/1.png"));
+    ui->rbtnNormal->setIcon(QIcon(":/images/mainwindow/2-.png"));
+    ui->rbtnHard->setIcon(QIcon(":/images/mainwindow/3.png"));
     BGM::GetInstance()->PlayOpen();
 }
 
-void MainWindow::on_rbtnNormal_clicked()
-{
+void MainWindow::on_rbtnHard_clicked() {
+    msg = "hard";
+    ui->rbtnEasy->setIcon(QIcon(":/images/mainwindow/1.png"));
+    ui->rbtnNormal->setIcon(QIcon(":/images/mainwindow/2.png"));
+    ui->rbtnHard->setIcon(QIcon(":/images/mainwindow/3-.png"));
     BGM::GetInstance()->PlayOpen();
 }
 
+void MainWindow::on_btnGame_pressed() { ui->btnGame->setIcon(QIcon(":/images/mainwindow/4-.png")); }
 
+void MainWindow::on_btnGame_released() { ui->btnGame->setIcon(QIcon(":/images/mainwindow/4.png")); }
 
-void MainWindow::on_rbtnHard_clicked()
-{
-    BGM::GetInstance()->PlayOpen();
-}
+void MainWindow::on_btnRank_pressed() { ui->btnRank->setIcon(QIcon(":/images/mainwindow/5-.png")); }
+
+void MainWindow::on_btnRank_released() { ui->btnRank->setIcon(QIcon(":/images/mainwindow/5.png")); }
+
+void MainWindow::on_btnConfig_pressed() { ui->btnConfig->setIcon(QIcon(":/images/mainwindow/6-.png")); }
+
+void MainWindow::on_btnConfig_released() { ui->btnConfig->setIcon(QIcon(":/images/mainwindow/6.png")); }
+
+void MainWindow::on_btnQuit_pressed() { ui->btnQuit->setIcon(QIcon(":/images/mainwindow/7-.png")); }
+
+void MainWindow::on_btnQuit_released() { ui->btnQuit->setIcon(QIcon(":/images/mainwindow/7.png")); }
+
+void MainWindow::on_btnAbout_pressed() { ui->btnAbout->setIcon(QIcon(":/images/mainwindow/8.png")); }
+
+void MainWindow::on_btnAbout_released() { ui->btnAbout->setIcon(QIcon(":/images/mainwindow/8-.png")); }
