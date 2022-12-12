@@ -21,9 +21,9 @@ Board::Board(int difficulty, QWidget *parent) : QMainWindow(parent) {
     cnt_ = 0;
     combo_times = 0;
     stop_ = 0;
-    rest_lightning = 2;
-    rest_diamond = 2;
-    rest_shuffle = 2;
+    rest_lightning = 1;
+    rest_diamond = 1;
+    rest_shuffle = 1;
     point_ = 0;
     // std::cerr << "generate start" << std::endl;
     Generate(1);
@@ -84,7 +84,7 @@ void Board::Generate(bool start) {
     if (!start) {
         for (int i = 0; i < 8; ++i) {
             for (int j = 0; j < 8; ++j) {
-                hypercube_->GetStoneManager()->Remove(stones_[i][j].GetId(), true);
+                hypercube_->GetStoneManager()->Remove(stones_[i][j].GetId(), false);
             }
         }
     }
@@ -429,6 +429,8 @@ bool Board::GetMouseOnLightning() { return mouse_on_lightning; }
 bool Board::GetMouseOnShuffle() { return mouse_on_shuffle; }
 // 提示
 bool Board::ShowHint(bool show) {
+    if (point_ < 100) return 0;
+    point_ -= 100;
     bool get_hint = 0;
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
@@ -484,7 +486,7 @@ void Board::CancelHint() {
 }
 
 bool Board::IsGameOver() {
-    if (!rest_shuffle && !ShowHint(0)) {
+    if (!rest_shuffle && !rest_diamond && !rest_lightning && !ShowHint(0)) {
         return 1;
     }
     return 0;
