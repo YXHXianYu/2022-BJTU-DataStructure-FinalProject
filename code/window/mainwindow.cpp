@@ -117,6 +117,6 @@ void MainWindow::on_btnQuit_pressed() { ui->btnQuit->setIcon(QIcon(":/images/mai
 
 void MainWindow::on_btnQuit_released() { ui->btnQuit->setIcon(QIcon(":/images/mainwindow/7.png")); }
 
-void MainWindow::on_btnAbout_pressed() { ui->btnAbout->setIcon(QIcon(":/images/mainwindow/8.png")); }
+void MainWindow::on_btnAbout_pressed() { ui->btnAbout->setIcon(QIcon(":/images/mainwindow/8-.png")); }
 
-void MainWindow::on_btnAbout_released() { ui->btnAbout->setIcon(QIcon(":/images/mainwindow/8-.png")); }
+void MainWindow::on_btnAbout_released() { ui->btnAbout->setIcon(QIcon(":/images/mainwindow/8.png")); }
