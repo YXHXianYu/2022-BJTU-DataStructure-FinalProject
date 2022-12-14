@@ -5,7 +5,7 @@
 
 AboutWindow::AboutWindow(QWidget *parent) : FrameLessWindow(parent), ui(new Ui::AboutWindow) {
     ui->setupUi(this);
-    // 固定窗口大小
+    // 固定窗口的大小
     this->setFixedSize(800, 600);
     // 去除自带的边框
     this->setWindowFlag(Qt::FramelessWindowHint);
