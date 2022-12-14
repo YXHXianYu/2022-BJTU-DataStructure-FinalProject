@@ -3,82 +3,41 @@
 #include <iostream>
 
 BGM::BGM() {
-    open = new QMediaPlayer();
-    open->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"));
-    open->setVolume(50);
+    open = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"), 50);
+    open1 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"), 50);
+    open2 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"), 50);
+    open3 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"), 50);
+    open4 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"), 50);
+    open5 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"), 50);
 
-    open1 = new QMediaPlayer();
-    open1->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"));
-    open1->setVolume(50);
-    open2 = new QMediaPlayer();
-    open2->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"));
-    open2->setVolume(50);
-    open3 = new QMediaPlayer();
-    open3->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"));
-    open3->setVolume(50);
-    open4 = new QMediaPlayer();
-    open4->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"));
-    open4->setVolume(50);
-    open5 = new QMediaPlayer();
-    open5->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"));
-    open5->setVolume(50);
+    close = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/close_win.wav"), 50);
 
-    close = new QMediaPlayer();
-    close->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/close_win.wav"));
-    close->setVolume(50);
+    switch_task =
+        GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/switch_task.wav"), 50);
 
-    switch_task = new QMediaPlayer();
-    switch_task->setMedia(
-        QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/switch_task.wav"));
-    switch_task->setVolume(50);
+    switch_type =
+        GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/switch_type.wav"), 50);
 
-    switch_type = new QMediaPlayer();
-    switch_type->setMedia(
-        QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/switch_type.wav"));
-    switch_type->setVolume(50);
+    music = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/music.wav"), 50);
+    match1 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match1.wav"), 20);
 
-    music = new QMediaPlayer();
-    music->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/music.wav"));
-    music->setVolume(50);
-    match1 = new QMediaPlayer();
-    match1->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match1.wav"));
-    match1->setVolume(20);
+    match2 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match2.wav"), 20);
 
-    match2 = new QMediaPlayer();
-    match2->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match2.wav"));
-    match2->setVolume(20);
+    match3 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match3.wav"), 20);
 
-    match3 = new QMediaPlayer();
-    match3->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match3.wav"));
-    match3->setVolume(20);
+    match4 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match3.wav"), 20);
 
-    match4 = new QMediaPlayer();
-    match4->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match3.wav"));
-    match4->setVolume(20);
+    match5 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match3.wav"), 20);
 
-    match5 = new QMediaPlayer();
-    match5->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match3.wav"));
-    match5->setVolume(20);
+    match6 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match3.wav"), 20);
 
-    match6 = new QMediaPlayer();
-    match6->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match3.wav"));
-    match6->setVolume(20);
+    fall = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/fall.wav"), 50);
 
-    fall = new QMediaPlayer();
-    fall->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/fall.wav"));
-    fall->setVolume(50);
+    bgm1 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/bgm1.wav"), 8);
 
-    bgm1 = new QMediaPlayer();
-    bgm1->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/bgm1.wav"));
-    bgm1->setVolume(10);
+    bgm2 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/bgm2.wav"), 8);
 
-    bgm2 = new QMediaPlayer();
-    bgm2->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/bgm2.wav"));
-    bgm2->setVolume(10);
-
-    fall = new QMediaPlayer();
-    fall->setMedia(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/fall.wav"));
-    fall->setVolume(50);
+    fall = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/fall.wav"), 50);
 
     /*
     player = new QMediaPlayer();
@@ -86,9 +45,9 @@ BGM::BGM() {
     player->setVolume(50);*/
 }
 
-BGM* BGM::instance_ = nullptr;
+BGM *BGM::instance_ = nullptr;
 
-BGM* BGM::GetInstance() {
+BGM *BGM::GetInstance() {
     if (instance_ == nullptr) {
         instance_ = new BGM();
     }
@@ -191,6 +150,17 @@ void BGM::PlayPlayer() {
     if (!BGM::GetInstance()->stopAllSound) {
         player->play();
     }
+}
+
+QMediaPlayer *BGM::GetMediaPlayer(const QMediaContent &content, int volume) {
+    QMediaPlayer *player = new QMediaPlayer();
+    player->setMedia(content);
+    player->setVolume(volume);
+
+    player->play();
+    player->stop();
+
+    return player;
 }
 
 void BGM::PlayBgm1() {

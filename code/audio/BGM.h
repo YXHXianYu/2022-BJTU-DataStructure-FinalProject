@@ -67,6 +67,9 @@ class BGM {
     void PlayFall();
 
     void PlayPlayer();
+
+   private:
+    QMediaPlayer *GetMediaPlayer(const QMediaContent &content, int volume);
 };
 
 #endif  // BGM_H
