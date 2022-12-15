@@ -13,7 +13,10 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="QWidget" name="aiwidget">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <widget class="QLabel" name="shadow">
     <property name="geometry">
      <rect>

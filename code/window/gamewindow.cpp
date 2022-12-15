@@ -2,6 +2,7 @@
 
 #include <QAction>
 #include <QBitmap>
+#include <QDebug>
 #include <QFont>
 #include <QFontDatabase>
 #include <QPicture>
@@ -18,21 +19,29 @@ const QPoint opengl_up_left(25, 25);
 const QPoint opengl_down_right = opengl_up_left + QPoint(hypercube_size.x(), hypercube_size.y());
 const int TITLE_HEIGHT = 30;
 
-GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWindow) {
-    ui->setupUi(this);
-    // 固定窗口大小
-    this->setFixedSize(800, 600);
-    // 去除自带的边框
-    this->setWindowFlag(Qt::FramelessWindowHint);
-    QIcon icon = QIcon(":/images/windowicon.png");
-    this->setWindowIcon(icon);
-    QPixmap pix(":/images/mouse.png");
-    QSize size(24, 24);
-    // 设置图片大小
-    pix = pix.scaled(size, Qt::KeepAspectRatio);
-    this->setCursor(QCursor(pix, -1, -1));
-    // close时析构成员变量
-    // setAttribute(Qt::WA_DeleteOnClose);
+GameWindow::GameWindow(QWidget *parent)
+    : QMainWindow(parent), ui(new Ui::GameWindow) {
+  ui->setupUi(this);
+  // 固定窗口大小
+  this->setFixedSize(800, 600);
+  // 去除自带的边框
+  this->setWindowFlag(Qt::FramelessWindowHint);
+  QIcon icon = QIcon(":/images/windowicon.png");
+  this->setWindowIcon(icon);
+  QPixmap pix(":/images/mouse.png");
+  QSize size(24, 24);
+  // 设置图片大小
+  pix = pix.scaled(size, Qt::KeepAspectRatio);
+  this->setCursor(QCursor(pix, -1, -1));
+
+  QString ppath = QString("#aiwidget{border-image:url(:/images/立绘/ai%1.png)}")
+                      .arg(rand() % 12 + 1);
+  qDebug() << ppath << endl;
+  ui->aiwidget->setStyleSheet(
+      QString("#aiwidget{border-image:url(:/images/立绘/ai%2.png)}")
+          .arg(rand() % 12 + 1));
+  // close时析构成员变量
+  // setAttribute(Qt::WA_DeleteOnClose);
 
     /*QPixmap pix;
         pix.load(":/images/gamewindow/1.png");
@@ -41,10 +50,11 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GameWi
     */
     ui->skill1_button->setStyleSheet("background-color:rgba(0,0,0,0)");
 
-    // 创建Hypercube窗口
-    hypercube_ = new Hypercube::Hypercube(ui->centralwidget);
-    hypercube_->setFixedSize(hypercube_size.x(), hypercube_size.y());
-    hypercube_->setGeometry(opengl_up_left.x(), opengl_up_left.y(), hypercube_->width(), hypercube_->height());
+  // 创建Hypercube窗口
+  hypercube_ = new Hypercube::Hypercube(ui->aiwidget);
+  hypercube_->setFixedSize(hypercube_size.x(), hypercube_size.y());
+  hypercube_->setGeometry(opengl_up_left.x(), opengl_up_left.y(),
+                          hypercube_->width(), hypercube_->height());
 
     // shadow
     ui->shadow->raise();
@@ -184,31 +194,36 @@ void GameWindow::keyPressEvent(QKeyEvent *e) {
         else
             shader_render_mode = (shader_render_mode + 1) % 5;  // R键，切换渲染模式，后翻
 
-        std::cout << "Render Mode: " << shader_render_mode << std::endl;
-        hypercube_->SetRenderMode(shader_render_mode);
-    }
-    if (e->key() == Qt::Key_L) {  // L键，切换渲染光源
-        shader_light_source = (shader_light_source + 1) % 3;
-        std::cout << "Light Source: " << shader_light_source << std::endl;
-        hypercube_->SetLightSource(shader_light_source);
-    }
-    if (e->key() == Qt::Key_G || e->key() == Qt::Key_H) {  // H键，切换HDR曝光等级
-        shader_hdr_exposure += (e->key() == Qt::Key_H ? 1.f : -1.f) * 0.1f;
-        std::cout << "HDR Exposure: " << shader_hdr_exposure << std::endl;
-        hypercube_->SetHDRExposure(shader_hdr_exposure);
-    }
-    if (e->key() == Qt::Key_Shift) {
-        on_pause_button_clicked();
-    }
-    if (e->key() == Qt::Key_A) {
-        on_skill1_button_clicked();
-    }
-    if (e->key() == Qt::Key_S) {
-        on_skill2_button_clicked();
-    }
-    if (e->key() == Qt::Key_D) {
-        on_skill3_button_clicked();
-    }
+    std::cout << "Render Mode: " << shader_render_mode << std::endl;
+    hypercube_->SetRenderMode(shader_render_mode);
+  }
+  if (e->key() == Qt::Key_L) {  // L键，切换渲染光源
+    shader_light_source = (shader_light_source + 1) % 3;
+    std::cout << "Light Source: " << shader_light_source << std::endl;
+    hypercube_->SetLightSource(shader_light_source);
+  }
+  if (e->key() == Qt::Key_G || e->key() == Qt::Key_H) {  // H键，切换HDR曝光等级
+    shader_hdr_exposure += (e->key() == Qt::Key_H ? 1.f : -1.f) * 0.1f;
+    std::cout << "HDR Exposure: " << shader_hdr_exposure << std::endl;
+    hypercube_->SetHDRExposure(shader_hdr_exposure);
+  }
+  if (e->key() == Qt::Key_Shift) {
+    on_pause_button_clicked();
+  }
+  if (e->key() == Qt::Key_A) {
+    on_skill1_button_clicked();
+  }
+  if (e->key() == Qt::Key_S) {
+    on_skill2_button_clicked();
+  }
+  if (e->key() == Qt::Key_D) {
+    on_skill3_button_clicked();
+  }
+  // 彩蛋
+  if (e->key() == Qt::Key_O) {
+    ui->aiwidget->setStyleSheet(
+        "#aiwidget{border-image:url(:/images/立绘/nb.png)}");
+  }
 }
 
 void GameWindow::getDifficulty(QString data) {
