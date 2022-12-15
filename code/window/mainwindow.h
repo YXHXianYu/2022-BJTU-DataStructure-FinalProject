@@ -60,7 +60,6 @@ class MainWindow : public FrameLessWindow {
    private:
     Ui::MainWindow *ui;
     QString msg;
-    QTimer *timer_;
 };
 
 // 延迟时间，为优化切换窗口体验
