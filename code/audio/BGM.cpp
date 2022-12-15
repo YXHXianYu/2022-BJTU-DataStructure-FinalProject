@@ -3,39 +3,52 @@
 #include <iostream>
 
 BGM::BGM() {
-    open = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"), 50);
-    open1 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"), 50);
-    open2 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"), 50);
-    open3 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"), 50);
-    open4 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"), 50);
-    open5 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"), 50);
+    open =
+        GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"), 50);
+    open1 =
+        GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"), 50);
+    open2 =
+        GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"), 50);
+    open3 =
+        GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"), 50);
+    open4 =
+        GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"), 50);
+    open5 =
+        GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/open_win.wav"), 50);
 
-    close = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/close_win.wav"), 50);
+    close = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/close_win.wav"),
+                           50);
 
-    switch_task =
-        GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/switch_task.wav"), 50);
+    switch_task = GetMediaPlayer(
+        QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/switch_task.wav"), 50);
 
-    switch_type =
-        GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/switch_type.wav"), 50);
+    switch_type = GetMediaPlayer(
+        QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/switch_type.wav"), 50);
 
-    music = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/music.wav"), 50);
-    match1 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match1.wav"), 20);
+    music =
+        GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/music.wav"), 50);
+    match1 =
+        GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match1.wav"), 20);
 
-    match2 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match2.wav"), 20);
+    match2 =
+        GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match2.wav"), 20);
 
-    match3 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match3.wav"), 20);
+    match3 =
+        GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match3.wav"), 20);
 
-    match4 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match3.wav"), 20);
+    match4 =
+        GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match3.wav"), 20);
 
-    match5 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match3.wav"), 20);
+    match5 =
+        GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match3.wav"), 20);
 
-    match6 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match3.wav"), 20);
+    match6 =
+        GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/match3.wav"), 20);
 
     fall = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/fall.wav"), 50);
 
     bgm1 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/bgm1.wav"), 8);
-
-    bgm2 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/bgm2.wav"), 8);
+    bgm2 = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/bgm2.wav"), 5);
 
     fall = GetMediaPlayer(QUrl::fromLocalFile("../2022-BJTU-DataStructure-FinalProject/resource/sounds/fall.wav"), 50);
 
@@ -173,7 +186,7 @@ void BGM::StopBgm1() { bgm1->stop(); }
 
 void BGM::PlayBgm2() {
     if (!BGM::GetInstance()->stopAllMusic) {
-        bgm2->setVolume(8);
+        bgm2->setVolume(5);
         bgm2->play();
     }
 }
