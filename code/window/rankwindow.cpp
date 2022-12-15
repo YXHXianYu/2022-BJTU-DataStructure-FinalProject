@@ -1,8 +1,10 @@
 #include "rankwindow.h"
 
+#include <QFont>
+#include <QFontDatabase>
+
 #include "mainwindow.h"
 #include "ui_rankwindow.h"
-
 RankWindow::RankWindow(QWidget *parent) : FrameLessWindow(parent), ui(new Ui::RankWindow) {
     ui->setupUi(this);
     // 固定窗口大小
@@ -98,6 +100,35 @@ RankWindow::RankWindow(QWidget *parent) : FrameLessWindow(parent), ui(new Ui::Ra
             break;
         }
         now++;
+    }
+    int font_Id = QFontDatabase::addApplicationFont(":/font/SmileySans-Oblique.ttf");
+    QStringList font_list = QFontDatabase::applicationFontFamilies(font_Id);
+    if (!font_list.isEmpty()) {
+        QFont f;
+        f.setFamily(font_list[0]);
+        f.setPointSize(20);
+        ui->ID_label->setFont(f);
+        ui->ScoreLabel->setFont(f);
+        ui->label1->setFont(f);
+        ui->label2->setFont(f);
+        ui->label3->setFont(f);
+        ui->label4->setFont(f);
+        ui->label5->setFont(f);
+        ui->label6->setFont(f);
+        ui->label7->setFont(f);
+        ui->label8->setFont(f);
+        ui->label9->setFont(f);
+        ui->label10->setFont(f);
+        ui->label11->setFont(f);
+        ui->label12->setFont(f);
+        ui->label13->setFont(f);
+        ui->label14->setFont(f);
+        ui->label15->setFont(f);
+        ui->label16->setFont(f);
+        ui->label17->setFont(f);
+        ui->label18->setFont(f);
+        ui->label19->setFont(f);
+        ui->label20->setFont(f);
     }
 }
 
