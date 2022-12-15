@@ -99,7 +99,7 @@ void Board::Generate(bool start) {
     if (!start) {
         for (int i = 0; i < 8; ++i) {
             for (int j = 0; j < 8; ++j) {
-                hypercube_->GetStoneManager()->Remove(stones_[i][j].GetId(), false);
+                hypercube_->GetStoneManager()->Remove(stones_[i][j].GetId(), true);
             }
         }
     }
