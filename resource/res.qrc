@@ -57,5 +57,6 @@
         <file>images/recordrankwindow/结算_放弃-.png</file>
         <file>images/mouse.png</file>
         <file>images/windowicon.png</file>
+        <file>images/gamewindow/bkgrd.png</file>
     </qresource>
 </RCC>
