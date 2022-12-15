@@ -17,9 +17,7 @@ MainWindow::MainWindow(QWidget *parent) : FrameLessWindow(parent), ui(new Ui::Ma
     this->setWindowFlag(Qt::FramelessWindowHint);
 
     msg = "easy";
-    timer_ = new QTimer(this);
-    connect(timer_, &QTimer::timeout, [&]() { BGM::GetInstance()->PlayBgm1(); });
-    timer_->start(100);
+    BGM::GetInstance()->PlayBgm1();
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -31,7 +29,6 @@ void delay(int x) {
 
 // 游戏开始
 void MainWindow::on_btnGame_clicked() {
-    timer_->stop();
     BGM::GetInstance()->StopBgm1();
     GameWindow *gw = new GameWindow();
     gw->move(this->pos().x(), this->pos().y());
@@ -42,7 +39,6 @@ void MainWindow::on_btnGame_clicked() {
     std::cerr << "MainWindow::on_btnGame_clicked - GameWindow has showed." << std::endl;
     emit sentDifficulty(msg);
     delay(200);
-    timer_->stop();
     this->close();
 }
 

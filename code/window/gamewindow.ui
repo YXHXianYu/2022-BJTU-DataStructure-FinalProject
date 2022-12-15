@@ -90,25 +90,6 @@
       </size>
      </property>
     </widget>
-    <widget class="QLabel" name="tachie">
-     <property name="geometry">
-      <rect>
-       <x>610</x>
-       <y>50</y>
-       <width>171</width>
-       <height>171</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>等线</family>
-       <pointsize>13</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
     <widget class="QLabel" name="score_bar">
      <property name="geometry">
       <rect>
