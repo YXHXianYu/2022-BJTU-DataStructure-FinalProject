@@ -58,5 +58,18 @@
         <file>images/windowicon.png</file>
         <file>images/gamewindow/bkgrd.png</file>
         <file>images/gamewindow/background.png</file>
+        <file>images/立绘/ai1.png</file>
+        <file>images/立绘/ai2.png</file>
+        <file>images/立绘/ai3.png</file>
+        <file>images/立绘/ai4.png</file>
+        <file>images/立绘/ai5.png</file>
+        <file>images/立绘/ai6.png</file>
+        <file>images/立绘/ai7.png</file>
+        <file>images/立绘/ai8.png</file>
+        <file>images/立绘/ai9.png</file>
+        <file>images/立绘/ai10.png</file>
+        <file>images/立绘/ai11.png</file>
+        <file>images/立绘/ai12.png</file>
+        <file>images/立绘/nb.png</file>
     </qresource>
 </RCC>
