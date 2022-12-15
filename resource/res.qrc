@@ -55,5 +55,7 @@
         <file>images/recordrankwindow/结算_底图.png</file>
         <file>images/recordrankwindow/结算_放弃.png</file>
         <file>images/recordrankwindow/结算_放弃-.png</file>
+        <file>images/mouse.png</file>
+        <file>images/windowicon.png</file>
     </qresource>
 </RCC>
