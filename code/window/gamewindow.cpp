@@ -2,6 +2,7 @@
 
 #include <QAction>
 #include <QBitmap>
+#include <QDebug>
 #include <QFont>
 #include <QFontDatabase>
 #include <QPicture>
@@ -33,6 +34,13 @@ GameWindow::GameWindow(QWidget *parent)
   // 设置图片大小
   pix = pix.scaled(size, Qt::KeepAspectRatio);
   this->setCursor(QCursor(pix, -1, -1));
+
+  QString ppath = QString("#aiwidget{border-image:url(:/images/立绘/ai%1.png)}")
+                      .arg(rand() % 12 + 1);
+  qDebug() << ppath << endl;
+  ui->aiwidget->setStyleSheet(
+      QString("#aiwidget{border-image:url(:/images/立绘/ai%2.png)}")
+          .arg(rand() % 12 + 1));
   // close时析构成员变量
   // setAttribute(Qt::WA_DeleteOnClose);
 
@@ -44,7 +52,7 @@ GameWindow::GameWindow(QWidget *parent)
   ui->skill1_button->setStyleSheet("background-color:rgba(0,0,0,0)");
 
   // 创建Hypercube窗口
-  hypercube_ = new Hypercube::Hypercube(ui->centralwidget);
+  hypercube_ = new Hypercube::Hypercube(ui->aiwidget);
   hypercube_->setFixedSize(hypercube_size.x(), hypercube_size.y());
   hypercube_->setGeometry(opengl_up_left.x(), opengl_up_left.y(),
                           hypercube_->width(), hypercube_->height());
@@ -222,6 +230,11 @@ void GameWindow::keyPressEvent(QKeyEvent *e) {
   }
   if (e->key() == Qt::Key_D) {
     on_skill3_button_clicked();
+  }
+  // 彩蛋
+  if (e->key() == Qt::Key_O) {
+    ui->aiwidget->setStyleSheet(
+        "#aiwidget{border-image:url(:/images/立绘/nb.png)}");
   }
 }
 
