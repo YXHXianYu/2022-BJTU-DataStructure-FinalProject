@@ -165,6 +165,7 @@ QMediaPlayer *BGM::GetMediaPlayer(const QMediaContent &content, int volume) {
 
 void BGM::PlayBgm1() {
     if (!BGM::GetInstance()->stopAllMusic) {
+        bgm1->setVolume(8);
         bgm1->play();
     }
 }
@@ -172,6 +173,7 @@ void BGM::StopBgm1() { bgm1->stop(); }
 
 void BGM::PlayBgm2() {
     if (!BGM::GetInstance()->stopAllMusic) {
+        bgm2->setVolume(8);
         bgm2->play();
     }
 }
