@@ -19,17 +19,15 @@ class ConfigWindow : public FrameLessWindow {
  private slots:
   void on_btnReturn_clicked();
 
-  void on_btn_stopMusic_clicked();
+  void on_btnMusic_clicked();
 
+  void on_btnSound_clicked();
 
-  void on_btn_playMusic_clicked();
-
-  void on_btn_stopSound_clicked();
-
-  void on_btn_openSound_clicked();
-
-private:
+ private:
   Ui::ConfigWindow *ui;
+
+  static int music_state;
+  static int sound_state;
 };
 
 #endif  // CONFIGWINDOW_H

@@ -13,70 +13,59 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="QWidget" name="configpic">
+   <property name="styleSheet">
+    <string notr="true">#configpic{border-image:url(:/images/configwindow/设置_底图.png)}</string>
+   </property>
    <widget class="QPushButton" name="btnReturn">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>500</y>
-      <width>161</width>
-      <height>81</height>
+      <x>30</x>
+      <y>520</y>
+      <width>193</width>
+      <height>45</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton#btnReturn{border-image:url(:/images/rankwindow/排行榜_返回.png)}
+QPushButton::pressed#btnReturn{border-image:url(:/images/rankwindow/排行榜_返回-.png)}</string>
+    </property>
     <property name="text">
-     <string>返回主菜单</string>
+     <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_stopMusic">
+   <widget class="QPushButton" name="btnMusic">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>90</y>
-      <width>161</width>
-      <height>81</height>
+      <x>111</x>
+      <y>300</y>
+      <width>250</width>
+      <height>49</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton#btnMusic{border-image:url(:/images/configwindow/设置_音乐开启.png)}
+QPushButton::pressed#btnMusic{border-image:url(:/images/configwindow/设置_音乐开启-.png)}</string>
+    </property>
     <property name="text">
-     <string>关闭音乐</string>
+     <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_playMusic">
+   <widget class="QPushButton" name="btnSound">
     <property name="geometry">
      <rect>
-      <x>470</x>
-      <y>90</y>
-      <width>161</width>
-      <height>81</height>
+      <x>439</x>
+      <y>300</y>
+      <width>250</width>
+      <height>49</height>
      </rect>
     </property>
-    <property name="text">
-     <string>播放音乐</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_stopSound">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>200</y>
-      <width>161</width>
-      <height>81</height>
-     </rect>
+    <property name="styleSheet">
+     <string notr="true">QPushButton#btnSound{border-image:url(:/images/configwindow/设置_音效开启.png)}
+QPushButton::pressed#btnSound{border-image:url(:/images/configwindow/设置_音效开启-.png)}</string>
     </property>
     <property name="text">
-     <string>关闭音效</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_openSound">
-    <property name="geometry">
-     <rect>
-      <x>470</x>
-      <y>200</y>
-      <width>161</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>开启音效</string>
+     <string/>
     </property>
    </widget>
   </widget>

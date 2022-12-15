@@ -110,58 +110,6 @@
       </size>
      </property>
     </widget>
-    <widget class="QPushButton" name="btnQuit">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>520</y>
-       <width>193</width>
-       <height>45</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color:rgba(0,0,0,0)</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="icon">
-      <iconset resource="../../resource/res.qrc">
-       <normaloff>:/images/mainwindow/7.png</normaloff>:/images/mainwindow/7.png</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>192</width>
-       <height>41</height>
-      </size>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btnAbout">
-     <property name="geometry">
-      <rect>
-       <x>580</x>
-       <y>520</y>
-       <width>193</width>
-       <height>45</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color:rgba(0,0,0,0)</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="icon">
-      <iconset resource="../../resource/res.qrc">
-       <normaloff>:/images/mainwindow/8.png</normaloff>:/images/mainwindow/8.png</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>192</width>
-       <height>41</height>
-      </size>
-     </property>
-    </widget>
     <widget class="QLabel" name="shadow">
      <property name="enabled">
       <bool>true</bool>
@@ -194,7 +142,9 @@
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color:rgba(0,0,0,0)</string>
+      <string notr="true">QPushButton#rbtnNormal{border-image:url(:/images/mainwindow/2.png)}
+
+QPushButton::pressed#rbtnNormal{border-image:url(:/images/mainwindow/2-.png)}</string>
      </property>
      <property name="text">
       <string/>
@@ -223,7 +173,8 @@
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color:rgba(0,0,0,0)</string>
+      <string notr="true">QPushButton#rbtnHard{border-image:url(:/images/mainwindow/3.png)}
+QPushButton::pressed#rbtnHard{border-image:url(:/images/mainwindow/3-.png)}</string>
      </property>
      <property name="text">
       <string/>
@@ -249,7 +200,8 @@
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color:rgba(0,0,0,0)</string>
+      <string notr="true">QPushButton#rbtnEasy{border-image:url(:/images/mainwindow/1.png)}
+QPushButton::pressed#rbtnEasy{border-image:url(:/images/mainwindow/1-.png)}</string>
      </property>
      <property name="text">
       <string/>
@@ -266,6 +218,40 @@
      </property>
      <property name="checked">
       <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnQuit">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>520</y>
+       <width>193</width>
+       <height>45</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton#btnQuit{border-image:url(:/images/mainwindow/7.png)}
+QPushButton::pressed#btnQuit{border-image:url(:/images/mainwindow/7-.png)}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnAbout">
+     <property name="geometry">
+      <rect>
+       <x>578</x>
+       <y>520</y>
+       <width>193</width>
+       <height>45</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton#btnAbout{border-image:url(:/images/mainwindow/8.png)
+}QPushButton::pressed#btnAbout{border-image:url(:/images/mainwindow/8-.png)}</string>
+     </property>
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </widget>
