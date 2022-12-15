@@ -1,0 +1,9 @@
+QPushButton#btnReturn
+{
+    border-image:url(:/images/rankwindow/排行榜_返回.png);
+}
+
+QPushButton::pressed#btnReturn
+{
+    border-image:url(:/images/rankwindow/排行榜_返回-.png);
+}

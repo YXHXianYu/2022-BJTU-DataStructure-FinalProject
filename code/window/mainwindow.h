@@ -18,55 +18,47 @@ class MainWindow;
 }
 
 class MainWindow : public FrameLessWindow {
-    Q_OBJECT
+  Q_OBJECT
 
-   public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+ public:
+  explicit MainWindow(QWidget *parent = nullptr);
+  ~MainWindow();
 
-   private slots:
-    void on_btnGame_clicked();
+ private slots:
+  void on_btnGame_clicked();
 
-    void on_btnRank_clicked();
+  void on_btnRank_clicked();
 
-    void on_btnConfig_clicked();
+  void on_btnConfig_clicked();
 
-    void on_btnAbout_clicked();
+  void on_btnAbout_clicked();
 
-    void on_btnQuit_clicked();
+  void on_btnQuit_clicked();
 
-    void on_rbtnEasy_clicked();
+  void on_rbtnEasy_clicked();
 
-    void on_rbtnNormal_clicked();
+  void on_rbtnNormal_clicked();
 
-    void on_rbtnHard_clicked();
+  void on_rbtnHard_clicked();
 
-    void on_btnGame_pressed();
+  void on_btnGame_pressed();
 
-    void on_btnGame_released();
+  void on_btnGame_released();
 
-    void on_btnRank_pressed();
+  void on_btnRank_pressed();
 
-    void on_btnRank_released();
+  void on_btnRank_released();
 
-    void on_btnConfig_pressed();
+  void on_btnConfig_pressed();
 
-    void on_btnConfig_released();
+  void on_btnConfig_released();
 
-    void on_btnQuit_pressed();
+ signals:
+  void sentDifficulty(QString data);
 
-    void on_btnQuit_released();
-
-    void on_btnAbout_pressed();
-
-    void on_btnAbout_released();
-
-   signals:
-    void sentDifficulty(QString data);
-
-   private:
-    Ui::MainWindow *ui;
-    QString msg;
+ private:
+  Ui::MainWindow *ui;
+  QString msg;
 };
 
 // 延迟时间，为优化切换窗口体验

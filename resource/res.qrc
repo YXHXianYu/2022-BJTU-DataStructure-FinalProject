@@ -37,5 +37,18 @@
         <file>images/mainwindow/test1.png</file>
         <file>images/mainwindow/vain.png</file>
         <file>images/mainwindow/background.jpg</file>
+        <file>images/aboutwindow/关于_底图.png</file>
+        <file>images/rankwindow/排行榜_底图.png</file>
+        <file>images/rankwindow/排行榜_返回.png</file>
+        <file>images/rankwindow/排行榜_返回-.png</file>
+        <file>images/configwindow/设置_底图.png</file>
+        <file>images/configwindow/设置_音乐关闭.png</file>
+        <file>images/configwindow/设置_音乐关闭-.png</file>
+        <file>images/configwindow/设置_音乐开启.png</file>
+        <file>images/configwindow/设置_音乐开启-.png</file>
+        <file>images/configwindow/设置_音效关闭.png</file>
+        <file>images/configwindow/设置_音效关闭-.png</file>
+        <file>images/configwindow/设置_音效开启.png</file>
+        <file>images/configwindow/设置_音效开启-.png</file>
     </qresource>
 </RCC>

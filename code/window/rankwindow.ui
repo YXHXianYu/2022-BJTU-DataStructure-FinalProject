@@ -13,18 +13,32 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="QWidget" name="rankpic">
+   <property name="styleSheet">
+    <string notr="true">#rankpic{border-image:url(:/images/rankwindow/排行榜_底图.png)}</string>
+   </property>
    <widget class="QPushButton" name="btnReturn">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>568</y>
-      <width>75</width>
-      <height>23</height>
+      <x>30</x>
+      <y>520</y>
+      <width>193</width>
+      <height>45</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton#btnReturn
+{
+    border-image: url(:/images/rankwindow/排行榜_返回.png);
+}
+
+QPushButton::pressed#btnReturn
+{
+    border-image: url(:/images/rankwindow/排行榜_返回-.png);
+}</string>
+    </property>
     <property name="text">
-     <string>返回主菜单</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="ID_label">
