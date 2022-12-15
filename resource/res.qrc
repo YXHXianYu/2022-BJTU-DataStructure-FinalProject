@@ -50,5 +50,10 @@
         <file>images/configwindow/设置_音效关闭-.png</file>
         <file>images/configwindow/设置_音效开启.png</file>
         <file>images/configwindow/设置_音效开启-.png</file>
+        <file>images/recordrankwindow/结算_保存.png</file>
+        <file>images/recordrankwindow/结算_保存-.png</file>
+        <file>images/recordrankwindow/结算_底图.png</file>
+        <file>images/recordrankwindow/结算_放弃.png</file>
+        <file>images/recordrankwindow/结算_放弃-.png</file>
     </qresource>
 </RCC>
