@@ -71,5 +71,6 @@
         <file>images/立绘/ai11.png</file>
         <file>images/立绘/ai12.png</file>
         <file>images/立绘/nb.png</file>
+        <file>images/gamewindow/底图.png</file>
     </qresource>
 </RCC>

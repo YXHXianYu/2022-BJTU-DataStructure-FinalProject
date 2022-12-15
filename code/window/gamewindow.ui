@@ -43,7 +43,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">#picwidget{border-image:url(:/images/gamewindow/bkgrd.png)}</string>
+     <string notr="true">#picwidget{border-image:url(:/images/gamewindow/底图.png)}</string>
     </property>
    </widget>
    <widget class="QWidget" name="picwidget_2" native="true">
