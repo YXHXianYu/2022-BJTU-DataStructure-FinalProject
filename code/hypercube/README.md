@@ -102,7 +102,7 @@
 
 * Phong光照模型与Blinn-Phong光照模型
 * 多光源渲染
-* 【增加中...】
+* 水面渲染
 
 
 #### 3. 接口
@@ -125,10 +125,10 @@
   // - 如果该编号的宝石已经生成，失败，返回 kFailureArgumentError
   int Generate(int id, int x, int y, int type, int fallen_pixel = -1);
   
-  // 删除编号为id的宝石
+  // 删除编号为id的宝石。如果playAnimation为真，则播放爆炸动画
   // - 成功，返回 kSuccess
   // - 如果该宝石不存在，失败，返回 kFailureArgumentError
-  int Remove(int id);
+  int Remove(int id, bool playAnimation = false);
   
   // 设置编号为id的宝石的旋转模式
   // - 成功，返回 kSuccess
@@ -147,6 +147,20 @@
   
   // 是否正在播放动画
   bool isPlayingAnimation();
+  
+  // 设置暂停状态
+  int SetPause(bool is_pause);
+  
+  // 是否暂停
+  bool IsPause() const;
+  
+  // 获取最近是否有过Remove动画发生
+  // - 通过接口获取后，记录变量会重置为false
+  bool haveRemoveInRecentFrame();
+  
+  // 获取最近是否有过Fall动画落到底
+  // - 通过接口获取后，记录变量会重置为false
+  bool haveFallInRecentFrame();
   ```
 
 * 接口中的常量

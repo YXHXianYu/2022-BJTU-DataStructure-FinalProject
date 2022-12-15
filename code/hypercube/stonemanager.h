@@ -34,7 +34,7 @@ class StoneManager : public QObject {
     // - 若已经初始化过，失败，返回 kFailureHaveInitialized
     int Init(int nx, int ny);
 
-    // 启动
+    // 启动（弃用deprecated）
     void Start();
 
     // 在(x, y)格生成一个编号为id、类型为type的宝石。
