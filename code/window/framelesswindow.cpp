@@ -15,7 +15,7 @@ FrameLessWindow::FrameLessWindow(QWidget *parent)
   this->setCursor(QCursor(pix, -1, -1));
 }
 
-const int TITLE_HEIGHT = 19;
+const int TITLE_HEIGHT = 30;
 
 void FrameLessWindow::mousePressEvent(QMouseEvent *e) {
   if (e->y() < TITLE_HEIGHT) {
