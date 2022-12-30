@@ -46,7 +46,7 @@ QPushButton::pressed#btnReturn
      <rect>
       <x>80</x>
       <y>70</y>
-      <width>501</width>
+      <width>591</width>
       <height>381</height>
      </rect>
     </property>
